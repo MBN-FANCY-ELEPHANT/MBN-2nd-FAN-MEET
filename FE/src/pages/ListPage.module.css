@@ -1,0 +1,180 @@
+/**
+ * 목록 화면 공통 (전체보기 목적지).
+ *
+ * 디자인에 없는 화면들입니다 — 탭 화면에 `전체보기 >` 링크가 있는데 목적지가 비어 있어서,
+ * 기존 카드 컴포넌트를 재사용해 채웠습니다. 새 시각 언어를 만들지 않고
+ * 셸의 본문 시트와 같은 톤을 유지합니다.
+ */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-white);
+}
+
+.body {
+  flex: 1;
+  padding: var(--space-5) var(--space-5) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.count {
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* 가로 캐러셀 카드를 세로 목록에서 쓰기 위해 폭을 늘립니다 */
+.stack > * {
+  width: 100%;
+}
+
+/* 일정 목록 */
+.schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.scheduleHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.scheduleDate {
+  font-size: var(--text-emphasis-size);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.scheduleType {
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  background: var(--color-background);
+  font-size: var(--text-caption-size);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.scheduleTitle {
+  font-size: var(--text-emphasis-size);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.scheduleVenue {
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+}
+
+/* 지난 일정은 흐리게 — 목록에 섞여 있어도 구분됩니다 */
+.past {
+  opacity: 0.55;
+}
+
+/* 팁 상세 */
+.tipHero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.tipTitle {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+.tipUpdated {
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+}
+
+/* 마크다운 대신 최소 렌더 — `##` 제목과 `-` 목록만 처리합니다 */
+.tipContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.tipHeading {
+  margin-top: var(--space-3);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.tipLine {
+  font-size: var(--text-card-title-size);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+.externalLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  margin-top: var(--space-3);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-primary);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+}
+
+/* 검색 */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 56px;
+  padding: 10px var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+}
+
+.searchBar input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-size: var(--text-search-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.searchBar input::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.sectionTitle {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.group + .group {
+  margin-top: var(--space-6);
+}

@@ -1,0 +1,44 @@
+.dim {
+  position: fixed;
+  inset: 0;
+  background: var(--color-dim);
+  border: 0;
+  padding: 0;
+  z-index: 40;
+}
+
+/* Figma 2:960 실측 — radius-top 20 (본문 시트의 24 와 다릅니다) */
+.sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(100vw, var(--app-width));
+  max-height: 70vh;
+  padding: var(--space-3) var(--space-5) var(--space-8);
+  background: var(--color-white);
+  border-radius: 20px 20px 0 0;
+  box-shadow: var(--shadow-sheet);
+  z-index: 41;
+}
+
+/* 마스코트가 시트 위로 튀어나와야 해서 overflow 를 자릅니다 (음성 오버레이 전용) */
+.scrollable {
+  overflow-y: auto;
+}
+
+/* 시트 상단 손잡이 */
+.handle {
+  width: 36px;
+  height: 4px;
+  margin: 0 auto var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-divider);
+}
+
+.title {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}

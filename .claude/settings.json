@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd FE && npm run build)",
+      "Bash(cd FE && npm run lint)",
+      "Bash(cd FE && npm run format)",
+      "Bash(cd FE && npm run api:types)",
+      "Bash(cd FE && npm install:*)",
+      "Bash(cd BE && ./gradlew build:*)",
+      "Bash(cd BE && ./gradlew test:*)",
+      "Bash(cd BE && ./gradlew compileJava:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(curl -s http://localhost:8080/*)",
+      "Bash(curl -s http://localhost:5173/*)"
+    ],
+    "deny": [
+      "Read(./**/.env)",
+      "Read(./**/.env.*)",
+      "Bash(git push --force:*)"
+    ]
+  }
+}

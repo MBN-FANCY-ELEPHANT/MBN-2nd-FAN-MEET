@@ -1,0 +1,41 @@
+# ---------- OS / Editor ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.iml
+
+# ---------- Secrets ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ---------- Frontend (FE) ----------
+FE/node_modules/
+FE/dist/
+FE/dist-ssr/
+FE/.vite/
+FE/coverage/
+FE/*.local
+FE/src/api/schema.d.ts
+
+# ---------- Backend (BE) ----------
+# BE/.gitignore 가 대부분을 처리합니다. 여기는 보강용.
+# ⚠️ gradle/wrapper/gradle-wrapper.jar 는 반드시 커밋되어야 CI 가 동작합니다.
+BE/build/
+BE/.gradle/
+BE/out/
+BE/bin/
+BE/logs/
+BE/*.log
+BE/data/
+
+# ---------- Claude Code ----------
+.claude/settings.local.json
+.claude/sessions/

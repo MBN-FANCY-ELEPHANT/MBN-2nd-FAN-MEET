@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "请输入搜索词。",
+    "seeAll": "查看全部",
+    "loading": "加载中...",
+    "error": "无法加载信息。",
+    "back": "返回"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "与 {{name}} 的粉丝空间"
+  },
+  "banner": {
+    "home": {
+      "sub": "想找点乐子吗？",
+      "cta": "与 AI 助手聊天"
+    },
+    "community": {
+      "sub": "今日歌单！",
+      "cta": "这首歌怎么样？"
+    },
+    "play": {
+      "sub": "想找点乐子吗？",
+      "cta": "与 AI 助手聊天"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "即将到来",
+    "archive": "档案",
+    "recruitingGatherings": "招募中的聚会",
+    "noSchedule": "暂无安排。"
+  },
+  "community": {
+    "offlineGatherings": "线下聚会"
+  },
+  "play": {
+    "pilgrimage": "圣地巡礼",
+    "cheer": "为偶像应援"
+  },
+  "content": {
+    "badge": {
+      "article": "新闻",
+      "video": "视频",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}}人观看",
+    "views": "播放量 {{count}}",
+    "relatedContents": "相关内容",
+    "relatedVideos": "相关视频",
+    "placesInArticle": "报道中的地点",
+    "subscribe": "订阅",
+    "subscribed": "已订阅",
+    "share": "分享",
+    "like": "点赞"
+  },
+  "ai": {
+    "panelTitle": "AI 分析",
+    "generatedAt": "{{time}} 生成",
+    "unavailable": "AI 分析准备中。"
+  },
+  "comment": {
+    "title": "评论",
+    "count": "{{count}} 条评论",
+    "placeholder": "写下你的评论。",
+    "send": "发布",
+    "translate": "翻译",
+    "showOriginal": "查看原文",
+    "writtenAt": "{{time}}",
+    "loginRequired": "登录后才能评论。",
+    "empty": "来发表第一条评论吧。"
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "招募中",
+      "FULL": "已满员",
+      "CLOSED": "已结束"
+    },
+    "apply": "报名参加",
+    "cancel": "取消报名",
+    "applied": "已报名",
+    "deadline": "至 {{date}}",
+    "participants": "参与人数",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "本平台不代收任何款项。转账前请务必核实主办方信息。",
+    "free": "免费"
+  },
+  "chat": {
+    "title": "AI 助手 比妮",
+    "disclaimer": "这是 MBN 官方 AI 助手，并非艺人本人。",
+    "listening": "请说，我在听。",
+    "thinking": "搜索中...",
+    "placeholder": "有什么想问的都可以",
+    "send": "发送",
+    "sources": "相关信息",
+    "micDenied": "麦克风不可用，已切换为文字输入。",
+    "micUnsupported": "此浏览器不支持语音识别，请使用文字输入。",
+    "retry": "再问一次"
+  },
+  "language": {
+    "title": "选择语言"
+  },
+  "auth": {
+    "login": "登录",
+    "logout": "退出登录",
+    "selectDemoUser": "使用演示账号登录",
+    "loginRequired": "需要登录。",
+    "demoHint": "无需密码，直接选择账号即可。每个账号的国家不同。"
+  },
+  "toast": {
+    "applySuccess": "报名已完成。",
+    "cancelSuccess": "已取消报名。",
+    "alreadyApplied": "你已经报名过了。",
+    "gatheringFull": "名额已满。",
+    "gatheringClosed": "招募已结束。",
+    "translateFailed": "翻译失败。",
+    "genericError": "出错了，请稍后再试。"
+  },
+  "list": {
+    "all": "全部",
+    "upcoming": "即将",
+    "count": "共 {{count}} 条",
+    "empty": "暂时还没有内容。"
+  },
+  "search": {
+    "title": "搜索",
+    "hint": "可以搜索艺人、日程或聚会。",
+    "noResult": "没有找到“{{query}}”的结果。"
+  },
+  "tip": {
+    "updatedAt": "{{date}} 更新",
+    "openExternal": "前往官方页面",
+    "category": {
+      "VOTE": "投票",
+      "STREAMING": "打歌",
+      "TICKETING": "购票",
+      "CHEER": "应援",
+      "FANCLUB": "粉丝俱乐部"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "节目",
+      "CONCERT": "演唱会",
+      "FANMEETING": "见面会",
+      "EVENT": "活动"
+    }
+  }
+}

@@ -1,0 +1,105 @@
+/**
+ * 디자인 토큰 — docs/design-tokens.md 의 구현체.
+ *
+ * ⚠️ 값은 Figma 확정본에서 get_design_context 로 뽑은 **실측값**입니다. 추정치가 아닙니다.
+ *    fileKey: 71R3xxvzqYiDB6vjpfZUKR
+ * ⚠️ 컴포넌트에서 색상/간격/폰트를 하드코딩하지 마세요. 반드시 이 변수를 참조합니다.
+ */
+
+:root {
+  /* ── 레이아웃 (디자인 캔버스 375px) ── */
+  --app-width: 375px;
+  --page-padding-x: 16px; /* 콘텐츠 폭 343px */
+  --header-height: 45px;
+  --tabbar-height: 27px;
+
+  /* ── Figma 변수 (디자이너가 등록한 6개 — 이것이 정본) ── */
+  --color-primary: #f58220;
+  --color-background: #f8fafc;
+  --color-divider: #e2e8f0;
+  --color-white: #ffffff;
+  --color-text-primary: #111827;
+  --color-text-secondary: #737373;
+
+  /* 배너 CTA 대비 보정용 (white on primary 는 AA 미달). 필요 시 배너 배경을 이 값으로 */
+  --color-primary-dark: #e4741a;
+
+  /* ── 변수 미등록 — 디자인에서 실측 ── */
+  --color-surface-muted: #f9fafb; /* "다가오는 일정" 카드 배경 */
+  --color-overlay-badge: rgba(0, 0, 0, 0.6); /* 카드 위 기사/영상/LIVE 배지 */
+  /* Bottom Sheet 뒤 DIM — Figma 7:1465 실측. 생각보다 훨씬 진합니다 */
+  --color-dim: rgba(17, 24, 39, 0.85);
+  --color-skeleton: #e2e8f0;
+
+  /* AI 계열은 인디고로 통일 — AI 분석 패널, 음성 답변 카드 */
+  --color-ai-border: #6366f1;
+  --color-ai-surface: #eef0fd;
+  --color-ai-text: #4f46e5;
+
+  /* 진행바 트랙 — 회색이 아니라 인디고 계열입니다 (Figma 7:1961 실측) */
+  --color-progress-track: #eef2ff;
+
+  /* 보조 텍스트 2단계 — 호스트(진한 회색) / 마감일(연한 회색)이 서로 다릅니다 */
+  --color-text-muted: #6b7280;
+  --color-text-faint: #9ca3af;
+
+  /* ── 상태 ── */
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+  --color-toast-bg: #111827;
+
+  /* ── 페이지 배경: 세로가 아니라 대각선 그라데이션입니다 ──
+     ⚠️ 각도가 화면마다 다릅니다. 탭 화면은 -56.9deg, 상세 화면은 -42.65deg. */
+  --gradient-page: linear-gradient(-56.9deg, #ffffff 17.46%, #ffe8d6 98.18%);
+  --gradient-page-detail: linear-gradient(
+    -42.65deg,
+    #ffffff 17.46%,
+    #ffe8d6 98.18%
+  );
+  /* 배너는 그라데이션이 아니라 단색 --color-primary 입니다 */
+
+  /* ── 타이포그래피 보조 ── */
+  --text-small-size: 13px; /* 호스트·마감일·진행률 라벨 */
+
+  /* ── 타이포그래피 ── */
+  --font-family:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+
+  --text-logo-size: 20px; /* Bold — "MBN AI" */
+  --text-h1-size: 22px; /* Bold — "임영웅 님과의 팬덤 공간" */
+  --text-section-size: 20px; /* Bold 1.4 — 섹션 제목 */
+  --text-banner-cta-size: 20px; /* Bold — 배너 CTA */
+  --text-tab-size: 16px; /* 활성 Bold / 비활성 Regular */
+  --text-card-title-size: 16px; /* Medium 1.4 */
+  --text-emphasis-size: 16px; /* Bold — 일정 날짜·제목 */
+  --text-search-size: 18px; /* Medium — 검색바 placeholder */
+  --text-body-size: 14px; /* Medium — 인사 문구, 배너 서브카피 */
+  --text-meta-size: 14px; /* Regular 1.4 — 채널명, 상대시각, 전체보기 */
+  --text-label-size: 13px; /* Medium — "다가오는 일정" */
+  --text-caption-size: 12px; /* Medium 1.4 — 배지, 언어 칩 */
+
+  /* ── 반경 ── */
+  --radius-xs: 4px; /* 카드 위 오버레이 배지 */
+  --radius-sm: 8px; /* 언어 칩, 상태 배지 */
+  --radius-md: 12px; /* 카드 전반 */
+  --radius-lg: 16px; /* 검색바, 배너 */
+  --radius-xl: 24px; /* Bottom Sheet 상단 */
+  --radius-pill: 999px; /* MicFab, 진행바 */
+
+  /* ── 그림자 ── */
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.06); /* 가로 캐러셀 카드 */
+  --shadow-grid: 0 4px 4px rgba(0, 0, 0, 0.06); /* 2열 그리드 카드 */
+  --shadow-sheet: 0 -4px 16px rgba(0, 0, 0, 0.04); /* Bottom Sheet */
+  --shadow-fab: 0 4px 16px rgba(245, 130, 32, 0.25); /* MicFab */
+
+  /* ── 간격 ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+}

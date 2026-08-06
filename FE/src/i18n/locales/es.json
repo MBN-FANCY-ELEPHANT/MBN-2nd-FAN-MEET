@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "Escribe una palabra clave.",
+    "seeAll": "Ver todo",
+    "loading": "Cargando...",
+    "error": "No se pudo cargar la información.",
+    "back": "Atrás"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "Espacio de fans con {{name}}"
+  },
+  "banner": {
+    "home": {
+      "sub": "¿Quieres disfrutar hoy?",
+      "cta": "Habla con el asistente de IA"
+    },
+    "community": {
+      "sub": "¡La lista de hoy!",
+      "cta": "¿Qué te parece esta canción?"
+    },
+    "play": {
+      "sub": "¿Quieres disfrutar hoy?",
+      "cta": "Habla con el asistente de IA"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "Próximamente",
+    "archive": "Archivo",
+    "recruitingGatherings": "Encuentros abiertos",
+    "noSchedule": "No hay eventos programados."
+  },
+  "community": {
+    "offlineGatherings": "Encuentros presenciales"
+  },
+  "play": {
+    "pilgrimage": "Ruta de los fans",
+    "cheer": "Apoyar al artista"
+  },
+  "content": {
+    "badge": {
+      "article": "Noticia",
+      "video": "Vídeo",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}} viendo",
+    "views": "{{count}} visualizaciones",
+    "relatedContents": "Contenido relacionado",
+    "relatedVideos": "Vídeos relacionados",
+    "placesInArticle": "Lugares de esta noticia",
+    "subscribe": "Suscribirse",
+    "subscribed": "Suscrito",
+    "share": "Compartir",
+    "like": "Me gusta"
+  },
+  "ai": {
+    "panelTitle": "Análisis de IA",
+    "generatedAt": "Generado {{time}}",
+    "unavailable": "El análisis de IA se está preparando."
+  },
+  "comment": {
+    "title": "Comentarios",
+    "count": "{{count}} comentarios",
+    "placeholder": "Deja un comentario.",
+    "send": "Publicar",
+    "translate": "Traducir",
+    "showOriginal": "Ver original",
+    "writtenAt": "{{time}}",
+    "loginRequired": "Inicia sesión para comentar.",
+    "empty": "Sé el primero en comentar."
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "Inscripción abierta",
+      "FULL": "Completo",
+      "CLOSED": "Cerrado"
+    },
+    "apply": "Apuntarse",
+    "cancel": "Cancelar inscripción",
+    "applied": "Inscrito",
+    "deadline": "hasta {{date}}",
+    "participants": "Participantes",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "Esta plataforma no gestiona pagos. Verifica al organizador antes de transferir dinero.",
+    "free": "Gratis"
+  },
+  "chat": {
+    "title": "Bienie, el asistente de IA",
+    "disclaimer": "Asistente de IA oficial de MBN. No es el artista.",
+    "listening": "Adelante, te escucho.",
+    "thinking": "Buscando...",
+    "placeholder": "Pregúntame lo que quieras",
+    "send": "Enviar",
+    "sources": "Información relacionada",
+    "micDenied": "Micrófono no disponible: se usará entrada de texto.",
+    "micUnsupported": "Este navegador no admite reconocimiento de voz. Escribe tu pregunta.",
+    "retry": "Preguntar de nuevo"
+  },
+  "language": {
+    "title": "Seleccionar idioma"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "selectDemoUser": "Iniciar sesión con una cuenta de demo",
+    "loginRequired": "Se requiere iniciar sesión.",
+    "demoHint": "No necesitas contraseña, solo elige una cuenta. Cada una tiene un país distinto."
+  },
+  "toast": {
+    "applySuccess": "Tu inscripción se ha completado.",
+    "cancelSuccess": "Inscripción cancelada.",
+    "alreadyApplied": "Ya te habías inscrito.",
+    "gatheringFull": "Se ha alcanzado el aforo.",
+    "gatheringClosed": "La inscripción ha finalizado.",
+    "translateFailed": "Error al traducir.",
+    "genericError": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "list": {
+    "all": "Todo",
+    "upcoming": "Próximos",
+    "count": "{{count}} elementos",
+    "empty": "Aún no hay nada aquí."
+  },
+  "search": {
+    "title": "Buscar",
+    "hint": "Prueba con un nombre, un evento o un encuentro.",
+    "noResult": "Sin resultados para «{{query}}»."
+  },
+  "tip": {
+    "updatedAt": "A fecha de {{date}}",
+    "openExternal": "Ver la página oficial",
+    "category": {
+      "VOTE": "Votación",
+      "STREAMING": "Streaming",
+      "TICKETING": "Entradas",
+      "CHEER": "Apoyo",
+      "FANCLUB": "Club de fans"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "Emisión",
+      "CONCERT": "Concierto",
+      "FANMEETING": "Encuentro",
+      "EVENT": "Evento"
+    }
+  }
+}

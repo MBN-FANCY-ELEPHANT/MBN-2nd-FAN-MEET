@@ -1,0 +1,19 @@
+/* Figma 7:1961 실측: h 6 / radius 99 / 트랙 배경은 회색이 아니라 인디고 계열(#EEF2FF) */
+.track {
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-progress-track);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  /* 신청 직후 진행률이 차오르는 게 눈에 보여야 합니다 (골든 패스 ⑤) */
+  transition: width 320ms ease-out;
+}
+
+.full {
+  background: var(--color-text-secondary);
+}

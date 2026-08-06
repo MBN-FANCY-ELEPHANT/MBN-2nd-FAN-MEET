@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "Введите поисковый запрос.",
+    "seeAll": "Показать всё",
+    "loading": "Загрузка...",
+    "error": "Не удалось загрузить данные.",
+    "back": "Назад"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "Фандом-пространство с {{name}}"
+  },
+  "banner": {
+    "home": {
+      "sub": "Хотите развлечься сегодня?",
+      "cta": "Поговорить с ИИ-ассистентом"
+    },
+    "community": {
+      "sub": "Плейлист дня!",
+      "cta": "Как вам эта песня?"
+    },
+    "play": {
+      "sub": "Хотите развлечься сегодня?",
+      "cta": "Поговорить с ИИ-ассистентом"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "Ближайшие события",
+    "archive": "Архив",
+    "recruitingGatherings": "Открытые встречи",
+    "noSchedule": "Запланированных событий нет."
+  },
+  "community": {
+    "offlineGatherings": "Офлайн-встречи"
+  },
+  "play": {
+    "pilgrimage": "Места фанатов",
+    "cheer": "Поддержать артиста"
+  },
+  "content": {
+    "badge": {
+      "article": "Новость",
+      "video": "Видео",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}} смотрят",
+    "views": "{{count}} просмотров",
+    "relatedContents": "Похожее",
+    "relatedVideos": "Похожие видео",
+    "placesInArticle": "Места из статьи",
+    "subscribe": "Подписаться",
+    "subscribed": "Вы подписаны",
+    "share": "Поделиться",
+    "like": "Нравится"
+  },
+  "ai": {
+    "panelTitle": "ИИ-анализ",
+    "generatedAt": "Создано {{time}}",
+    "unavailable": "ИИ-анализ готовится."
+  },
+  "comment": {
+    "title": "Комментарии",
+    "count": "{{count}} комментариев",
+    "placeholder": "Оставьте комментарий.",
+    "send": "Отправить",
+    "translate": "Перевести",
+    "showOriginal": "Показать оригинал",
+    "writtenAt": "{{time}}",
+    "loginRequired": "Войдите, чтобы оставить комментарий.",
+    "empty": "Оставьте первый комментарий."
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "Идёт набор",
+      "FULL": "Мест нет",
+      "CLOSED": "Завершено"
+    },
+    "apply": "Присоединиться",
+    "cancel": "Отменить заявку",
+    "applied": "Заявка подана",
+    "deadline": "до {{date}}",
+    "participants": "Участники",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "Платформа не проводит платежи. Проверьте организатора перед переводом денег.",
+    "free": "Бесплатно"
+  },
+  "chat": {
+    "title": "Биени, ИИ-ассистент",
+    "disclaimer": "Это официальный ИИ-ассистент MBN, а не сам артист.",
+    "listening": "Говорите, я слушаю.",
+    "thinking": "Ищу...",
+    "placeholder": "Спросите о чём угодно",
+    "send": "Отправить",
+    "sources": "Связанная информация",
+    "micDenied": "Микрофон недоступен — переключаюсь на текстовый ввод.",
+    "micUnsupported": "Этот браузер не поддерживает распознавание речи. Введите текст.",
+    "retry": "Спросить ещё раз"
+  },
+  "language": {
+    "title": "Выбор языка"
+  },
+  "auth": {
+    "login": "Войти",
+    "logout": "Выйти",
+    "selectDemoUser": "Войти под демо-аккаунтом",
+    "loginRequired": "Требуется вход.",
+    "demoHint": "Пароль не нужен — просто выберите аккаунт. У каждого своя страна."
+  },
+  "toast": {
+    "applySuccess": "Заявка успешно подана.",
+    "cancelSuccess": "Заявка отменена.",
+    "alreadyApplied": "Вы уже подали заявку.",
+    "gatheringFull": "Свободных мест не осталось.",
+    "gatheringClosed": "Набор завершён.",
+    "translateFailed": "Не удалось перевести.",
+    "genericError": "Что-то пошло не так. Попробуйте позже."
+  },
+  "list": {
+    "all": "Все",
+    "upcoming": "Ближайшие",
+    "count": "Всего: {{count}}",
+    "empty": "Пока ничего нет."
+  },
+  "search": {
+    "title": "Поиск",
+    "hint": "Попробуйте имя артиста, событие или встречу.",
+    "noResult": "Нет результатов по «{{query}}»."
+  },
+  "tip": {
+    "updatedAt": "На {{date}}",
+    "openExternal": "Открыть официальную страницу",
+    "category": {
+      "VOTE": "Голосование",
+      "STREAMING": "Стриминг",
+      "TICKETING": "Билеты",
+      "CHEER": "Поддержка",
+      "FANCLUB": "Фан-клуб"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "Эфир",
+      "CONCERT": "Концерт",
+      "FANMEETING": "Фан-митинг",
+      "EVENT": "Событие"
+    }
+  }
+}

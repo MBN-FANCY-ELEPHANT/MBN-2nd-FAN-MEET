@@ -1,0 +1,89 @@
+/**
+ * AI 분석 패널 (Figma 2:1066). 값은 전부 get_design_context 실측입니다.
+ * 기사 상세와 영상 상세가 공유합니다.
+ */
+.panel {
+  padding: 20px;
+  border: 2px solid var(--color-ai-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-meta-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-ai-border);
+}
+
+.time {
+  font-size: var(--text-meta-size);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+/* 구분선은 위아래 16px 여백을 가집니다 (Figma 2:1078 py 16) */
+.divider {
+  margin: var(--space-4) 0;
+  height: 1px;
+  background: var(--color-divider);
+}
+
+/* 요약 박스 — 인디고 10% 틴트 */
+.summary {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: rgba(99, 102, 241, 0.1);
+  font-size: var(--text-meta-size);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.itemTitle {
+  font-size: var(--text-meta-size);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+
+/* 분석 내용이 제목보다 크고 굵습니다 — 읽히는 것은 이쪽입니다 */
+.itemBody {
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+/* 아직 생성되지 않았을 때 (백그라운드 워밍업 중) */
+.pending {
+  padding: var(--space-4);
+  border: 1px dashed var(--color-ai-border);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+  text-align: center;
+}

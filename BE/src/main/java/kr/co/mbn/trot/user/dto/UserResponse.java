@@ -1,0 +1,27 @@
+package kr.co.mbn.trot.user.dto;
+
+import kr.co.mbn.trot.user.domain.Country;
+import kr.co.mbn.trot.user.domain.Locale;
+import kr.co.mbn.trot.user.domain.User;
+import kr.co.mbn.trot.user.domain.UserRole;
+
+/** docs/api-spec.yaml 의 {@code User} 스키마와 1:1 대응. 댓글 작성자 표시에도 그대로 씁니다. */
+public record UserResponse(
+        Long id,
+        String nickname,
+        String profileImageUrl,
+        Country country,
+        UserRole role,
+        Locale locale
+) {
+
+    public static UserResponse from(User u) {
+        return new UserResponse(
+                u.getId(),
+                u.getNickname(),
+                u.getProfileImageUrl(),
+                u.getCountry(),
+                u.getRole(),
+                u.getLocale());
+    }
+}

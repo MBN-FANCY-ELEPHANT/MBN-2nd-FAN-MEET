@@ -1,0 +1,19 @@
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  padding: var(--space-4) 0;
+  text-align: left;
+  background: none;
+  border: 0;
+  font-size: var(--text-card-title-size);
+  font-weight: 400;
+  color: var(--color-text-primary);
+}
+
+.itemActive {
+  font-weight: 700;
+  color: var(--color-primary);
+}

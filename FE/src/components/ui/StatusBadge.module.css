@@ -1,0 +1,25 @@
+/* Figma 7:1929 실측: px 8 / py 4 / radius 4 / 12px Bold / line-height 1.4 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-white);
+}
+
+.RECRUITING {
+  background: var(--color-primary);
+}
+
+.FULL {
+  background: var(--color-text-secondary);
+}
+
+.CLOSED {
+  background: var(--color-divider);
+  color: var(--color-text-secondary);
+}

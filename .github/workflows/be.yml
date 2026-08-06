@@ -1,0 +1,42 @@
+name: BE
+
+# 경로 필터 — BE 파일이 바뀔 때만 실행됩니다. FE 변경으로는 트리거되지 않습니다.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'BE/**'
+      - '.github/workflows/be.yml'
+  pull_request:
+    paths:
+      - 'BE/**'
+      - '.github/workflows/be.yml'
+
+defaults:
+  run:
+    working-directory: BE
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - run: chmod +x ./gradlew
+
+      - name: Build and test
+        run: ./gradlew build --no-daemon
+
+      - name: Upload test report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: be-test-report
+          path: BE/build/reports/tests/test

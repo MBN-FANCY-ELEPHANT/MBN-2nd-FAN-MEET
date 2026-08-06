@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "검색어를 입력해주세요.",
+    "seeAll": "전체보기",
+    "loading": "불러오는 중...",
+    "error": "정보를 불러오지 못했습니다.",
+    "back": "뒤로"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "{{name}} 님과의 팬덤 공간"
+  },
+  "banner": {
+    "home": {
+      "sub": "오늘을 즐기고 싶다면?",
+      "cta": "AI 매니저와 대화하기"
+    },
+    "community": {
+      "sub": "오늘의 플레이리스트!",
+      "cta": "이 노래는 어떠신가요?"
+    },
+    "play": {
+      "sub": "오늘을 즐기고 싶다면?",
+      "cta": "AI 매니저와 대화하기"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "다가오는 일정",
+    "archive": "아카이브",
+    "recruitingGatherings": "현재 모집 중인 모임",
+    "noSchedule": "예정된 일정이 없습니다."
+  },
+  "community": {
+    "offlineGatherings": "오프라인 모임"
+  },
+  "play": {
+    "pilgrimage": "성지순례",
+    "cheer": "응원하기"
+  },
+  "content": {
+    "badge": {
+      "article": "기사",
+      "video": "영상",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}}명",
+    "views": "조회 수 {{count}}",
+    "relatedContents": "관련 콘텐츠",
+    "relatedVideos": "관련 영상",
+    "placesInArticle": "기사에 나온 그 곳",
+    "subscribe": "구독",
+    "subscribed": "구독 중",
+    "share": "공유",
+    "like": "좋아요"
+  },
+  "ai": {
+    "panelTitle": "AI 분석",
+    "generatedAt": "{{time}} 생성",
+    "unavailable": "AI 분석을 준비 중입니다."
+  },
+  "comment": {
+    "title": "댓글",
+    "count": "댓글 {{count}}",
+    "placeholder": "댓글을 남겨주세요.",
+    "send": "등록",
+    "translate": "번역",
+    "showOriginal": "원문 보기",
+    "writtenAt": "{{time}} 작성",
+    "loginRequired": "댓글을 남기려면 로그인해 주세요.",
+    "empty": "첫 댓글을 남겨보세요."
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "모집 중",
+      "FULL": "모집 완료",
+      "CLOSED": "마감"
+    },
+    "apply": "참가 신청하기",
+    "cancel": "신청 취소",
+    "applied": "신청 완료",
+    "deadline": "~{{date}}",
+    "participants": "참여 인원",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "플랫폼은 금전 거래를 중개하지 않습니다. 입금 전 운영자 정보를 반드시 확인하세요.",
+    "free": "무료"
+  },
+  "chat": {
+    "title": "AI 도우미 비엔이",
+    "disclaimer": "MBN 공식 AI 도우미입니다. 스타 본인이 아닙니다.",
+    "listening": "말씀해 주세요. 듣고 있습니다.",
+    "thinking": "검색 중...",
+    "placeholder": "무엇이든 물어보세요",
+    "send": "보내기",
+    "sources": "관련 정보",
+    "micDenied": "마이크를 사용할 수 없어 텍스트로 입력합니다.",
+    "micUnsupported": "이 브라우저는 음성 인식을 지원하지 않습니다. 텍스트로 입력해 주세요.",
+    "retry": "다시 물어보기"
+  },
+  "language": {
+    "title": "언어 선택"
+  },
+  "auth": {
+    "login": "로그인",
+    "logout": "로그아웃",
+    "selectDemoUser": "데모 계정으로 로그인",
+    "loginRequired": "로그인이 필요합니다.",
+    "demoHint": "비밀번호 없이 계정만 고르면 됩니다. 계정마다 국가가 달라요."
+  },
+  "toast": {
+    "applySuccess": "참가 신청이 완료되었습니다.",
+    "cancelSuccess": "신청을 취소했습니다.",
+    "alreadyApplied": "이미 신청한 모임입니다.",
+    "gatheringFull": "모집 인원이 마감되었습니다.",
+    "gatheringClosed": "모집이 종료된 모임입니다.",
+    "translateFailed": "번역에 실패했습니다.",
+    "genericError": "잠시 후 다시 시도해 주세요."
+  },
+  "list": {
+    "all": "전체",
+    "upcoming": "예정",
+    "count": "총 {{count}}건",
+    "empty": "아직 등록된 항목이 없습니다."
+  },
+  "search": {
+    "title": "검색",
+    "hint": "스타 이름, 일정, 모임 이름으로 찾아보세요.",
+    "noResult": "'{{query}}' 에 대한 결과가 없습니다."
+  },
+  "tip": {
+    "updatedAt": "{{date}} 기준",
+    "openExternal": "공식 페이지에서 보기",
+    "category": {
+      "VOTE": "투표",
+      "STREAMING": "스밍",
+      "TICKETING": "티켓팅",
+      "CHEER": "응원",
+      "FANCLUB": "팬클럽"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "방송",
+      "CONCERT": "콘서트",
+      "FANMEETING": "팬미팅",
+      "EVENT": "행사"
+    }
+  }
+}

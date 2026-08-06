@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "検索ワードを入力してください。",
+    "seeAll": "すべて見る",
+    "loading": "読み込み中...",
+    "error": "情報を読み込めませんでした。",
+    "back": "戻る"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "{{name}} さんとのファンダム空間"
+  },
+  "banner": {
+    "home": {
+      "sub": "今日を楽しみたいなら？",
+      "cta": "AIマネージャーと話す"
+    },
+    "community": {
+      "sub": "今日のプレイリスト！",
+      "cta": "この曲はいかがですか？"
+    },
+    "play": {
+      "sub": "今日を楽しみたいなら？",
+      "cta": "AIマネージャーと話す"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "近日の予定",
+    "archive": "アーカイブ",
+    "recruitingGatherings": "募集中の集まり",
+    "noSchedule": "予定はありません。"
+  },
+  "community": {
+    "offlineGatherings": "オフラインの集まり"
+  },
+  "play": {
+    "pilgrimage": "聖地巡礼",
+    "cheer": "応援する"
+  },
+  "content": {
+    "badge": {
+      "article": "記事",
+      "video": "動画",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}}人",
+    "views": "再生回数 {{count}}",
+    "relatedContents": "関連コンテンツ",
+    "relatedVideos": "関連動画",
+    "placesInArticle": "記事に出てきた場所",
+    "subscribe": "登録",
+    "subscribed": "登録済み",
+    "share": "共有",
+    "like": "いいね"
+  },
+  "ai": {
+    "panelTitle": "AI分析",
+    "generatedAt": "{{time}} 生成",
+    "unavailable": "AI分析を準備しています。"
+  },
+  "comment": {
+    "title": "コメント",
+    "count": "コメント {{count}}",
+    "placeholder": "コメントを入力してください。",
+    "send": "投稿",
+    "translate": "翻訳",
+    "showOriginal": "原文を見る",
+    "writtenAt": "{{time}}",
+    "loginRequired": "コメントするにはログインしてください。",
+    "empty": "最初のコメントを残しましょう。"
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "募集中",
+      "FULL": "募集終了",
+      "CLOSED": "締切"
+    },
+    "apply": "参加を申し込む",
+    "cancel": "申し込みを取り消す",
+    "applied": "申込済み",
+    "deadline": "〜{{date}}",
+    "participants": "参加人数",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "当プラットフォームは金銭のやり取りを仲介しません。送金前に必ず主催者情報をご確認ください。",
+    "free": "無料"
+  },
+  "chat": {
+    "title": "AIアシスタント ビエニ",
+    "disclaimer": "MBN公式AIアシスタントです。アーティスト本人ではありません。",
+    "listening": "どうぞお話しください。聞いています。",
+    "thinking": "検索中...",
+    "placeholder": "何でも聞いてください",
+    "send": "送信",
+    "sources": "関連情報",
+    "micDenied": "マイクが使用できないため、テキスト入力に切り替えます。",
+    "micUnsupported": "このブラウザは音声認識に対応していません。テキストで入力してください。",
+    "retry": "もう一度聞く"
+  },
+  "language": {
+    "title": "言語を選択"
+  },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "selectDemoUser": "デモアカウントでログイン",
+    "loginRequired": "ログインが必要です。",
+    "demoHint": "パスワードは不要です。アカウントごとに国が異なります。"
+  },
+  "toast": {
+    "applySuccess": "参加申し込みが完了しました。",
+    "cancelSuccess": "申し込みを取り消しました。",
+    "alreadyApplied": "すでに申し込み済みです。",
+    "gatheringFull": "募集人数に達しました。",
+    "gatheringClosed": "募集は終了しました。",
+    "translateFailed": "翻訳に失敗しました。",
+    "genericError": "しばらくしてからもう一度お試しください。"
+  },
+  "list": {
+    "all": "すべて",
+    "upcoming": "予定",
+    "count": "全{{count}}件",
+    "empty": "まだ登録がありません。"
+  },
+  "search": {
+    "title": "検索",
+    "hint": "スター名・予定・集まりで探せます。",
+    "noResult": "「{{query}}」の結果がありません。"
+  },
+  "tip": {
+    "updatedAt": "{{date}} 時点",
+    "openExternal": "公式ページで見る",
+    "category": {
+      "VOTE": "投票",
+      "STREAMING": "ストリーミング",
+      "TICKETING": "チケット",
+      "CHEER": "応援",
+      "FANCLUB": "ファンクラブ"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "放送",
+      "CONCERT": "コンサート",
+      "FANMEETING": "ファンミーティング",
+      "EVENT": "イベント"
+    }
+  }
+}

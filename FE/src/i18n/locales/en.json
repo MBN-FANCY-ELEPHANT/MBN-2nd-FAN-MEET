@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "Search for anything",
+    "seeAll": "See all",
+    "loading": "Loading...",
+    "error": "Failed to load.",
+    "back": "Back"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "Fandom space with {{name}}"
+  },
+  "banner": {
+    "home": {
+      "sub": "Looking for something fun?",
+      "cta": "Chat with the AI assistant"
+    },
+    "community": {
+      "sub": "Today's playlist!",
+      "cta": "How about this song?"
+    },
+    "play": {
+      "sub": "Looking for something fun?",
+      "cta": "Chat with the AI assistant"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "Upcoming",
+    "archive": "Archive",
+    "recruitingGatherings": "Open gatherings",
+    "noSchedule": "No upcoming schedule."
+  },
+  "community": {
+    "offlineGatherings": "Offline gatherings"
+  },
+  "play": {
+    "pilgrimage": "Fan pilgrimage",
+    "cheer": "Support the star"
+  },
+  "content": {
+    "badge": {
+      "article": "News",
+      "video": "Video",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}} watching",
+    "views": "{{count}} views",
+    "relatedContents": "Related",
+    "relatedVideos": "Related videos",
+    "placesInArticle": "Places in this article",
+    "subscribe": "Subscribe",
+    "subscribed": "Subscribed",
+    "share": "Share",
+    "like": "Like"
+  },
+  "ai": {
+    "panelTitle": "AI analysis",
+    "generatedAt": "Generated {{time}}",
+    "unavailable": "AI analysis is being prepared."
+  },
+  "comment": {
+    "title": "Comments",
+    "count": "{{count}} comments",
+    "placeholder": "Leave a comment",
+    "send": "Post",
+    "translate": "Translate",
+    "showOriginal": "Show original",
+    "writtenAt": "{{time}}",
+    "loginRequired": "Sign in to leave a comment.",
+    "empty": "Be the first to comment."
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "Recruiting",
+      "FULL": "Full",
+      "CLOSED": "Closed"
+    },
+    "apply": "Apply to join",
+    "cancel": "Cancel application",
+    "applied": "Applied",
+    "deadline": "by {{date}}",
+    "participants": "Participants",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "This platform does not process payments. Verify the organizer before transferring any money.",
+    "free": "Free"
+  },
+  "chat": {
+    "title": "Bienie, the AI assistant",
+    "disclaimer": "This is MBN's official AI assistant, not the artist.",
+    "listening": "Go ahead, I'm listening.",
+    "thinking": "Searching...",
+    "placeholder": "Ask me anything",
+    "send": "Send",
+    "sources": "Related",
+    "micDenied": "Microphone unavailable — switching to text input.",
+    "micUnsupported": "This browser doesn't support speech recognition. Please type instead.",
+    "retry": "Ask again"
+  },
+  "language": {
+    "title": "Select language"
+  },
+  "auth": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "selectDemoUser": "Sign in with a demo account",
+    "loginRequired": "Sign-in required.",
+    "demoHint": "No password needed — just pick an account. Each one has a different country."
+  },
+  "toast": {
+    "applySuccess": "You're signed up for this gathering.",
+    "cancelSuccess": "Application cancelled.",
+    "alreadyApplied": "You've already applied to this gathering.",
+    "gatheringFull": "This gathering is full.",
+    "gatheringClosed": "Recruiting has closed for this gathering.",
+    "translateFailed": "Translation failed.",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "list": {
+    "all": "All",
+    "upcoming": "Upcoming",
+    "count": "{{count}} items",
+    "empty": "Nothing here yet."
+  },
+  "search": {
+    "title": "Search",
+    "hint": "Try a star name, a schedule, or a gathering.",
+    "noResult": "No results for \"{{query}}\"."
+  },
+  "tip": {
+    "updatedAt": "As of {{date}}",
+    "openExternal": "Open the official page",
+    "category": {
+      "VOTE": "Vote",
+      "STREAMING": "Streaming",
+      "TICKETING": "Ticketing",
+      "CHEER": "Cheer",
+      "FANCLUB": "Fanclub"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "Broadcast",
+      "CONCERT": "Concert",
+      "FANMEETING": "Fan meeting",
+      "EVENT": "Event"
+    }
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "app": {
+    "logo": "MBN AI",
+    "searchPlaceholder": "Saisissez un mot-clé.",
+    "seeAll": "Tout voir",
+    "loading": "Chargement...",
+    "error": "Impossible de charger les informations.",
+    "back": "Retour"
+  },
+  "nav": {
+    "home": "HOME",
+    "community": "COMMUNITY",
+    "play": "PLAY"
+  },
+  "star": {
+    "fandomSpace": "Espace fandom avec {{name}}"
+  },
+  "banner": {
+    "home": {
+      "sub": "Envie de vous amuser aujourd'hui ?",
+      "cta": "Discuter avec l'assistant IA"
+    },
+    "community": {
+      "sub": "La playlist du jour !",
+      "cta": "Cette chanson vous tente ?"
+    },
+    "play": {
+      "sub": "Envie de vous amuser aujourd'hui ?",
+      "cta": "Discuter avec l'assistant IA"
+    }
+  },
+  "home": {
+    "upcomingSchedule": "À venir",
+    "archive": "Archives",
+    "recruitingGatherings": "Rencontres ouvertes",
+    "noSchedule": "Aucun événement prévu."
+  },
+  "community": {
+    "offlineGatherings": "Rencontres en personne"
+  },
+  "play": {
+    "pilgrimage": "Pèlerinage des fans",
+    "cheer": "Soutenir l'artiste"
+  },
+  "content": {
+    "badge": {
+      "article": "Article",
+      "video": "Vidéo",
+      "live": "LIVE"
+    },
+    "viewers": "{{count}} spectateurs",
+    "views": "{{count}} vues",
+    "relatedContents": "Contenus liés",
+    "relatedVideos": "Vidéos liées",
+    "placesInArticle": "Les lieux de cet article",
+    "subscribe": "S'abonner",
+    "subscribed": "Abonné",
+    "share": "Partager",
+    "like": "J'aime"
+  },
+  "ai": {
+    "panelTitle": "Analyse IA",
+    "generatedAt": "Généré {{time}}",
+    "unavailable": "L'analyse IA est en préparation."
+  },
+  "comment": {
+    "title": "Commentaires",
+    "count": "{{count}} commentaires",
+    "placeholder": "Laissez un commentaire.",
+    "send": "Publier",
+    "translate": "Traduire",
+    "showOriginal": "Voir l'original",
+    "writtenAt": "{{time}}",
+    "loginRequired": "Connectez-vous pour commenter.",
+    "empty": "Soyez le premier à commenter."
+  },
+  "gathering": {
+    "status": {
+      "RECRUITING": "Inscriptions ouvertes",
+      "FULL": "Complet",
+      "CLOSED": "Terminé"
+    },
+    "apply": "Participer",
+    "cancel": "Annuler l'inscription",
+    "applied": "Inscrit",
+    "deadline": "jusqu'au {{date}}",
+    "participants": "Participants",
+    "progress": "{{current}}/{{capacity}}",
+    "paymentWarning": "Cette plateforme ne gère aucun paiement. Vérifiez l'organisateur avant tout virement.",
+    "free": "Gratuit"
+  },
+  "chat": {
+    "title": "Bienie, l'assistant IA",
+    "disclaimer": "Assistant IA officiel de MBN. Il ne s'agit pas de l'artiste.",
+    "listening": "Allez-y, je vous écoute.",
+    "thinking": "Recherche en cours...",
+    "placeholder": "Posez-moi une question",
+    "send": "Envoyer",
+    "sources": "Informations liées",
+    "micDenied": "Micro indisponible — passage à la saisie texte.",
+    "micUnsupported": "Ce navigateur ne prend pas en charge la reconnaissance vocale. Veuillez écrire.",
+    "retry": "Poser une autre question"
+  },
+  "language": {
+    "title": "Choisir la langue"
+  },
+  "auth": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "selectDemoUser": "Se connecter avec un compte de démo",
+    "loginRequired": "Connexion requise.",
+    "demoHint": "Aucun mot de passe requis — choisissez un compte. Chacun a un pays différent."
+  },
+  "toast": {
+    "applySuccess": "Votre inscription est confirmée.",
+    "cancelSuccess": "Inscription annulée.",
+    "alreadyApplied": "Vous êtes déjà inscrit.",
+    "gatheringFull": "Le nombre de places est atteint.",
+    "gatheringClosed": "Les inscriptions sont terminées.",
+    "translateFailed": "Échec de la traduction.",
+    "genericError": "Une erreur est survenue. Réessayez plus tard."
+  },
+  "list": {
+    "all": "Tout",
+    "upcoming": "À venir",
+    "count": "{{count}} éléments",
+    "empty": "Rien pour le moment."
+  },
+  "search": {
+    "title": "Recherche",
+    "hint": "Essayez un nom d'artiste, un événement ou une rencontre.",
+    "noResult": "Aucun résultat pour « {{query}} »."
+  },
+  "tip": {
+    "updatedAt": "Au {{date}}",
+    "openExternal": "Voir la page officielle",
+    "category": {
+      "VOTE": "Vote",
+      "STREAMING": "Streaming",
+      "TICKETING": "Billetterie",
+      "CHEER": "Soutien",
+      "FANCLUB": "Fan-club"
+    }
+  },
+  "schedule": {
+    "type": {
+      "BROADCAST": "Émission",
+      "CONCERT": "Concert",
+      "FANMEETING": "Rencontre fans",
+      "EVENT": "Événement"
+    }
+  }
+}

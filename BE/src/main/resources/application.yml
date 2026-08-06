@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: trot-fandom-api
+
+  profiles:
+    default: local
+
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: UTC
+    # Spring Boot 4 는 Jackson 3(tools.jackson) 을 사용합니다.
+    # WRITE_DATES_AS_TIMESTAMPS 는 제거되었고 java.time 은 기본적으로 ISO-8601 로 직렬화됩니다.
+    # (docs/domain-model.md 공통 규약 — 별도 설정 불필요)
+
+  jpa:
+    open-in-view: false
+    # data.sql 을 Hibernate 스키마 생성 "이후"에 실행. 없으면 "Table not found" 로 기동 실패.
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      encoding: UTF-8   # Windows 기본 charset(CP949)으로 읽혀 한글이 깨지는 것 방지
+
+app:
+  cors:
+    # Vite dev server
+    allowed-origins: http://localhost:5173,http://127.0.0.1:5173
+
+  auth:
+    # 간이 인증 토큰 서명 키. 만료·리프레시가 없는 데모용입니다 (docs/design-spec.md §3).
+    # 운영은 반드시 AUTH_SECRET 환경변수로 주입.
+    secret: ${AUTH_SECRET:local-dev-only-secret-please-change-me-at-least-32-bytes}
+
+  ai:
+    # stub | openai — 기본은 stub 입니다.
+    # 키가 준비되면 BE/.env 에서 AI_PROVIDER=openai 로 바꾸세요 (docs/ai-stack.md).
+    provider: ${AI_PROVIDER:stub}
+    openai:
+      # ⚠️ 키는 BE/.env 로만 주입합니다. 이 파일에 값을 쓰지 마세요 (git 에 올라갑니다).
+      api-key: ${OPENAI_API_KEY:}
+      chat-model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+      # 답변 1건당 출력 상한. 음성으로 읽히므로 짧을수록 좋고 비용도 함께 줄어듭니다.
+      max-output-tokens: ${OPENAI_MAX_OUTPUT_TOKENS:400}
+      # 예산 사고 방지용 일일 호출 상한. 초과 시 예외 대신 스텁으로 폴백합니다.
+      daily-call-limit: ${OPENAI_DAILY_CALL_LIMIT:800}
+      timeout-seconds: 10
+      # TTS/STT 는 OpenAI 를 쓰지 않습니다. 브라우저 Web Speech API 로 처리합니다.
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:trot;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  sql:
+    init:
+      mode: always   # data.sql 시드 자동 적용
+
+logging:
+  level:
+    kr.co.mbn.trot: DEBUG
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  sql:
+    init:
+      mode: never

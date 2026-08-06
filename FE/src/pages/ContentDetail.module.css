@@ -1,0 +1,232 @@
+/**
+ * 기사 상세 (Figma 6:267) · 영상 상세 (Figma 6:453) 공용 스타일.
+ * 두 화면은 상단(본문 vs 플레이어)만 다르고 나머지 구조가 같습니다.
+ */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--color-white);
+  padding-bottom: var(--space-10);
+}
+
+.body {
+  padding: var(--space-4) var(--page-padding-x);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ── 기사 ── */
+
+.articleTitle {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+.reporter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+}
+
+.reporterAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+}
+
+.reporterName {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.publishedAt {
+  margin-left: auto;
+}
+
+.hero {
+  width: calc(100% + 2 * var(--page-padding-x));
+  margin-inline: calc(-1 * var(--page-padding-x));
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+/* 본문 — 섹션 라벨([ 앵커멘트 ])과 문단이 섞여 있습니다 */
+.articleBody {
+  font-size: var(--text-card-title-size);
+  line-height: 1.8;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+}
+
+/**
+ * 용어 하이라이트.
+ * 본문의 `[[용어|설명]]` 마크업을 FE 가 파싱해 이 버튼으로 렌더합니다 (별도 API 없음).
+ */
+.term {
+  position: relative;
+  display: inline;
+  border: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 5;
+  width: max-content;
+  max-width: 240px;
+  margin-top: 6px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-toast-bg);
+  color: var(--color-white);
+  font-size: var(--text-caption-size);
+  font-weight: 400;
+  line-height: 1.5;
+  text-decoration: none;
+  text-align: left;
+  white-space: normal;
+}
+
+/* ── 영상 ── */
+
+.player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 375 / 211;
+  background: #000;
+}
+
+.player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.videoTitle {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+.videoMeta {
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+}
+
+/* 채널 + 구독 + 좋아요 + 공유 한 줄 */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.channel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.channelLogo {
+  height: 20px;
+  object-fit: contain;
+}
+
+.subscribe {
+  height: 32px;
+  padding: 0 var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-text-primary);
+  color: var(--color-white);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+}
+
+/* 구독 중이면 강조를 낮춥니다 — 이미 한 행동이라 다시 유도할 필요가 없습니다 */
+.subscribed {
+  background: var(--color-background);
+  border: 1px solid var(--color-divider);
+  color: var(--color-text-secondary);
+}
+
+.spacer {
+  margin-left: auto;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: 0;
+  background: none;
+  padding: var(--space-1);
+  font-size: var(--text-meta-size);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.iconButtonActive {
+  color: var(--color-primary);
+}
+
+.iconButtonActive img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(72%) saturate(1900%)
+    hue-rotate(354deg) brightness(97%) contrast(93%);
+}
+
+/* ── 댓글 미리보기 ── */
+
+.commentPreview {
+  display: block;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+}
+
+.commentCount {
+  font-size: var(--text-card-title-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.commentRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.commentAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.commentBody {
+  font-size: var(--text-meta-size);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

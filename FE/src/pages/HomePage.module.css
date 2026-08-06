@@ -1,0 +1,33 @@
+/* "다가오는 일정" 카드 — Figma 2:226 */
+.schedule {
+  display: block;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.scheduleLabel {
+  font-size: var(--text-label-size);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.scheduleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  font-size: var(--text-emphasis-size);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.scheduleDate {
+  color: var(--color-primary);
+}
+
+.scheduleTitle {
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

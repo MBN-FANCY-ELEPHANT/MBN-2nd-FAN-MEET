@@ -1,0 +1,83 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.1.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'kr.co.mbn'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-h2console'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+
+	// AI — 벤더는 OpenAI 하나로 통일합니다 (TTS·STT 를 Anthropic 이 제공하지 않음).
+	// 자세한 근거는 docs/ai-stack.md §1.
+	// ⚠️ API 키가 준비되기 전까지는 StubAiProvider 로 동작하므로 SDK 의존성이 아직 없습니다.
+	//    키가 나오면 아래 한 줄을 추가하고 OpenAiProvider 를 구현하세요:
+	//    implementation 'com.openai:openai-java:1.2.0'
+
+	// 인증은 간이 구현입니다 (HMAC 서명 토큰). JWT 라이브러리가 필요 없습니다.
+	// docs/design-spec.md §3 — 회원가입·비밀번호·소셜 로그인 없음.
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+	testCompileOnly 'org.projectlombok:lombok'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+// Windows 기본 charset 이 CP949 라서 한글 소스/SQL 이 깨집니다. 전 태스크에 UTF-8 강제.
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+}
+
+/**
+ * BE/.env 를 읽어 bootRun 의 환경변수로 주입합니다.
+ *
+ * ⚠️ .env 는 gitignore 대상입니다. API 키를 소스나 application.yml 에 절대 쓰지 마세요.
+ *    형식은 BE/.env.example 참고. 파일이 없으면 조용히 건너뜁니다(스텁 모드로 동작).
+ */
+tasks.named('bootRun') {
+	def envFile = file('.env')
+	if (envFile.exists()) {
+		envFile.readLines('UTF-8').each { line ->
+			def trimmed = line.trim()
+			if (trimmed && !trimmed.startsWith('#') && trimmed.contains('=')) {
+				def idx = trimmed.indexOf('=')
+				def key = trimmed.substring(0, idx).trim()
+				def value = trimmed.substring(idx + 1).trim().replaceAll(/^["']|["']$/, '')
+				if (key) {
+					environment key, value
+				}
+			}
+		}
+		logger.lifecycle('BE/.env 로드됨 — 환경변수 주입 완료')
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

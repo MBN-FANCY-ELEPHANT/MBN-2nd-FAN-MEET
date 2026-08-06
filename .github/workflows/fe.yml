@@ -1,0 +1,42 @@
+name: FE
+
+# 경로 필터 — FE 파일이 바뀔 때만 실행됩니다. BE 변경으로는 트리거되지 않습니다.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'FE/**'
+      - 'docs/api-spec.yaml'
+      - '.github/workflows/fe.yml'
+  pull_request:
+    paths:
+      - 'FE/**'
+      - 'docs/api-spec.yaml'
+      - '.github/workflows/fe.yml'
+
+defaults:
+  run:
+    working-directory: FE
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: FE/package-lock.json
+
+      - run: npm ci
+
+      # schema.d.ts 는 gitignore 대상이므로 CI 에서 스펙으로부터 재생성합니다.
+      # 스펙과 코드가 어긋나면 여기서 타입 에러로 잡힙니다.
+      - name: Generate API types from OpenAPI spec
+        run: npm run api:types
+
+      - run: npm run lint
+
+      - run: npm run build

@@ -1,0 +1,61 @@
+import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+
+import { api } from "../../api/client";
+import { currentLocale } from "../../i18n";
+import { formatRelativeTime } from "../../lib/format";
+import Icon from "../ui/Icon";
+import styles from "./AiPanel.module.css";
+
+/**
+ * AI 분석 패널 (Figma 2:1066) — 기사 상세와 영상 상세 공용.
+ *
+ * **조회는 DB 읽기 한 번입니다.** 분석은 서버 기동 시 미리 생성돼 있어서 화면이 즉시 뜹니다
+ * (docs/ai-stack.md §4). 아직 생성 전이면 404 가 오는데, 그때는 "준비 중"을 보여주고
+ * 잠시 뒤 자동으로 다시 시도합니다.
+ *
+ * 언어를 바꾸면 쿼리 키가 바뀌어 해당 언어 분석을 다시 불러옵니다.
+ */
+export default function AiPanel({ contentId }: { contentId: number }) {
+  const { t } = useTranslation();
+  const locale = currentLocale();
+
+  const { data, isError } = useQuery({
+    queryKey: ["ai-analysis", contentId, locale],
+    queryFn: () => api.getAiAnalysis(contentId),
+    // 워밍업이 아직 이 콘텐츠에 도달하지 않았을 수 있어 몇 번 더 시도합니다.
+    retry: 2,
+    retryDelay: 3000,
+  });
+
+  if (isError || !data) {
+    return <p className={styles.pending}>{t("ai.unavailable")}</p>;
+  }
+
+  return (
+    <section className={styles.panel}>
+      <div className={styles.head}>
+        <span className={styles.label}>
+          <Icon name="aiSquare" size={24} />
+          {t("ai.panelTitle")}
+        </span>
+        <span className={styles.time}>
+          {formatRelativeTime(data.generatedAt)}
+        </span>
+      </div>
+
+      <div className={styles.divider} />
+
+      <p className={styles.summary}>{data.summary}</p>
+
+      <div className={styles.items}>
+        {data.items?.map((item, index) => (
+          <div key={`${item.title}-${index}`} className={styles.item}>
+            <p className={styles.itemTitle}>{item.title}</p>
+            <p className={styles.itemBody}>{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

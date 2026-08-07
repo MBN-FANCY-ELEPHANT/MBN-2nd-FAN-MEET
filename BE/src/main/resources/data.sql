@@ -19,14 +19,15 @@ ALTER TABLE star ALTER COLUMN id RESTART WITH 2;
 -- ⚠️ country 를 의도적으로 분산시킵니다. 댓글 화면에 여러 국기가 섞여 보이는 것이
 --    "글로벌 팬덤"을 증명하는 가장 직접적인 장면입니다 (골든 패스 ④).
 -- id=1 은 관리자라 데모 계정 목록(role=MEMBER)에 노출되지 않습니다.
-INSERT INTO app_user (id, nickname, profile_image_url, country, role, locale) VALUES
- (1, 'MBN 운영팀',     'https://placehold.co/80x80/F58220/FFFFFF?text=MBN', 'KR', 'ADMIN',  'KO'),
- (2, '트롯덕후',       'https://placehold.co/80x80/F58220/FFFFFF?text=KR',  'KR', 'MEMBER', 'KO'),
- (3, '임영웅사랑',     'https://placehold.co/80x80/E4741A/FFFFFF?text=KR',  'KR', 'MEMBER', 'KO'),
- (4, 'TrotLover',      'https://placehold.co/80x80/4F46E5/FFFFFF?text=US',  'US', 'MEMBER', 'EN'),
- (5, 'ヒーロー推し',   'https://placehold.co/80x80/6366F1/FFFFFF?text=JP',  'JP', 'MEMBER', 'JA'),
- (6, 'Amélie',         'https://placehold.co/80x80/818CF8/FFFFFF?text=FR',  'FR', 'MEMBER', 'FR'),
- (7, '나의 영웅',      'https://placehold.co/80x80/EA580C/FFFFFF?text=HO',  'KR', 'MEMBER', 'KO');
+-- favorite_star_id/favorite_artist_name 은 새 게스트가 선택한 스타를 저장하며 기존 데모 계정은 비워 둡니다.
+INSERT INTO app_user (id, nickname, profile_image_url, country, role, locale, favorite_star_id, favorite_artist_name) VALUES
+ (1, 'MBN 운영팀',     'https://placehold.co/80x80/F58220/FFFFFF?text=MBN', 'KR', 'ADMIN',  'KO', NULL, NULL),
+ (2, '트롯덕후',       'https://placehold.co/80x80/F58220/FFFFFF?text=KR',  'KR', 'MEMBER', 'KO', NULL, NULL),
+ (3, '임영웅사랑',     'https://placehold.co/80x80/E4741A/FFFFFF?text=KR',  'KR', 'MEMBER', 'KO', NULL, NULL),
+ (4, 'TrotLover',      'https://placehold.co/80x80/4F46E5/FFFFFF?text=US',  'US', 'MEMBER', 'EN', NULL, NULL),
+ (5, 'ヒーロー推し',   'https://placehold.co/80x80/6366F1/FFFFFF?text=JP',  'JP', 'MEMBER', 'JA', NULL, NULL),
+ (6, 'Amélie',         'https://placehold.co/80x80/818CF8/FFFFFF?text=FR',  'FR', 'MEMBER', 'FR', NULL, NULL),
+ (7, '나의 영웅',      'https://placehold.co/80x80/EA580C/FFFFFF?text=HO',  'KR', 'MEMBER', 'KO', NULL, NULL);
 
 ALTER TABLE app_user ALTER COLUMN id RESTART WITH 8;
 

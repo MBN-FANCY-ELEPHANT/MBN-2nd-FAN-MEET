@@ -44,6 +44,11 @@ variable "http_allowed_cidr" {
   default     = "0.0.0.0/0"
 }
 
+variable "backend_domain" {
+  description = "Public DNS name used by Caddy to issue and renew the Backend HTTPS certificate."
+  type        = string
+}
+
 variable "create_github_oidc_provider" {
   description = "Create the account-wide GitHub OIDC provider. Set false when one already exists."
   type        = bool

@@ -1,11 +1,16 @@
 output "backend_url" {
-  description = "Public HTTP URL for the Backend."
-  value       = "http://${aws_eip.backend.public_ip}"
+  description = "Public HTTPS URL for the Backend."
+  value       = "https://${var.backend_domain}"
 }
 
 output "backend_health_url" {
   description = "Health endpoint used by CI after deployment."
-  value       = "http://${aws_eip.backend.public_ip}/actuator/health"
+  value       = "https://${var.backend_domain}/actuator/health"
+}
+
+output "backend_public_ip" {
+  description = "Elastic IP that the Backend domain A record must resolve to."
+  value       = aws_eip.backend.public_ip
 }
 
 output "ec2_instance_id" {

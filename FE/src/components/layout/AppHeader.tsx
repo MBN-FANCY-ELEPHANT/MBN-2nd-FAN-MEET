@@ -36,10 +36,11 @@ export default function AppHeader({
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const artist = getSelectedArtist();
-  const label = artist
+const label = (
+  artist
     ? t("app.artistLogo", { name: shortArtistName(artist) })
-    : t("app.logo");
-
+    : t("app.logo")
+).normalize("NFC");
   return (
     <>
       <header className={styles.header}>

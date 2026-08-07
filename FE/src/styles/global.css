@@ -1,5 +1,13 @@
 @import "./tokens.css";
 
+@font-face {
+  font-family: "Yeongdo OTF Heavy";
+  src: url("../../public/fonts/YeongdoOTF-Heavy.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+}
+
 *,
 *::before,
 *::after {

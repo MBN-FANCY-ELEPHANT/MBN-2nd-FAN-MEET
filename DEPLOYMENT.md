@@ -152,6 +152,8 @@ GitHub repository의 **Settings → Environments → production**을 만들고 r
 지정합니다. Terraform apply와 Backend deploy는 이 환경 승인 뒤에만 실행됩니다.
 AWS 역할의 OIDC subject도 `environment:production`으로 제한되어 이 Environment를 통과한 job만
 배포 역할을 맡을 수 있습니다.
+조직이 OIDC subject customization을 사용하면 CloudTrail의 `AssumeRoleWithWebIdentity` 이벤트에서
+immutable ID 형식을 확인해 `github_oidc_repository_subject`에 설정합니다.
 
 ### GitHub Secrets
 

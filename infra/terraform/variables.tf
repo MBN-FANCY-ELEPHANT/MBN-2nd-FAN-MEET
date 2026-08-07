@@ -27,6 +27,12 @@ variable "github_environment" {
   default     = "production"
 }
 
+variable "github_oidc_repository_subject" {
+  description = "Repository segment used in the GitHub OIDC subject. Set the immutable owner/repository IDs when the organization customizes subject claims."
+  type        = string
+  default     = ""
+}
+
 variable "instance_type" {
   description = "EC2 size. t3.micro is sufficient for the MVP when traffic is light."
   type        = string

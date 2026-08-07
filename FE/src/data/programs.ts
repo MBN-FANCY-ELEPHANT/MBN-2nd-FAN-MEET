@@ -22,7 +22,7 @@ export const ARTISTS: Artist[] = [
   { name: "이찬원", programs: [] },
   { name: "박군", programs: [] },
   { name: "영탁", programs: [] },
-  { name: "송가인", programs: [] },
+  { name: "성리", programs: [] },
   { name: "박서진", programs: ["한일톱텐쇼", "한일가왕전", "현역가왕2"] },
   { name: "김용빈", programs: [] },
   { name: "린", programs: ["한일톱텐쇼", "한일가왕전", "인생앨범-예스터데이"] },
@@ -32,6 +32,13 @@ export const ARTISTS: Artist[] = [
   { name: "홍진영", programs: ["불타는 트롯맨"] },
   { name: "허찬미", programs: ["우리들의 트로트"] },
 ];
+
+/** 현재 팬공간이 준비된 아티스트. DB 목록으로 교체한 뒤에도 이름 기준으로 제한합니다. */
+const SELECTABLE_ARTIST_NAMES = new Set(["박서진", "이찬원", "성리"]);
+
+export function isSelectableArtist(name: string): boolean {
+  return SELECTABLE_ARTIST_NAMES.has(name.trim().normalize("NFC"));
+}
 
 /**
  * 가나다순 아티스트 이름 목록.

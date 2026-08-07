@@ -70,6 +70,18 @@
   object-position: center top;
 }
 
+.avatarDisabled::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgb(0 0 0 / 60%);
+}
+
+.card:disabled {
+  cursor: not-allowed;
+}
+
 .preview .avatar {
   width: 84px;
   height: 84px;

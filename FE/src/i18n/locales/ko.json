@@ -279,7 +279,9 @@
     "of": "의",
     "honorific": "님",
     "drawing": "추첨 중...",
-    "confirm": "시작하기"
+    "confirm": "시작하기",
+    "error": "닉네임 배정에 실패했어요. 다시 시도해 주세요.",
+    "retry": "다시 시도"
   },
   "concert": {
     "entryOpen": "응모 중",

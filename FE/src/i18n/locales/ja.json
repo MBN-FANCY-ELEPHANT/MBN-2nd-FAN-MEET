@@ -279,7 +279,9 @@
     "of": "の",
     "honorific": "さん",
     "drawing": "抽選中...",
-    "confirm": "はじめる"
+    "confirm": "はじめる",
+    "error": "ニックネームの発行に失敗しました。もう一度お試しください。",
+    "retry": "再試行"
   },
   "concert": {
     "entryOpen": "応募受付中",

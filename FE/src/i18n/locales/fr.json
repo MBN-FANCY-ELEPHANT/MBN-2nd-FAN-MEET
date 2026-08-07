@@ -279,7 +279,9 @@
     "of": "de",
     "honorific": "",
     "drawing": "Tirage...",
-    "confirm": "Commencer"
+    "confirm": "Commencer",
+    "error": "Impossible d'attribuer un pseudo. Réessayez.",
+    "retry": "Réessayer"
   },
   "concert": {
     "entryOpen": "Inscriptions ouvertes",

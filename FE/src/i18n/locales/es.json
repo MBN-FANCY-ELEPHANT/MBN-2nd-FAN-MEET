@@ -279,7 +279,9 @@
     "of": "de",
     "honorific": "",
     "drawing": "Sorteando...",
-    "confirm": "Empezar"
+    "confirm": "Empezar",
+    "error": "No se pudo asignar un apodo. Inténtalo de nuevo.",
+    "retry": "Reintentar"
   },
   "concert": {
     "entryOpen": "Inscripción abierta",

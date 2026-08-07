@@ -279,7 +279,9 @@
     "of": "的",
     "honorific": "",
     "drawing": "抽取中...",
-    "confirm": "开始"
+    "confirm": "开始",
+    "error": "昵称分配失败，请重试。",
+    "retry": "重试"
   },
   "concert": {
     "entryOpen": "报名中",

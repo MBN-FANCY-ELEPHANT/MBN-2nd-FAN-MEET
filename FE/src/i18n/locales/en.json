@@ -279,7 +279,9 @@
     "of": "'s",
     "honorific": "",
     "drawing": "Drawing...",
-    "confirm": "Get started"
+    "confirm": "Get started",
+    "error": "Couldn't assign a nickname. Please try again.",
+    "retry": "Try again"
   },
   "concert": {
     "entryOpen": "Entries open",

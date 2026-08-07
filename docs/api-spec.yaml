@@ -1288,9 +1288,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/GatheringSummary'
         - type: object
-          required: [description, eventAt, meetingPoint, fee]
+          required: [eventAt, meetingPoint, fee]
           properties:
-            description: { type: string }
             eventAt: { type: string, format: date-time }
             meetingPoint: { type: string, example: 대전역 }
             fee:

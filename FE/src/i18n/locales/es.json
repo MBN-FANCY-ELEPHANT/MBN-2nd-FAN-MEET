@@ -55,8 +55,8 @@
     },
     "calendar": "Calendario",
     "calendarDetail": "Detalles",
-    "goodsNotice": "Esta plataforma no procesa pagos. Las compras se realizan en la tienda oficial.",
-    "goodsOpenShop": "Abrir tienda oficial",
+    "goodsNotice": "Esta plataforma no procesa pagos.",
+    "goodsOpenShop": "Comprar",
     "goodsCategory": {
       "light": "Lightsticks",
       "apparel": "Ropa",
@@ -166,6 +166,24 @@
     "participants": "Participantes",
     "progress": "{{current}}/{{capacity}}",
     "free": "Gratis"
+  },
+  "checkout": {
+    "title": "Elegir método de pago",
+    "methodLabel": "Método de pago",
+    "method": {
+      "card": "Tarjeta de crédito/débito",
+      "transfer": "Transferencia bancaria",
+      "simple": "Pago simplificado"
+    },
+    "provider": {
+      "naver": "Naver Pay",
+      "kakao": "Kakao Pay"
+    },
+    "quantityLabel": "Cantidad",
+    "quantityDecrease": "Disminuir cantidad",
+    "quantityIncrease": "Aumentar cantidad",
+    "payButton": "Pagar {{amount}}",
+    "successToast": "Compra completada."
   },
   "chat": {
     "title": "Bienie, el asistente de IA",
@@ -322,7 +340,15 @@
     "drawing": "Sorteando...",
     "confirm": "Empezar",
     "error": "No se pudo asignar un apodo. Inténtalo de nuevo.",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "reroll": "Girar de nuevo",
+    "editNickname": "Elegir mi propio apodo",
+    "nicknamePlaceholder": "2 a 30 caracteres",
+    "nicknameSave": "Guardar",
+    "nicknameSaving": "Guardando...",
+    "nicknameCancel": "Cancelar",
+    "nicknameTaken": "Ese apodo ya está en uso.",
+    "nicknameInvalid": "Usa entre 2 y 30 caracteres."
   },
   "concert": {
     "entryOpen": "Inscripción abierta",

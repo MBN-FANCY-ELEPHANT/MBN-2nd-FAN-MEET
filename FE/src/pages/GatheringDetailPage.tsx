@@ -110,14 +110,7 @@ export default function GatheringDetailPage() {
         <div className={styles.intro}>
           <div className={styles.head}>
             <div className={styles.statusRow}>
-              <StatusBadge
-                status={data.status}
-                label={
-                  data.status === "RECRUITING"
-                    ? t("concert.entryOpen")
-                    : undefined
-                }
-              />
+              <StatusBadge status={data.status} />
               <span className={styles.deadline}>
                 {formatDeadline(data.deadline)}
               </span>
@@ -169,10 +162,10 @@ export default function GatheringDetailPage() {
           onClick={() => (applied ? cancel.mutate() : apply.mutate())}
         >
           {applied
-            ? t("concert.cancel")
+            ? t("gathering.cancel")
             : closed
               ? t(`gathering.status.${data.status}`)
-              : t("concert.apply")}
+              : t("gathering.apply")}
         </button>
       </div>
     </div>

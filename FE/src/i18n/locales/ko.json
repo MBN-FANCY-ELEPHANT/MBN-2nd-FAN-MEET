@@ -55,8 +55,8 @@
     },
     "calendar": "캘린더",
     "calendarDetail": "자세히",
-    "goodsNotice": "플랫폼은 금전 거래를 중개하지 않습니다. 구매는 공식 판매처에서 진행됩니다.",
-    "goodsOpenShop": "공식 판매처에서 보기",
+    "goodsNotice": "플랫폼은 금전 거래를 중개하지 않습니다.",
+    "goodsOpenShop": "구매하기",
     "goodsCategory": {
       "light": "응원봉",
       "apparel": "의류",
@@ -159,13 +159,31 @@
       "FULL": "모집 완료",
       "CLOSED": "마감"
     },
-    "apply": "참가 신청하기",
+    "apply": "모집하기",
     "cancel": "신청 취소",
     "applied": "신청 완료",
     "deadline": "~{{date}}",
     "participants": "참여 인원",
     "progress": "{{current}}/{{capacity}}",
     "free": "무료"
+  },
+  "checkout": {
+    "title": "결제 수단 선택",
+    "methodLabel": "결제 수단",
+    "method": {
+      "card": "신용/체크카드",
+      "transfer": "계좌이체",
+      "simple": "간편결제"
+    },
+    "provider": {
+      "naver": "네이버페이",
+      "kakao": "카카오페이"
+    },
+    "quantityLabel": "구매 수량",
+    "quantityDecrease": "수량 줄이기",
+    "quantityIncrease": "수량 늘리기",
+    "payButton": "{{amount}} 결제하기",
+    "successToast": "구매가 완료됐습니다."
   },
   "chat": {
     "title": "AI 도우미 비엔이",
@@ -322,7 +340,15 @@
     "drawing": "추첨 중...",
     "confirm": "시작하기",
     "error": "닉네임 배정에 실패했어요. 다시 시도해 주세요.",
-    "retry": "다시 시도"
+    "retry": "다시 시도",
+    "reroll": "다시 돌리기",
+    "editNickname": "닉네임 직접 정하기",
+    "nicknamePlaceholder": "2~30자로 입력",
+    "nicknameSave": "저장",
+    "nicknameSaving": "저장 중...",
+    "nicknameCancel": "취소",
+    "nicknameTaken": "이미 사용 중인 닉네임이에요.",
+    "nicknameInvalid": "2~30자로 입력해 주세요."
   },
   "concert": {
     "entryOpen": "응모 중",

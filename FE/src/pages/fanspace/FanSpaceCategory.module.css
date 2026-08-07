@@ -8,7 +8,7 @@
 }
 
 .body {
-  padding: 0 var(--page-padding-x);
+  padding: var(--space-5) var(--page-padding-x) 0;
 }
 
 .list {

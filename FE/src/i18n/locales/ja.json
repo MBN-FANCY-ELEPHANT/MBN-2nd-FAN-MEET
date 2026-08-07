@@ -55,8 +55,8 @@
     },
     "calendar": "カレンダー",
     "calendarDetail": "詳細",
-    "goodsNotice": "当プラットフォームは金銭のやり取りを仲介しません。購入は公式ショップで行われます。",
-    "goodsOpenShop": "公式ショップで見る",
+    "goodsNotice": "当プラットフォームは金銭のやり取りを仲介しません。",
+    "goodsOpenShop": "購入する",
     "goodsCategory": {
       "light": "ペンライト",
       "apparel": "アパレル",
@@ -166,6 +166,24 @@
     "participants": "参加人数",
     "progress": "{{current}}/{{capacity}}",
     "free": "無料"
+  },
+  "checkout": {
+    "title": "支払い方法を選択",
+    "methodLabel": "支払い方法",
+    "method": {
+      "card": "クレジット/デビットカード",
+      "transfer": "銀行振込",
+      "simple": "簡単決済"
+    },
+    "provider": {
+      "naver": "ネイバーペイ",
+      "kakao": "カカオペイ"
+    },
+    "quantityLabel": "購入数量",
+    "quantityDecrease": "数量を減らす",
+    "quantityIncrease": "数量を増やす",
+    "payButton": "{{amount}} 支払う",
+    "successToast": "購入が完了しました。"
   },
   "chat": {
     "title": "AIアシスタント ビエニ",
@@ -322,7 +340,15 @@
     "drawing": "抽選中...",
     "confirm": "はじめる",
     "error": "ニックネームの発行に失敗しました。もう一度お試しください。",
-    "retry": "再試行"
+    "retry": "再試行",
+    "reroll": "もう一度回す",
+    "editNickname": "ニックネームを自分で決める",
+    "nicknamePlaceholder": "2〜30文字で入力",
+    "nicknameSave": "保存",
+    "nicknameSaving": "保存中...",
+    "nicknameCancel": "キャンセル",
+    "nicknameTaken": "そのニックネームは既に使われています。",
+    "nicknameInvalid": "2〜30文字で入力してください。"
   },
   "concert": {
     "entryOpen": "応募受付中",

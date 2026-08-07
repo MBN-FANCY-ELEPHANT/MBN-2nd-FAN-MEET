@@ -1,0 +1,14 @@
+[build]
+  base = "FE"
+  command = "npm run api:types && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# React Router 클라이언트 라우팅 — 정적 호스팅은 기본적으로 /home 같은 경로를
+# 새로고침하면 404가 납니다. 모든 경로를 index.html로 돌려보냅니다.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

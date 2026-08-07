@@ -24,7 +24,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 60px;
+  height: 68px;
   display: flex;
   align-items: center;
   border-top: 0.5px solid var(--color-nav-border);
@@ -58,14 +58,14 @@
     hue-rotate(348deg) brightness(99%) contrast(92%);
 }
 
-/* ── 중앙 마이크 FAB ── */
+/* ── 중앙 마이크 FAB — 지름 77px, 위치는 살짝 아래로 ── */
 .mic {
   position: absolute;
   left: 50%;
-  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
-  width: 76px;
-  height: 76px;
+  width: 88px;
+  height: 88px;
   border: none;
   background: none;
   padding: 0;
@@ -77,8 +77,8 @@
   height: 100%;
 }
 
-/* 탭 사이 가운데를 마이크가 차지하므로 라벨이 겹치지 않게 비워둡니다 */
+/* 탭 사이 가운데를 마이크가 차지하므로 라벨이 겹치지 않게 비워둡니다 (마이크 77px + 여유) */
 .spacer {
-  width: 92px;
+  width: 96px;
   flex-shrink: 0;
 }

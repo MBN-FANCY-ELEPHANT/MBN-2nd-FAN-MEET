@@ -47,8 +47,56 @@ public class User {
     @Column(nullable = false, length = 5)
     private Locale locale;
 
+    /** 게스트가 랜딩에서 선택한 스타를 이후 요청에서도 같은 팬 정체성으로 유지합니다. */
+    @Column(name = "favorite_star_id")
+    private Long favoriteStarId;
+
+    /** 실제 데이터 스타가 한 명인 MVP에서도 랜딩의 선택 이름을 그대로 보여주기 위한 표시값입니다. */
+    @Column(name = "favorite_artist_name", length = 60)
+    private String favoriteArtistName;
+
     protected User() {
         // JPA
+    }
+
+    private User(
+            String nickname,
+            String profileImageUrl,
+            Country country,
+            UserRole role,
+            Locale locale,
+            Long favoriteStarId,
+            String favoriteArtistName) {
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+        this.country = country;
+        this.role = role;
+        this.locale = locale;
+        this.favoriteStarId = favoriteStarId;
+        this.favoriteArtistName = favoriteArtistName;
+    }
+
+    /** 비밀번호 없는 팬 시작 흐름에서 사용할 MEMBER 계정을 만듭니다. */
+    public static User guest(
+            String nickname,
+            String profileImageUrl,
+            Country country,
+            Locale locale,
+            Long favoriteStarId,
+            String favoriteArtistName) {
+        return new User(
+                nickname,
+                profileImageUrl,
+                country,
+                UserRole.MEMBER,
+                locale,
+                favoriteStarId,
+                favoriteArtistName);
+    }
+
+    /** 닉네임 검증과 중복 확인은 서비스에서 끝낸 뒤 엔티티에는 확정값만 반영합니다. */
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public Long getId() {
@@ -73,5 +121,13 @@ public class User {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public Long getFavoriteStarId() {
+        return favoriteStarId;
+    }
+
+    public String getFavoriteArtistName() {
+        return favoriteArtistName;
     }
 }

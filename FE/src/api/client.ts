@@ -234,10 +234,10 @@ export const api = {
   getPlay: (starId: number) =>
     request<PlayResponse>(`/api/v1/stars/${starId}/play`),
 
-  // ── 콘텐츠 (기사 · 영상) ──
+  // ── 콘텐츠 (기사 · 영상 · 아티스트 게시물) ──
   getContents: (params: {
     starId: number;
-    type?: "ARTICLE" | "VIDEO";
+    type?: "ARTICLE" | "VIDEO" | "POST";
     live?: boolean;
     page?: number;
     size?: number;

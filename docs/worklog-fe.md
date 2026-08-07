@@ -105,7 +105,7 @@
 | 포맷터 (조회수·상대시각·재생시간) | `src/lib/format.ts` | ✅ 로케일별 만/K 단위 |
 | **뉴스 상세** | `src/pages/ArticleDetailPage.tsx` | ✅ AI 분석 + 용어 툴팁 + 기사에 나온 그 곳 |
 | **영상 상세** | `src/pages/VideoDetailPage.tsx` | ✅ YouTube 임베드 + 구독 + 좋아요 + 공유 |
-| **댓글 화면** | `src/pages/CommentPage.tsx` | ✅ 국가 배지 + 번역 토글 + 하트 |
+| **댓글 화면** | `src/pages/CommentPage.tsx` | ✅ 기사·영상·아티스트 POST 공용, 국가 배지 + 번역 토글 + 하트 |
 | AI 분석 패널 | `src/components/ai/AiPanel.tsx` | ✅ 기사·영상 공용 |
 | 댓글 (Reply) | `src/components/comment/Reply.tsx` | ✅ |
 | 기사 본문 용어 툴팁 | `src/components/article/ArticleBody.tsx` | ✅ `[[용어\|설명]]` 파싱 |

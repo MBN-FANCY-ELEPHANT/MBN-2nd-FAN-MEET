@@ -285,7 +285,7 @@ paths:
         - $ref: '#/components/parameters/StarIdQuery'
         - name: type
           in: query
-          description: 미지정 시 기사·영상을 섞어서 반환합니다 (HOME 아카이브 캐러셀).
+          description: 미지정 시 기사·영상·아티스트 게시물을 최신순으로 반환합니다.
           schema: { $ref: '#/components/schemas/ContentType' }
         - name: live
           in: query
@@ -310,11 +310,12 @@ paths:
   /api/v1/contents/{id}:
     get:
       tags: [Content]
-      summary: 콘텐츠 상세 (기사 또는 영상)
+      summary: 콘텐츠 상세 (기사·영상·아티스트 게시물)
       description: |
         `type` 값에 따라 채워지는 필드가 다릅니다.
         - `ARTICLE` — `body`, `reporterName`, `reporterAvatarUrl`, `places`
         - `VIDEO` — `mediaUrl`, `durationSec`, `live`, `viewerCount`
+        - `POST` — `body`. `author.type=STAR`이며 기존 댓글 API를 그대로 사용합니다.
 
         로그인 상태면 `liked` / `subscribed` 가 실제 값으로 내려옵니다.
       security:
@@ -1251,10 +1252,26 @@ components:
             - { type: string, format: uri }
             - { type: 'null' }
 
-    # ── Content (기사 · 영상) ──
+    # ── Content (기사 · 영상 · 아티스트 게시물) ──
     ContentType:
       type: string
-      enum: [ARTICLE, VIDEO]
+      enum: [ARTICLE, VIDEO, POST]
+
+    ContentAuthorType:
+      type: string
+      description: 콘텐츠를 실제로 작성하거나 게시한 주체.
+      enum: [STAR, CHANNEL, MANAGER]
+
+    ContentAuthor:
+      type: object
+      required: [type, name]
+      properties:
+        type: { $ref: '#/components/schemas/ContentAuthorType' }
+        name: { type: string, example: 임영웅 }
+        profileImageUrl:
+          oneOf:
+            - { type: string, format: uri }
+            - { type: 'null' }
 
     ContentSummary:
       type: object
@@ -1263,7 +1280,8 @@ components:
         - `ARTICLE` → 좌 `channelName`, 우 `publishedAt` 상대 시각
         - `VIDEO` → 좌 `durationSec`, 우 `viewCount`
         - `VIDEO` + `live=true` → 좌 LIVE 배지, 우 `viewerCount`
-      required: [id, type, title, thumbnailUrl, publishedAt, channelName, viewCount, live]
+        - `POST` → 아티스트 작성자와 본문 중심의 SNS형 카드
+      required: [id, type, title, thumbnailUrl, publishedAt, channelName, author, viewCount, likeCount, commentCount, live]
       properties:
         id: { type: integer, format: int64 }
         type: { $ref: '#/components/schemas/ContentType' }
@@ -1271,6 +1289,10 @@ components:
         thumbnailUrl: { type: string, format: uri }
         publishedAt: { type: string, format: date-time }
         channelName: { type: string, example: MBN NEWS }
+        author: { $ref: '#/components/schemas/ContentAuthor' }
+        postBody:
+          oneOf: [{ type: string }, { type: 'null' }]
+          description: POST 본문. ARTICLE/VIDEO에서는 null입니다.
         viewCount: { type: integer }
         likeCount: { type: integer }
         commentCount: { type: integer }
@@ -1303,14 +1325,14 @@ components:
             subscribed:
               type: boolean
               description: 채널 구독 여부. 비로그인 시 항상 false.
-            # ARTICLE 전용
+            # ARTICLE / POST 전용
             body:
               oneOf:
                 - { type: string }
                 - { type: 'null' }
               description: |
-                기사 본문. 용어 하이라이트는 `[[용어|설명]]` 마크업으로 표기하며
-                FE에서 파싱해 툴팁으로 렌더합니다. 별도 API가 없습니다.
+                ARTICLE 본문 또는 POST 게시글 본문. ARTICLE의 용어 하이라이트는
+                `[[용어|설명]]` 마크업으로 표기하며 FE에서 파싱합니다.
             reporterName:
               oneOf: [{ type: string }, { type: 'null' }]
             reporterAvatarUrl:
@@ -1375,6 +1397,7 @@ components:
     # ── 댓글 ──
     Comment:
       type: object
+      description: 콘텐츠(ARTICLE·VIDEO·POST)에 달리는 1단계 댓글. 대댓글은 지원하지 않습니다.
       required: [id, contentId, author, body, likeCount, liked, createdAt]
       properties:
         id: { type: integer, format: int64 }

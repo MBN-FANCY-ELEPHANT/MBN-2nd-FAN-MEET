@@ -16,7 +16,7 @@
 ## 0. 현재 라우트 (`src/app/App.tsx` 기준, 23개)
 
 ```
-/                        랜딩 — 아티스트 13명 선택 + 닉네임 룰렛(게스트 계정 발급)
+/                        랜딩 — 아티스트 3명 선택 + 닉네임 룰렛(게스트 계정 발급)
 /home                    메인 — LIVE 배너 · 소식 스레드 · 마이크 FAB
 /fanspace                팬공간 — 투표 배너 · 메뉴 타일 · 캘린더
 /feed                    소식 — AI 요약 + 아티스트 글 + 롱폼
@@ -123,7 +123,7 @@
 | 라우팅 · 음성/로그인 오버레이 상태 | `src/app/App.tsx` | ✅ 라우트 23개 + VoiceAssistant 전역 |
 | **디자인 토큰** | `src/styles/tokens.css` | ✅ **Figma 실측값 (375px, `#F58220`)** |
 | 전역 스타일 | `src/styles/global.css` | ✅ `.scroll-x` / `.grid-2` |
-| **랜딩 (아티스트 선택)** | `src/pages/LandingPage.tsx` | ✅ 13명 그리드 + 사전순 + 검색 |
+| **랜딩 (아티스트 선택)** | `src/pages/LandingPage.tsx` | ✅ **3명** 그리드 + 사전순 + 검색 (시드와 1:1) |
 | **메인** | `src/pages/MainPage.tsx` | ✅ LIVE 배너 + 소식 스레드 + 큰 마이크 FAB |
 | **팬공간** | `src/pages/FanSpacePage.tsx` | ✅ 투표 배너 + 3메뉴 + 캘린더 타임라인 |
 | **팬공간 카테고리** | `src/pages/fanspace/FanSpaceCategoryPage.tsx` | ✅ 모집·공연·굿즈·투표 (상단 탭바 없음) |
@@ -228,14 +228,19 @@
   **게스트 계정 + 토큰**을 발급하므로 확정 즉시 좋아요·댓글·응모·모임 신청이 됩니다.
   닉네임도 서버가 중복 없이 배정합니다 (`docs/api-changes-guest-identity.md`).
 
-### 시드 스타 이름 치환 — 임시 조치
+### 시드 스타 이름 치환 — ⚠️ **이제는 걷어내야 하는 코드입니다**
 
 `personalizeArtistNames()` (`src/features/artist/selectedArtist.ts`) 를
 `api/client.ts` 의 `request()` 에서 **모든 응답에 한 번** 적용합니다.
-스타가 `STAR_ID = 1` 하나뿐이라 캘린더·모임·콘텐츠 제목에 `임영웅` 이 박혀 있는데,
-랜딩에서 `이찬원` 을 고른 사용자에게 그대로 보이면 데모가 깨집니다.
 BE 도 AI 답변에서 같은 치환을 합니다(`ChatService.rewriteArtist`).
-**다중 스타가 생기면 양쪽 다 걷어내세요.**
+
+원래는 스타가 1명뿐인데 랜딩에서 13명 중 고르게 해서 생긴 shim 이었습니다.
+**2026-08-08 시드가 3명(성리·이찬원·박서진)이 되면서 전제가 사라졌습니다** —
+이제 이 코드는 아티스트마다 실제로 다른 데이터를 **틀린 이름으로 덮어씁니다.**
+
+같은 이유로 `STAR_ID = 1` (`src/app/constants.ts`, 20개 파일에서 사용) 도 남아 있어
+**앱에서 누구를 골라도 성리 데이터만 보입니다.** DB·API 는 이미 아티스트별로 분리돼
+있으니 FE 만 따라가면 됩니다. 제거 순서와 영향 범위는 **`docs/DB구성.md` §5**.
 
 ---
 
@@ -389,7 +394,7 @@ STT 없이 확인 가능한 부분은 폴백 텍스트 입력창으로 대신 �
 
 ### ② 실제 이미지 (P2)
 
-굿즈·공연 포스터가 전부 `example_hero.png`, 랜딩 프로필 13명이 `example_profile.png`
+굿즈·공연 포스터가 전부 `example_hero.png`, 랜딩 프로필이 `example_profile.png`
 한 장입니다. 심사에서 가장 먼저 눈에 띄는 부분입니다.
 
 ### ③ 죽은 파일 정리 (P3)

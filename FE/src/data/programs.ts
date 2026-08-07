@@ -17,20 +17,18 @@ export type Artist = {
   programs: string[];
 };
 
+/**
+ * ⚠️ **BE 시드(`BE/src/main/resources/data.sql` 의 star)와 1:1 이어야 합니다.**
+ *
+ * 13명에서 3명으로 줄였습니다. 데이터가 없는 아티스트를 고르면 화면이 통째로 비어
+ * 데모가 그 자리에서 끝나기 때문입니다. 이름은 `star.name` ·
+ * `artist_stage.artist_name` · `EvidenceFinder.DOMAIN_WORDS` 와
+ * **글자 하나까지 같아야** 음성 "OOO 무대 보여줘" 가 매칭됩니다.
+ */
 export const ARTISTS: Artist[] = [
-  { name: "임영웅", programs: [] },
+  { name: "성리", programs: [] },
   { name: "이찬원", programs: [] },
-  { name: "박군", programs: [] },
-  { name: "영탁", programs: [] },
-  { name: "송가인", programs: [] },
   { name: "박서진", programs: ["한일톱텐쇼", "한일가왕전", "현역가왕2"] },
-  { name: "김용빈", programs: [] },
-  { name: "린", programs: ["한일톱텐쇼", "한일가왕전", "인생앨범-예스터데이"] },
-  { name: "장민호", programs: ["우리들의 트로트"] },
-  { name: "김다현", programs: ["한일톱텐쇼", "한일가왕전", "보이스트롯"] },
-  { name: "김태연", programs: ["한일가왕전", "보이스트롯"] },
-  { name: "홍진영", programs: ["불타는 트롯맨"] },
-  { name: "허찬미", programs: ["우리들의 트로트"] },
 ];
 
 /**

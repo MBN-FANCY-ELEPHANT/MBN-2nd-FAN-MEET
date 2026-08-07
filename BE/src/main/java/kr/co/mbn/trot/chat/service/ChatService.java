@@ -40,13 +40,15 @@ import kr.co.mbn.trot.user.domain.Locale;
 @Transactional(readOnly = true)
 public class ChatService {
 
+    // ⚠️ 특정 아티스트 이름을 넣지 않습니다. 시드 스타가 3명이라 한 명을 예시로 박으면
+    //    나머지 두 명을 고른 사용자에게 남의 이름이 추천 질문으로 뜹니다.
     private static final List<String> SUGGESTED_KO = List.of(
-            "이번 주 임영웅 출연 방송 알려줘",
+            "이번 주 출연 방송 알려줘",
             "참여할 수 있는 팬 모임 있어?",
             "최근 무대 영상 추천해줘");
 
     private static final List<String> SUGGESTED_EN = List.of(
-            "What broadcasts is Lim Young-woong on this week?",
+            "What broadcasts are on this week?",
             "Are there any fan gatherings I can join?",
             "Recommend a recent stage video");
 

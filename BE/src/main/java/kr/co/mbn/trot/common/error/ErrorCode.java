@@ -27,6 +27,7 @@ public enum ErrorCode {
 
     // 팬 닉네임은 댓글과 모임에서 사용자 식별값으로 노출되므로 중복을 허용하지 않습니다.
     NICKNAME_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다."),
+    NICKNAME_POOL_EXHAUSTED(HttpStatus.CONFLICT, "사용 가능한 동물 닉네임이 없습니다."),
 
     // 모임 참여
     GATHERING_ALREADY_APPLIED(HttpStatus.CONFLICT, "이미 신청한 모임입니다."),

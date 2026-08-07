@@ -1,7 +1,9 @@
 package kr.co.mbn.trot.auth.service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +29,18 @@ import kr.co.mbn.trot.user.repository.UserRepository;
 @Transactional(readOnly = true)
 public class AuthService {
 
-    // 화면의 룰렛 느낌은 유지하되 숫자 접미사로 실제 사용자 간 충돌 가능성을 낮춥니다.
-    private static final List<String> NICKNAME_PREFIXES =
-            List.of("다정한", "빛나는", "신나는", "든든한", "설레는", "행복한");
-    private static final List<String> NICKNAME_NOUNS =
-            List.of("햄스터", "별사탕", "응원봉", "해바라기", "꿀벌", "구름");
+    // 숫자나 수식어를 붙이지 않습니다. 댓글에서 짧고 또렷하게 보이는 한글 동물 이름만 배정합니다.
+    private static final List<String> ANIMAL_NICKNAMES = List.of(
+            "부엉이", "코끼리", "다람쥐", "고슴도치", "햄스터", "펭귄", "곰", "토끼",
+            "수달", "여우", "고양이", "강아지", "병아리", "너구리", "판다", "알파카",
+            "오리너구리", "카피바라", "미어캣", "쿼카", "친칠라", "라쿤", "사막여우", "북극곰",
+            "돌고래", "해달", "물개", "바다사자", "고래", "범고래", "상어", "가오리",
+            "기린", "얼룩말", "하마", "코뿔소", "사자", "호랑이", "표범", "치타",
+            "캥거루", "코알라", "원숭이", "고릴라", "낙타", "라마", "사슴", "순록",
+            "독수리", "참새", "앵무새", "공작", "플라밍고", "두루미", "백조", "오리",
+            "거북이", "도마뱀", "개구리", "도롱뇽", "나비", "무당벌레", "꿀벌", "반딧불이");
     private static final String DEFAULT_PROFILE_IMAGE =
             "https://placehold.co/80x80/F58220/FFFFFF?text=FAN";
-    private static final int NICKNAME_ATTEMPTS = 30;
 
     private final UserRepository userRepository;
     private final StarRepository starRepository;
@@ -96,18 +102,19 @@ public class AuthService {
         return UserResponse.from(user);
     }
 
-    /** 짧고 읽기 쉬운 팬 닉네임을 만들고 시드·게스트 계정과 겹치지 않는 값만 반환합니다. */
+    /** 이미 사용 중인 이름을 제외한 한글 동물 이름 중 하나를 무작위로 반환합니다. */
     private String generateUniqueNickname() {
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        for (int attempt = 0; attempt < NICKNAME_ATTEMPTS; attempt++) {
-            String nickname = NICKNAME_PREFIXES.get(random.nextInt(NICKNAME_PREFIXES.size()))
-                    + NICKNAME_NOUNS.get(random.nextInt(NICKNAME_NOUNS.size()))
-                    + random.nextInt(1000, 10000);
-            if (!userRepository.existsByNickname(nickname)) {
-                return nickname;
-            }
+        Set<String> usedNicknames = userRepository.findNicknamesIn(ANIMAL_NICKNAMES).stream()
+                .collect(Collectors.toSet());
+        List<String> availableNicknames = ANIMAL_NICKNAMES.stream()
+                .filter(nickname -> !usedNicknames.contains(nickname))
+                .toList();
+
+        if (availableNicknames.isEmpty()) {
+            throw new ApiException(ErrorCode.NICKNAME_POOL_EXHAUSTED);
         }
-        throw new ApiException(ErrorCode.INTERNAL_ERROR, "랜덤 닉네임 생성에 실패했습니다.");
+
+        return availableNicknames.get(ThreadLocalRandom.current().nextInt(availableNicknames.size()));
     }
 
     /** 국가를 따로 보내지 않은 경우 선택 언어에 가장 자연스러운 기본 국가 배지를 정합니다. */

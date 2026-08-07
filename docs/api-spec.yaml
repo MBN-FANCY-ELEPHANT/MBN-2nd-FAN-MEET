@@ -949,7 +949,8 @@ paths:
       summary: 스타 선택 기반 게스트 시작
       description: |
         랜딩에서 고른 스타를 기준으로 게스트 사용자를 생성합니다.
-        서버가 중복되지 않는 랜덤 닉네임을 정하고, 이후 쓰기 API에 사용할 Bearer 토큰을 반환합니다.
+        서버가 숫자 없는 한글 동물 이름 중 이미 사용 중인 이름을 제외해 무작위로 배정하고,
+        이후 쓰기 API에 사용할 Bearer 토큰을 반환합니다.
       security: []
       requestBody:
         required: true
@@ -962,6 +963,11 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/AuthResponse' }
+        '409':
+          description: 사용 가능한 동물 닉네임이 모두 소진됨
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
         '400':
           description: 요청 값 오류
           content:

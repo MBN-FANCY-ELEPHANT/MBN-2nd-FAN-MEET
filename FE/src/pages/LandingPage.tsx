@@ -5,7 +5,11 @@ import { useNavigate } from "react-router-dom";
 import ArtistCard from "../components/artist/ArtistCard";
 import LanguageSheet from "../components/layout/LanguageSheet";
 import Icon from "../components/ui/Icon";
-import { allArtists, searchArtists } from "../data/programs";
+import {
+  allArtists,
+  isSelectableArtist,
+  searchArtists,
+} from "../data/programs";
 import { setSelectedArtist } from "../features/artist/selectedArtist";
 import NicknameDraw from "../features/auth/NicknameDraw";
 import { LOCALE_LABEL, currentLocale } from "../i18n";
@@ -110,6 +114,7 @@ export default function LandingPage() {
                   variant="row"
                   meta={hit.programs.join(" · ")}
                   selected={picked === hit.name}
+                  disabled={!isSelectableArtist(hit.name)}
                   onSelect={setPicked}
                 />
               ))}
@@ -128,6 +133,7 @@ export default function LandingPage() {
               name={name}
               variant="preview"
               selected={picked === name}
+              disabled={!isSelectableArtist(name)}
               onSelect={setPicked}
             />
           ))}

@@ -19,6 +19,7 @@ type Props = {
   /** preview: 아티스트 그리드 · row: 검색 결과 */
   variant: "preview" | "row";
   selected?: boolean;
+  disabled?: boolean;
   /** row 에서만 씁니다 — 출연 프로그램 등 보조 정보 */
   meta?: string;
   onSelect: (name: string) => void;
@@ -28,11 +29,14 @@ export default function ArtistCard({
   name,
   variant,
   selected = false,
+  disabled = false,
   meta,
   onSelect,
 }: Props) {
   const avatar = (
-    <span className={styles.avatar}>
+    <span
+      className={`${styles.avatar} ${disabled ? styles.avatarDisabled : ""}`}
+    >
       {/* ⚠️ 랜딩이 274명을 한 화면에 뿌립니다. 지연 로딩·비동기 디코딩이 없으면
           초기 렌더에서 브라우저가 눈에 띄게 버벅입니다 (실제로 겪음). */}
       <img
@@ -56,6 +60,7 @@ export default function ArtistCard({
         type="button"
         className={`${styles.card} ${styles.row} ${selected ? styles.selected : ""}`}
         onClick={() => onSelect(name)}
+        disabled={disabled}
         aria-pressed={selected}
       >
         {avatar}
@@ -72,6 +77,7 @@ export default function ArtistCard({
       type="button"
       className={`${styles.card} ${styles[variant]} ${selected ? styles.selected : ""}`}
       onClick={() => onSelect(name)}
+      disabled={disabled}
       aria-pressed={selected}
     >
       {avatar}

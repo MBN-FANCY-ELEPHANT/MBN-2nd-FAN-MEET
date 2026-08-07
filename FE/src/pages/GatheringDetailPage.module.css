@@ -1,14 +1,13 @@
 /**
- * 모임 상세 (Figma 7:1923). 값은 전부 get_design_context 실측입니다.
- * 좌표: 헤더 0 / 커버 45(h211) / 본문 272 / 안내문구 562 / 액션바 694
+ * 공연 응모 상세 (Figma 317:8643). 값은 전부 get_design_context 실측입니다.
+ * 좌표: 헤더 0 / 커버 52(h211) / 본문 279 / 안내문구 569 / 액션바 694
  */
 
 .page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* 탭 화면(-56.9deg)과 각도가 다릅니다 */
-  background: var(--gradient-page-detail);
+  background: var(--color-white);
   /* 하단 고정 액션바에 콘텐츠가 가리지 않도록 */
   padding-bottom: 180px;
 }
@@ -24,7 +23,7 @@
   display: block;
 }
 
-/* 본문 — Figma top 272 = 커버(45+211=256) + 16 */
+/* 본문 — Figma top 279 = 커버(52+211=263) + 16 */
 .body {
   padding: var(--space-4) var(--page-padding-x) 0;
   display: flex;
@@ -32,11 +31,24 @@
   gap: var(--space-3);
 }
 
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
 .head {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-4);
+}
+
+.statusRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
@@ -53,35 +65,11 @@
   color: var(--color-text-primary);
 }
 
-/* 호스트와 마감일은 크기는 같고 굵기·색이 다릅니다 (Figma 7:1934 / 7:1935) */
-.hostRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.deadline {
   font-size: var(--text-small-size);
   line-height: 1.4;
-}
-
-.host {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  font-weight: 500;
-  color: var(--color-text-muted);
-}
-
-.deadline {
   font-weight: 400;
   color: var(--color-text-faint);
-}
-
-.official {
-  padding: 1px 5px;
-  border-radius: var(--radius-xs);
-  background: var(--color-primary);
-  color: var(--color-white);
-  font-size: 10px;
-  font-weight: 700;
 }
 
 /* 날짜 / 장소 / 비용 카드 — 그림자 없이 흰 배경만 (Figma 7:1936) */
@@ -113,52 +101,29 @@
 }
 
 .notice {
+  margin-top: 13px;
   font-size: var(--text-body-size);
   font-weight: 500;
   line-height: 1.5;
   color: var(--color-text-secondary);
 }
 
-/* ⚠️ 금전 거래 미중개 고지 — 정책상 반드시 노출 (CLAUDE.md 정책 4).
-   디자인의 안내 문구와 톤을 구분하려고 배경을 깔았습니다. */
-.paymentWarning {
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--color-background);
-  border: 1px solid var(--color-divider);
-  font-size: var(--text-caption-size);
-  line-height: 1.5;
-  color: var(--color-text-secondary);
-}
-
-.description {
-  margin-top: var(--space-2);
-  font-size: var(--text-body-size);
-  line-height: 1.7;
-  color: var(--color-text-primary);
-  white-space: pre-line;
-}
-
 /**
  * 하단 액션바.
  *
- * ⚠️ **디자인에서 의도적으로 벗어난 지점입니다.** Figma 는 812px 목업 안에서 top 694 에
- * 놓여 있지만, 실제 데이터는 설명이 길어 스크롤이 생깁니다. CTA 가 스크롤 아래로 밀리면
- * 골든 패스 시연에서 "신청 버튼을 찾아 스크롤하는" 장면이 생기므로 하단 고정으로 둡니다.
+ * Figma의 bottom 16px 위치를 유지하되, 실제 데이터가 길어져도 CTA를 찾을 수 있도록 고정합니다.
  */
 .actionBar {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 0;
+  bottom: var(--space-4);
   width: min(100vw, var(--app-width));
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding: var(--space-4) var(--page-padding-x) var(--space-5);
+  padding: 0 var(--page-padding-x);
   background: var(--color-white);
-  border-top: 1px solid var(--color-divider);
-  box-shadow: var(--shadow-sheet);
 }
 
 .progress {

@@ -17,7 +17,7 @@
 | Home | `GET /api/v1/stars/{starId}/home` | ✅ 응답 필드 `contents` (기사·영상 혼합) |
 | Home | `GET /api/v1/stars/{starId}/play` | ✅ 성지순례+응원하기 집계 |
 | Schedule | `GET /api/v1/schedules`, `/{id}` | ✅ |
-| **Content** | `GET /api/v1/contents`, `/{id}`, `/{id}/related` | ✅ `Archive` 대체 완료 |
+| **Content** | `GET /api/v1/contents`, `/{id}`, `/{id}/related` | ✅ ARTICLE·VIDEO·POST + 작성 주체 |
 | **Reaction** | `POST·DELETE /api/v1/contents/{id}/like` | ✅ 멱등 |
 | **Reaction** | `POST·DELETE /api/v1/comments/{id}/like` | ✅ 멱등 |
 | **Comment** | `GET·POST /api/v1/contents/{id}/comments` | ✅ 국가 배지 포함 |
@@ -192,6 +192,12 @@
 `201 → 204 → 201 → 409 → 409 → 204`, 인원 `34 → 35 → 34 → 35 → 35 → 35 → 34`. ✅
 
 `User.favoriteStarId` · `User.favoriteArtistName` 추가 — 랜딩의 스타 선택을 서버 사용자와 연결합니다.
+
+게스트 랜덤 닉네임은 숫자 접미사 없이 **한글 동물 이름만** 사용합니다. 현재 DB에서 이미 사용
+중인 동물 이름을 후보에서 제외한 뒤 남은 이름 중 하나를 무작위 배정하며, 풀이 모두 소진되면
+`409 NICKNAME_POOL_EXHAUSTED`를 반환합니다.
+
+`ContentType.POST`와 `ContentAuthorType`을 추가했습니다. 아티스트 SNS형 게시물도 기존 Content 좋아요·댓글 API를 그대로 사용하며 대댓글은 두지 않습니다.
 
 ---
 

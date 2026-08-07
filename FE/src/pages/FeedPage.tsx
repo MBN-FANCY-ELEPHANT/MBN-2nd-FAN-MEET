@@ -11,22 +11,22 @@ import { FEED_POSTS } from "../data/feed";
 import type { FeedPost } from "../data/feed";
 import { getSelectedArtist } from "../features/artist/selectedArtist";
 import { currentLocale } from "../i18n";
-import { formatCount, formatDuration } from "../lib/format";
+import { formatCount, formatDuration, formatRelativeTime } from "../lib/format";
+import { contentRoute } from "../lib/contentRoute";
 import styles from "./FeedPage.module.css";
 
 /**
  * 소식 탭 — 활동 기록 스레드 (Figma 19:912 / 19:1351).
  *
  * 한 타임라인에 **세 종류**가 섞입니다:
- *  - `ARTIST`   아티스트 본인 글. 사진 + 본문 + 좋아요 + 댓글
+ *  - `POST`     실제 Content API의 아티스트 본인 글. 사진 + 본문 + 좋아요 + 댓글
  *  - `MANAGER`  팬매니저(비엔이) 공지. 연한 오렌지 말풍선, 댓글 없음
  *  - **무대 롱폼 영상** 실제 `Content(VIDEO)` 카드. 탭하면 영상 상세로
  *
  * 그리고 스레드 맨 위에 **AI 소식 요약**이 고정으로 붙습니다.
  * 카드를 열 개 읽지 않아도 "이번 주에 무슨 일이 있었는지"를 알 수 있어야 하기 때문입니다.
  *
- * ⚠️ 아티스트 글·공지는 `src/data/feed.ts` 의 **정적 더미**입니다 (BE 에 `Post` 도메인 없음).
- *    반면 영상과 AI 요약은 **실제 API** 입니다 — 섞여 있으니 걷어낼 때 헷갈리지 마세요.
+ * 아티스트 글과 영상은 Content API, 팬매니저 공지만 정적 안내 데이터입니다.
  */
 
 export default function FeedPage() {
@@ -49,6 +49,13 @@ export default function FeedPage() {
   });
   const longforms = videos?.content ?? [];
 
+  const { data: posts } = useQuery({
+    queryKey: ["contents", STAR_ID, "POST", "feed"],
+    queryFn: () => api.getContents({ starId: STAR_ID, type: "POST", size: 20 }),
+    staleTime: 5 * 60 * 1000,
+  });
+  const artistPosts = posts?.content ?? [];
+
   return (
     <div className={styles.page}>
       <HeaderBack />
@@ -58,11 +65,14 @@ export default function FeedPage() {
         <NewsDigestCard locale={locale} />
 
         <div className={styles.list}>
-          {FEED_POSTS.map((post, index) => (
+          {artistPosts.map((post, index) => (
             <div key={post.id}>
-              <PostCard post={post} artistName={artistName} />
+              <ArtistPostCard post={post} artistName={artistName} />
               {/* 글 하나 걸러 하나씩 무대 영상을 끼웁니다 */}
               {longforms[index] && <LongformCard content={longforms[index]} />}
+              {FEED_POSTS[index] && (
+                <ManagerPostCard post={FEED_POSTS[index]} artistName={artistName} />
+              )}
             </div>
           ))}
         </div>
@@ -132,11 +142,7 @@ function NewsDigestCard({ locale }: { locale: string }) {
                   <Link
                     key={source.contentId}
                     className={styles.digestSource}
-                    to={
-                      source.type === "VIDEO"
-                        ? `/videos/${source.contentId}`
-                        : `/articles/${source.contentId}`
-                    }
+                    to={contentRoute({ id: source.contentId, type: source.type })}
                   >
                     {source.title}
                   </Link>
@@ -199,7 +205,56 @@ function LongformCard({ content }: { content: ContentSummary }) {
   );
 }
 
-function PostCard({
+function ArtistPostCard({
+  post,
+  artistName,
+}: {
+  post: ContentSummary;
+  artistName: string;
+}) {
+  const { t } = useTranslation();
+  const author = post.author.name || artistName;
+
+  return (
+    <article className={styles.post}>
+      <div className={styles.postHead}>
+        <div className={styles.author}>
+          <img
+            className={styles.avatar}
+            src={post.author.profileImageUrl ?? post.thumbnailUrl}
+            alt=""
+          />
+          <div className={styles.authorText}>
+            <span className={styles.authorName}>{author}</span>
+            <span className={styles.authorTime}>
+              {formatRelativeTime(post.publishedAt)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <img className={styles.photo} src={post.thumbnailUrl} alt="" />
+      <p className={styles.postBody}>{post.postBody ?? post.title}</p>
+
+      <div className={styles.actions}>
+        <span className={styles.action}>
+          <Icon name="heartFilled" size={24} />
+          <span>{formatCount(post.likeCount ?? 0)}</span>
+        </span>
+        <Link
+          className={styles.action}
+          to={`/posts/${post.id}/comments`}
+          aria-label={t("comment.title")}
+        >
+          <Icon name="chatBubble" size={24} />
+          <span>{formatCount(post.commentCount ?? 0)}</span>
+        </Link>
+      </div>
+    </article>
+  );
+}
+
+function ManagerPostCard({
   post,
   artistName,
 }: {

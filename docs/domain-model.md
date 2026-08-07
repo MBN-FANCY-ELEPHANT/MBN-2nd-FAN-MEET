@@ -91,7 +91,7 @@ MVP는 **스타 1명(임영웅) 고정**으로 운영하되, 모든 콘텐츠 �
 
 ---
 
-### Content — MBN 콘텐츠 (기사 · 영상)
+### Content — 콘텐츠 (기사 · 영상 · 아티스트 게시물)
 
 **기존 `ArchiveContent`를 대체합니다.** HOME `아카이브` 캐러셀이 기사와 영상을 **한 목록에
 섞어서** 보여주므로 단일 테이블 + 타입 판별자 구조가 맞습니다.
@@ -101,7 +101,10 @@ MVP는 **스타 1명(임영웅) 고정**으로 운영하되, 모든 콘텐츠 �
 | `id` | Long PK | |
 | `starId` | Long FK | |
 | `channelId` | Long FK | `MBN NEWS` |
-| `type` | Enum | **`ARTICLE` / `VIDEO`** |
+| `type` | Enum | **`ARTICLE` / `VIDEO` / `POST`** |
+| `authorType` | Enum | `STAR` / `CHANNEL` / `MANAGER` — 실제 작성 주체 |
+| `authorName` | String | 게시 화면에 노출할 작성자명 |
+| `authorProfileImageUrl` | String? | 작성자 프로필 이미지 |
 | `title` | String | |
 | `thumbnailUrl` | String | |
 | `publishedAt` | Instant | 정렬 기준 (최신순) |
@@ -142,7 +145,7 @@ MVP는 **스타 1명(임영웅) 고정**으로 운영하되, 모든 콘텐츠 �
 
 ### Comment — 댓글
 
-디자인의 `Reply` 컴포넌트. 대댓글은 없습니다.
+디자인의 `Reply` 컴포넌트. `ARTICLE`·`VIDEO`·`POST`가 동일한 댓글 구조를 사용하며 대댓글은 없습니다.
 
 | 필드 | 타입 | 설명 |
 |---|---|---|

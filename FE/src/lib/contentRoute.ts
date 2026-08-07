@@ -9,7 +9,7 @@ import type { ContentSummary } from "../api/client";
 export function contentRoute(
   content: Pick<ContentSummary, "id" | "type">,
 ): string {
-  return content.type === "ARTICLE"
-    ? `/articles/${content.id}`
-    : `/videos/${content.id}`;
+  if (content.type === "ARTICLE") return `/articles/${content.id}`;
+  if (content.type === "VIDEO") return `/videos/${content.id}`;
+  return `/posts/${content.id}/comments`;
 }

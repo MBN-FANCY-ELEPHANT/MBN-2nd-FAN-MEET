@@ -1,0 +1,183 @@
+#!/bin/bash
+set -euxo pipefail
+
+dnf install -y docker
+systemctl enable --now docker
+mkdir -p /opt/trot-backend
+chmod 700 /opt/trot-backend
+
+# Caddy가 공개 포트를 전담하고 인증서를 자동 갱신하도록 Backend와 같은 Docker 네트워크에 둡니다.
+docker network inspect trot-backend-network >/dev/null 2>&1 || docker network create trot-backend-network
+docker volume inspect trot-caddy-data >/dev/null 2>&1 || docker volume create trot-caddy-data
+cat >/opt/trot-backend/Caddyfile <<'CADDY_CONFIG'
+${backend_domain} {
+  encode zstd gzip
+  reverse_proxy trot-backend:${backend_port}
+}
+CADDY_CONFIG
+
+docker rm -f trot-caddy >/dev/null 2>&1 || true
+docker run -d \
+  --name trot-caddy \
+  --restart unless-stopped \
+  --network trot-backend-network \
+  -p 80:80 \
+  -p 443:443 \
+  -v /opt/trot-backend/Caddyfile:/etc/caddy/Caddyfile:ro \
+  -v trot-caddy-data:/data \
+  caddy:2.10-alpine
+
+# GitHub Actions는 SSM으로 이 스크립트만 호출합니다. 시크릿은 EC2가 Parameter Store에서 직접 읽습니다.
+cat >/usr/local/bin/deploy-trot-backend <<'DEPLOY_SCRIPT'
+#!/bin/bash
+set -Eeuo pipefail
+
+IMAGE_URI="$1"
+AWS_REGION="$${2:-${aws_region}}"
+PARAMETER_PREFIX="$${3:-${ssm_parameter_prefix}}"
+APP_DIR="/opt/trot-backend"
+NETWORK_NAME="trot-backend-network"
+POSTGRES_CONTAINER="trot-postgres"
+CURRENT_CONTAINER="trot-backend"
+PREVIOUS_CONTAINER="trot-backend-previous"
+BACKEND_PORT="${backend_port}"
+PROXY_CONTAINER="trot-caddy"
+
+mkdir -p "$APP_DIR"
+chmod 700 "$APP_DIR"
+
+parameter() {
+  aws ssm get-parameter \
+    --region "$AWS_REGION" \
+    --name "$PARAMETER_PREFIX/$1" \
+    --with-decryption \
+    --query 'Parameter.Value' \
+    --output text
+}
+
+optional_parameter() {
+  parameter "$1" 2>/dev/null || true
+}
+
+DB_NAME="$(optional_parameter DB_NAME)"
+DB_NAME="$${DB_NAME:-trot}"
+DB_USERNAME="$(parameter DB_USERNAME)"
+DB_PASSWORD="$(parameter DB_PASSWORD)"
+AUTH_SECRET="$(parameter AUTH_SECRET)"
+AI_PROVIDER="$(optional_parameter AI_PROVIDER)"
+AI_PROVIDER="$${AI_PROVIDER:-stub}"
+OPENAI_API_KEY="$(optional_parameter OPENAI_API_KEY)"
+OPENAI_CHAT_MODEL="$(optional_parameter OPENAI_CHAT_MODEL)"
+OPENAI_CHAT_MODEL="$${OPENAI_CHAT_MODEL:-gpt-4o-mini}"
+OPENAI_MAX_OUTPUT_TOKENS="$(optional_parameter OPENAI_MAX_OUTPUT_TOKENS)"
+OPENAI_MAX_OUTPUT_TOKENS="$${OPENAI_MAX_OUTPUT_TOKENS:-400}"
+OPENAI_DAILY_CALL_LIMIT="$(optional_parameter OPENAI_DAILY_CALL_LIMIT)"
+OPENAI_DAILY_CALL_LIMIT="$${OPENAI_DAILY_CALL_LIMIT:-800}"
+APP_CORS_ALLOWED_ORIGINS="$(parameter APP_CORS_ALLOWED_ORIGINS)"
+
+if [[ -z "$DB_USERNAME" || -z "$DB_PASSWORD" || -z "$AUTH_SECRET" ]]; then
+  echo "DB_USERNAME, DB_PASSWORD and AUTH_SECRET parameters must not be blank." >&2
+  exit 1
+fi
+
+docker network inspect "$NETWORK_NAME" >/dev/null 2>&1 || docker network create "$NETWORK_NAME"
+docker volume inspect trot-postgres-data >/dev/null 2>&1 || docker volume create trot-postgres-data
+
+if ! docker inspect "$POSTGRES_CONTAINER" >/dev/null 2>&1; then
+  docker run -d \
+    --name "$POSTGRES_CONTAINER" \
+    --restart unless-stopped \
+    --network "$NETWORK_NAME" \
+    -e POSTGRES_DB="$DB_NAME" \
+    -e POSTGRES_USER="$DB_USERNAME" \
+    -e POSTGRES_PASSWORD="$DB_PASSWORD" \
+    -v trot-postgres-data:/var/lib/postgresql/data \
+    postgres:16-alpine
+fi
+
+for attempt in $(seq 1 30); do
+  if docker exec "$POSTGRES_CONTAINER" pg_isready -U "$DB_USERNAME" -d "$DB_NAME" >/dev/null 2>&1; then
+    break
+  fi
+  if [[ "$attempt" == "30" ]]; then
+    echo "PostgreSQL did not become ready." >&2
+    exit 1
+  fi
+  sleep 2
+done
+
+SCHEMA_EXISTS="$(docker exec "$POSTGRES_CONTAINER" psql -U "$DB_USERNAME" -d "$DB_NAME" -tAc "SELECT to_regclass('public.star') IS NOT NULL" | tr -d '[:space:]')"
+if [[ "$SCHEMA_EXISTS" == "t" ]]; then
+  DB_DDL_AUTO="update"
+  DB_INIT_MODE="never"
+else
+  # 빈 DB에서만 Hibernate가 스키마를 만들고 data.sql 데모 데이터를 한 번 넣습니다.
+  DB_DDL_AUTO="create"
+  DB_INIT_MODE="always"
+fi
+
+umask 077
+cat >"$APP_DIR/backend.env" <<ENV_FILE
+SPRING_PROFILES_ACTIVE=prod
+DB_URL=jdbc:postgresql://$POSTGRES_CONTAINER:5432/$DB_NAME
+DB_USERNAME=$DB_USERNAME
+DB_PASSWORD=$DB_PASSWORD
+DB_DDL_AUTO=$DB_DDL_AUTO
+DB_INIT_MODE=$DB_INIT_MODE
+AUTH_SECRET=$AUTH_SECRET
+AI_PROVIDER=$AI_PROVIDER
+OPENAI_API_KEY=$OPENAI_API_KEY
+OPENAI_CHAT_MODEL=$OPENAI_CHAT_MODEL
+OPENAI_MAX_OUTPUT_TOKENS=$OPENAI_MAX_OUTPUT_TOKENS
+OPENAI_DAILY_CALL_LIMIT=$OPENAI_DAILY_CALL_LIMIT
+APP_CORS_ALLOWED_ORIGINS=$APP_CORS_ALLOWED_ORIGINS
+ENV_FILE
+
+REGISTRY="$${IMAGE_URI%%/*}"
+aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$REGISTRY"
+docker pull "$IMAGE_URI"
+
+docker rm -f "$PREVIOUS_CONTAINER" >/dev/null 2>&1 || true
+if docker inspect "$CURRENT_CONTAINER" >/dev/null 2>&1; then
+  docker rename "$CURRENT_CONTAINER" "$PREVIOUS_CONTAINER"
+  docker stop "$PREVIOUS_CONTAINER" >/dev/null
+fi
+
+if ! docker run -d \
+  --name "$CURRENT_CONTAINER" \
+  --restart unless-stopped \
+  --network "$NETWORK_NAME" \
+  --env-file "$APP_DIR/backend.env" \
+  "$IMAGE_URI"; then
+  docker rename "$PREVIOUS_CONTAINER" "$CURRENT_CONTAINER" 2>/dev/null || true
+  docker start "$CURRENT_CONTAINER" 2>/dev/null || true
+  exit 1
+fi
+
+DEPLOYED=false
+for attempt in $(seq 1 60); do
+  # 공개 HTTPS 상태와 무관하게 Docker 내부에서 새 Backend 자체의 상태를 먼저 검증합니다.
+  if docker exec "$PROXY_CONTAINER" wget -qO- "http://$CURRENT_CONTAINER:$BACKEND_PORT/actuator/health" | grep -q '"status":"UP"'; then
+    DEPLOYED=true
+    break
+  fi
+  sleep 5
+done
+
+if [[ "$DEPLOYED" != "true" ]]; then
+  echo "New Backend container failed its health check; restoring the previous container." >&2
+  docker logs --tail 200 "$CURRENT_CONTAINER" || true
+  docker rm -f "$CURRENT_CONTAINER" || true
+  if docker inspect "$PREVIOUS_CONTAINER" >/dev/null 2>&1; then
+    docker rename "$PREVIOUS_CONTAINER" "$CURRENT_CONTAINER"
+    docker start "$CURRENT_CONTAINER"
+  fi
+  exit 1
+fi
+
+docker rm "$PREVIOUS_CONTAINER" >/dev/null 2>&1 || true
+docker image prune -f >/dev/null
+echo "Backend deployment completed: $IMAGE_URI"
+DEPLOY_SCRIPT
+
+chmod 700 /usr/local/bin/deploy-trot-backend

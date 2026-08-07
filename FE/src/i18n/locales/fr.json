@@ -56,8 +56,8 @@
     },
     "calendar": "Calendrier",
     "calendarDetail": "Détails",
-    "goodsNotice": "Cette plateforme ne gère aucun paiement. Les achats se font sur la boutique officielle.",
-    "goodsOpenShop": "Ouvrir la boutique officielle",
+    "goodsNotice": "Cette plateforme ne gère aucun paiement.",
+    "goodsOpenShop": "Acheter",
     "goodsCategory": {
       "light": "Lightsticks",
       "apparel": "Vêtements",
@@ -167,6 +167,24 @@
     "participants": "Participants",
     "progress": "{{current}}/{{capacity}}",
     "free": "Gratuit"
+  },
+  "checkout": {
+    "title": "Choisir un moyen de paiement",
+    "methodLabel": "Moyen de paiement",
+    "method": {
+      "card": "Carte bancaire",
+      "transfer": "Virement bancaire",
+      "simple": "Paiement simplifié"
+    },
+    "provider": {
+      "naver": "Naver Pay",
+      "kakao": "Kakao Pay"
+    },
+    "quantityLabel": "Quantité",
+    "quantityDecrease": "Diminuer la quantité",
+    "quantityIncrease": "Augmenter la quantité",
+    "payButton": "Payer {{amount}}",
+    "successToast": "Achat effectué."
   },
   "chat": {
     "title": "Bienie, l'assistant IA",
@@ -323,7 +341,15 @@
     "drawing": "Tirage...",
     "confirm": "Commencer",
     "error": "Impossible d'attribuer un pseudo. Réessayez.",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "reroll": "Relancer",
+    "editNickname": "Choisir mon propre pseudo",
+    "nicknamePlaceholder": "2 à 30 caractères",
+    "nicknameSave": "Enregistrer",
+    "nicknameSaving": "Enregistrement...",
+    "nicknameCancel": "Annuler",
+    "nicknameTaken": "Ce pseudo est déjà pris.",
+    "nicknameInvalid": "Utilisez 2 à 30 caractères."
   },
   "concert": {
     "entryOpen": "Inscriptions ouvertes",

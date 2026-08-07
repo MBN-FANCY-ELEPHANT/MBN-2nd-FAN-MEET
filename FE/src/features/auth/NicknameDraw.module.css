@@ -96,6 +96,74 @@
   opacity: 0.55;
 }
 
+/* 다시 돌리기 — 확인 버튼과 같은 모양이되 부수 동작이라 투명도를 낮춰 덜 강조합니다 */
+.reroll {
+  margin-top: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  opacity: 0.5;
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.reroll:disabled {
+  opacity: 0.25;
+}
+
+/* 닉네임 수기 수정 진입 — 텍스트만, 가장 덜 강조 */
+.editToggle {
+  margin-top: var(--space-2);
+  padding: var(--space-2);
+  border: none;
+  background: none;
+  font-size: var(--text-caption-size, 13px);
+  font-weight: 600;
+  text-decoration: underline;
+  color: var(--landing-text-muted);
+}
+
+.editToggle:disabled {
+  opacity: 0.4;
+}
+
+.editRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  min-height: 56px;
+  width: 100%;
+}
+
+.editInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  border-bottom: 2px solid var(--color-primary);
+  background: none;
+  padding: var(--space-1) 0;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-align: right;
+  color: var(--color-primary);
+}
+
+.editInput:focus {
+  outline: none;
+}
+
+.editError {
+  min-height: 20px;
+  font-size: var(--text-caption-size, 13px);
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
 /* 후보 소진·예약 실패 안내 */
 .error {
   min-height: 56px;

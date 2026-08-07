@@ -12,7 +12,7 @@ resource "aws_instance" "backend" {
     ecr_registry         = split("/", aws_ecr_repository.backend.repository_url)[0]
     ssm_parameter_prefix = local.ssm_parameter_path
     backend_port         = local.backend_port
-    public_port          = local.public_backend_port
+    backend_domain       = var.backend_domain
   })
 
   user_data_replace_on_change = true

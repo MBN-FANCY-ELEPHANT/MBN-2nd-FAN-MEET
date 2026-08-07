@@ -2,6 +2,11 @@ aws_region        = "ap-northeast-2"
 project_name      = "trot-fandom"
 environment       = "prod"
 github_repository = "MBN-FANCY-ELEPHANT/MBN-2nd-FAN-MEET"
+github_environment = "production"
+backend_domain     = "api.example.com"
+
+# 조직이 OIDC subject에 immutable repository IDs를 사용하도록 설정했다면 CloudTrail의 실제 값을 지정합니다.
+# github_oidc_repository_subject = "OWNER@123456789/REPOSITORY@987654321"
 
 instance_type      = "t3.micro"
 root_volume_size   = 20

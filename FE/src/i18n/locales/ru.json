@@ -56,8 +56,8 @@
     },
     "calendar": "Календарь",
     "calendarDetail": "Подробнее",
-    "goodsNotice": "Платформа не обрабатывает платежи. Покупки — в официальном магазине.",
-    "goodsOpenShop": "Открыть магазин",
+    "goodsNotice": "Платформа не обрабатывает платежи.",
+    "goodsOpenShop": "Купить",
     "goodsCategory": {
       "light": "Лайтстики",
       "apparel": "Одежда",
@@ -167,6 +167,24 @@
     "participants": "Участники",
     "progress": "{{current}}/{{capacity}}",
     "free": "Бесплатно"
+  },
+  "checkout": {
+    "title": "Выберите способ оплаты",
+    "methodLabel": "Способ оплаты",
+    "method": {
+      "card": "Кредитная/дебетовая карта",
+      "transfer": "Банковский перевод",
+      "simple": "Простая оплата"
+    },
+    "provider": {
+      "naver": "Naver Pay",
+      "kakao": "Kakao Pay"
+    },
+    "quantityLabel": "Количество",
+    "quantityDecrease": "Уменьшить количество",
+    "quantityIncrease": "Увеличить количество",
+    "payButton": "Оплатить {{amount}}",
+    "successToast": "Покупка завершена."
   },
   "chat": {
     "title": "Биени, ИИ-ассистент",
@@ -323,7 +341,15 @@
     "drawing": "Розыгрыш...",
     "confirm": "Начать",
     "error": "Не удалось присвоить никнейм. Попробуйте ещё раз.",
-    "retry": "Повторить"
+    "retry": "Повторить",
+    "reroll": "Крутить ещё раз",
+    "editNickname": "Придумать свой никнейм",
+    "nicknamePlaceholder": "От 2 до 30 символов",
+    "nicknameSave": "Сохранить",
+    "nicknameSaving": "Сохранение...",
+    "nicknameCancel": "Отмена",
+    "nicknameTaken": "Этот никнейм уже занят.",
+    "nicknameInvalid": "Введите от 2 до 30 символов."
   },
   "concert": {
     "entryOpen": "Приём заявок",

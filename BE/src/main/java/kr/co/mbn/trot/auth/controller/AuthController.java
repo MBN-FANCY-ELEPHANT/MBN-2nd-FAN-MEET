@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ import jakarta.validation.Valid;
 import kr.co.mbn.trot.auth.dto.AuthResponse;
 import kr.co.mbn.trot.auth.dto.GuestRegistrationRequest;
 import kr.co.mbn.trot.auth.dto.LoginRequest;
+import kr.co.mbn.trot.auth.dto.NicknameSamplesResponse;
 import kr.co.mbn.trot.auth.dto.NicknameUpdateRequest;
 import kr.co.mbn.trot.auth.service.AuthService;
 import kr.co.mbn.trot.user.dto.UserResponse;
@@ -34,6 +36,13 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public AuthResponse registerGuest(@Valid @RequestBody GuestRegistrationRequest request) {
         return authService.registerGuest(request);
+    }
+
+    /** 룰렛 회전 연출용 샘플 닉네임. 실제 배정과 무관한 장식값이라 저장도 중복검사도 안 합니다. */
+    @GetMapping("/auth/nickname-samples")
+    public NicknameSamplesResponse getNicknameSamples(
+            @RequestParam(defaultValue = "16") int count) {
+        return new NicknameSamplesResponse(authService.generateNicknameSamples(count));
     }
 
     @GetMapping("/auth/demo-users")

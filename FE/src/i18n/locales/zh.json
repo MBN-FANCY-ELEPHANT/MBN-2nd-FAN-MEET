@@ -56,8 +56,8 @@
     },
     "calendar": "日历",
     "calendarDetail": "详情",
-    "goodsNotice": "本平台不提供支付服务，购买请前往官方商店。",
-    "goodsOpenShop": "前往官方商店",
+    "goodsNotice": "本平台不提供支付服务。",
+    "goodsOpenShop": "立即购买",
     "goodsCategory": {
       "light": "应援棒",
       "apparel": "服饰",
@@ -167,6 +167,24 @@
     "participants": "参与人数",
     "progress": "{{current}}/{{capacity}}",
     "free": "免费"
+  },
+  "checkout": {
+    "title": "选择支付方式",
+    "methodLabel": "支付方式",
+    "method": {
+      "card": "信用卡/借记卡",
+      "transfer": "银行转账",
+      "simple": "简单支付"
+    },
+    "provider": {
+      "naver": "Naver Pay",
+      "kakao": "Kakao Pay"
+    },
+    "quantityLabel": "购买数量",
+    "quantityDecrease": "减少数量",
+    "quantityIncrease": "增加数量",
+    "payButton": "支付 {{amount}}",
+    "successToast": "购买完成。"
   },
   "chat": {
     "title": "AI 助手 比妮",
@@ -323,7 +341,15 @@
     "drawing": "抽取中...",
     "confirm": "开始",
     "error": "昵称分配失败，请重试。",
-    "retry": "重试"
+    "retry": "重试",
+    "reroll": "重新抽取",
+    "editNickname": "自己设置昵称",
+    "nicknamePlaceholder": "请输入2~30个字符",
+    "nicknameSave": "保存",
+    "nicknameSaving": "保存中...",
+    "nicknameCancel": "取消",
+    "nicknameTaken": "该昵称已被使用。",
+    "nicknameInvalid": "请输入2~30个字符。"
   },
   "concert": {
     "entryOpen": "报名中",

@@ -28,16 +28,35 @@ import TipListPage from "../pages/TipListPage";
 import VideoDetailPage from "../pages/VideoDetailPage";
 import { STAR_ID } from "./constants";
 
+const SPLASH_SEEN_KEY = "trot.splashSeen";
+
+function shouldShowSplash(): boolean {
+  try {
+    return sessionStorage.getItem(SPLASH_SEEN_KEY) !== "true";
+  } catch {
+    return true;
+  }
+}
+
 export default function App() {
   // 음성 오버레이와 로그인 시트는 라우트가 아니라 앱 전역 상태입니다 — 어느 화면에서 열어도
   // 현재 화면 위에 시트로 뜨고, 닫으면 원래 화면으로 돌아옵니다 (디자인과 동일).
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
-  const [splashOpen, setSplashOpen] = useState(true);
+  const [splashOpen, setSplashOpen] = useState(shouldShowSplash);
+
+  function finishSplash() {
+    try {
+      sessionStorage.setItem(SPLASH_SEEN_KEY, "true");
+    } catch {
+      // 저장이 막힌 환경에서도 앱 진입은 계속합니다.
+    }
+    setSplashOpen(false);
+  }
 
   return (
     <>
-      {splashOpen && <SplashPage onFinish={() => setSplashOpen(false)} />}
+      {splashOpen && <SplashPage onFinish={finishSplash} />}
 
       <Routes>
         {/* 진입점은 랜딩페이지입니다 — 방송 프로그램에서 아티스트를 고른 뒤 팬덤 공간으로

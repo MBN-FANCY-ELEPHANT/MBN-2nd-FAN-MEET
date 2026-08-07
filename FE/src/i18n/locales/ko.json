@@ -164,7 +164,6 @@
     "deadline": "~{{date}}",
     "participants": "참여 인원",
     "progress": "{{current}}/{{capacity}}",
-    "paymentWarning": "플랫폼은 금전 거래를 중개하지 않습니다. 입금 전 운영자 정보를 반드시 확인하세요.",
     "free": "무료"
   },
   "chat": {
@@ -283,6 +282,7 @@
     "confirm": "시작하기"
   },
   "concert": {
+    "entryOpen": "응모 중",
     "when": "공연 일시",
     "where": "장소",
     "seats": "응모 매수",

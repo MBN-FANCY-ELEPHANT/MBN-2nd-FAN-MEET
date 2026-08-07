@@ -23,20 +23,21 @@ import kr.co.mbn.trot.common.error.ErrorCode;
 @Configuration
 public class SecurityConfig {
 
-    private final List<String> allowedOrigins;
+    private final List<String> allowedOriginPatterns;
     private final DemoAuthFilter demoAuthFilter;
 
     public SecurityConfig(
-            @Value("${app.cors.allowed-origins}") String allowedOrigins,
+            @Value("${app.cors.allowed-origins}") String allowedOriginPatterns,
             DemoAuthFilter demoAuthFilter) {
-        this.allowedOrigins = List.of(allowedOrigins.split(","));
+        this.allowedOriginPatterns = List.of(allowedOriginPatterns.split(","));
         this.demoAuthFilter = demoAuthFilter;
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(allowedOrigins);
+        // Vite가 5173 다음의 빈 포트를 선택해도 로컬 개발 요청이 403으로 막히지 않게 합니다.
+        config.setAllowedOriginPatterns(allowedOriginPatterns);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

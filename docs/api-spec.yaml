@@ -810,7 +810,33 @@ paths:
 
   # ─────────────────────────── Auth ───────────────────────────
   # 간이 인증입니다. 회원가입·비밀번호·소셜 로그인을 구현하지 않습니다.
-  # 데모 계정을 목록에서 골라 원클릭 로그인하며, 토큰은 만료가 없습니다.
+  # 스타 선택 시 게스트 계정과 토큰을 발급하며, 기존 데모 로그인도 호환을 위해 유지합니다.
+  /api/v1/auth/guest:
+    post:
+      tags: [Auth]
+      summary: 스타 선택 기반 게스트 시작
+      description: |
+        랜딩에서 고른 스타를 기준으로 게스트 사용자를 생성합니다.
+        서버가 중복되지 않는 랜덤 닉네임을 정하고, 이후 쓰기 API에 사용할 Bearer 토큰을 반환합니다.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/GuestRegistrationRequest' }
+      responses:
+        '201':
+          description: 게스트 생성 완료
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '400':
+          description: 요청 값 오류
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
   /api/v1/auth/demo-users:
     get:
       tags: [Auth]
@@ -863,13 +889,41 @@ paths:
               schema: { $ref: '#/components/schemas/User' }
         '401': { $ref: '#/components/responses/Unauthorized' }
 
+  /api/v1/users/me/nickname:
+    patch:
+      tags: [Auth]
+      summary: 내 닉네임 변경
+      description: 게스트 시작 후 사용자가 직접 고른 닉네임으로 변경합니다.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/NicknameUpdateRequest' }
+      responses:
+        '200':
+          description: 변경된 사용자 정보
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '400':
+          description: 닉네임 형식 오류
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '409':
+          description: 이미 사용 중인 닉네임
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
 # ══════════════════════════ Components ══════════════════════════
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-      bearerFormat: JWT
+      bearerFormat: HMAC-signed opaque token
 
   parameters:
     IdPath:
@@ -979,6 +1033,33 @@ components:
         verified: { type: boolean }
         followerCount: { type: integer }
 
+    GuestRegistrationRequest:
+      type: object
+      required: [starId, artistName]
+      properties:
+        starId:
+          type: integer
+          format: int64
+          description: 현재 데이터 조회에 사용할 스타 ID
+        artistName:
+          type: string
+          minLength: 1
+          maxLength: 60
+          example: 김용빈
+          description: 랜딩에서 사용자가 고른 스타의 표시 이름
+        locale: { $ref: '#/components/schemas/Locale' }
+        country: { $ref: '#/components/schemas/Country' }
+
+    NicknameUpdateRequest:
+      type: object
+      required: [nickname]
+      properties:
+        nickname:
+          type: string
+          minLength: 2
+          maxLength: 30
+          example: 용빈바라기
+
     User:
       type: object
       required: [id, nickname, profileImageUrl, country, role, locale]
@@ -989,6 +1070,14 @@ components:
         country: { $ref: '#/components/schemas/Country' }
         role: { type: string, enum: [MEMBER, ADMIN] }
         locale: { $ref: '#/components/schemas/Locale' }
+        favoriteStarId:
+          type: [integer, 'null']
+          format: int64
+          description: 게스트 시작 시 선택한 스타 ID. 기존 데모 계정은 null입니다.
+        favoriteArtistName:
+          type: [string, 'null']
+          example: 김용빈
+          description: 랜딩에 표시되는 선택 스타 이름. 기존 데모 계정은 null입니다.
 
     AuthResponse:
       type: object
@@ -1199,9 +1288,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/GatheringSummary'
         - type: object
-          required: [description, eventAt, meetingPoint, fee]
+          required: [eventAt, meetingPoint, fee]
           properties:
-            description: { type: string }
             eventAt: { type: string, format: date-time }
             meetingPoint: { type: string, example: 대전역 }
             fee:

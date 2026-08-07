@@ -10,6 +10,7 @@ import kr.co.mbn.trot.gathering.domain.GatheringType;
 /**
  * docs/api-spec.yaml 의 {@code Gathering} 스키마와 1:1 대응.
  * 스펙에서 {@code allOf: [GatheringSummary, ...]} 이므로 요약 필드를 모두 포함합니다.
+ * 상세 화면에 중복 노출되던 description은 API 응답에서 제외합니다.
  */
 public record GatheringResponse(
         Long id,
@@ -23,7 +24,6 @@ public record GatheringResponse(
         LocalDate deadline,
         String hostNickname,
         boolean official,
-        String description,
         Instant eventAt,
         String meetingPoint,
         int fee,
@@ -46,7 +46,6 @@ public record GatheringResponse(
                 g.getDeadline(),
                 g.getHost().getNickname(),
                 g.isOfficial(),
-                g.getDescription(),
                 g.getEventAt(),
                 g.getMeetingPoint(),
                 g.getFee(),

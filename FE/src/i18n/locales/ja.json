@@ -164,7 +164,6 @@
     "deadline": "〜{{date}}",
     "participants": "参加人数",
     "progress": "{{current}}/{{capacity}}",
-    "paymentWarning": "当プラットフォームは金銭のやり取りを仲介しません。送金前に必ず主催者情報をご確認ください。",
     "free": "無料"
   },
   "chat": {
@@ -283,6 +282,7 @@
     "confirm": "はじめる"
   },
   "concert": {
+    "entryOpen": "応募受付中",
     "when": "公演日時",
     "where": "会場",
     "seats": "応募枚数",

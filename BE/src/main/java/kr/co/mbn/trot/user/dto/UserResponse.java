@@ -12,7 +12,10 @@ public record UserResponse(
         String profileImageUrl,
         Country country,
         UserRole role,
-        Locale locale
+        Locale locale,
+        // 게스트가 선택한 스타를 재접속 후에도 복원할 수 있도록 사용자 응답에 함께 제공합니다.
+        Long favoriteStarId,
+        String favoriteArtistName
 ) {
 
     public static UserResponse from(User u) {
@@ -22,6 +25,8 @@ public record UserResponse(
                 u.getProfileImageUrl(),
                 u.getCountry(),
                 u.getRole(),
-                u.getLocale());
+                u.getLocale(),
+                u.getFavoriteStarId(),
+                u.getFavoriteArtistName());
     }
 }

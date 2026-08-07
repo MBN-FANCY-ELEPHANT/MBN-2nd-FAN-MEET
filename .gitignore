@@ -33,6 +33,9 @@ BE/.gradle/
 BE/out/
 BE/bin/
 BE/logs/
+
+# 로컬 검증에서 프로젝트 안에 지정한 Gradle 캐시는 소스 변경사항이 아닙니다.
+.gradle-*/
 BE/*.log
 BE/data/
 

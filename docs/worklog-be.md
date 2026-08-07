@@ -3,7 +3,7 @@
 > `backend-dev` 서브에이전트와 백엔드 작업을 하는 세션이 **시작 시 읽고, 종료 시 갱신**하는 문서입니다.
 > 전체 맥락은 `docs/HANDOFF.md` 를 먼저 보세요.
 
-**최종 갱신:** 2026-08-07 · **소식 요약 추가 + 전면 점검. 로그인 500 수정 (§2-1)**
+**최종 갱신:** 2026-08-08 · **스타 선택 기반 게스트 인증·닉네임 변경 및 팬 참여 통합 검증 완료 (§2-2)**
 
 > ⚠️ **먼저 읽으세요:** `docs/design-spec.md`(무엇을 만들지) · `docs/ai-stack.md`(AI 작업 시)
 
@@ -34,7 +34,8 @@
 | Place | `GET /api/v1/places`, `/{id}` | ✅ |
 | Tip | `GET /api/v1/tips`, `/{id}` | ✅ |
 | Search | `GET /api/v1/search` | ✅ 카테고리별 제목 LIKE 검색 |
-| **Auth** | `GET /api/v1/auth/demo-users`, `POST /login`, `GET /users/me` | ✅ 간이 인증 |
+| **Auth** | `POST /api/v1/auth/guest`, `PATCH /users/me/nickname` | ✅ 랜덤 닉네임·스타 선택 기반 게스트 인증 |
+| **Auth** | `GET /api/v1/auth/demo-users`, `POST /login`, `GET /users/me` | ✅ 기존 데모 인증 호환 유지 |
 
 **삭제된 계약**: `/api/v1/archives*`, `/api/v1/auth/signup`, `/api/v1/chat/tts`, `/api/v1/chat/stt`
 (음성 입출력은 브라우저 Web Speech API 로 처리 — 서버 경유가 없습니다)
@@ -47,6 +48,8 @@
 `Channel` · `Content`(구 ArchiveContent) · `ContentPlace` · `Comment` ·
 `CommentTranslation` · `AiAnalysis`(+`AiAnalysisItem`) · `Subscription` · `Reaction` ·
 `ChatSession` · `ChatMessage`(+`ChatCitation`) · `Place` · `Tip` · `User.country`
+
+`User.favoriteStarId` · `User.favoriteArtistName` 추가 — 랜딩의 스타 선택을 서버 사용자와 연결합니다.
 
 ---
 
@@ -85,6 +88,18 @@
 `GET /gatherings/{id}` 가 비로그인 시 401 을 반환했습니다. 컨트롤러가 `myApplication` 계산에
 `requireUserId()` 를 쓰고 있었기 때문입니다 (`findUserId().orElse(null)` 로 교체).
 서비스 계층은 이미 null 을 처리하고 있었으므로 컨트롤러만 수정했습니다.
+
+## 2-2. 게스트 팬 식별 연결 (2026-08-08)
+
+- 랜딩의 스타 선택을 `POST /api/v1/auth/guest`로 받아 실제 `User`와 Bearer 토큰을 발급합니다.
+- 랜덤 닉네임은 서버가 중복 검사 후 생성하며 `PATCH /api/v1/users/me/nickname`으로 변경합니다.
+- 선택 스타의 데이터 ID와 표시 이름을 사용자에 저장해 재접속과 AI 채팅에서 같은 정체성을 씁니다.
+- 기존 좋아요·댓글·댓글 좋아요·모임 신청 API를 중복 구현하지 않고 새 게스트 토큰에 연결했습니다.
+- API 계약 상세는 `docs/api-changes-guest-identity.md`에 별도로 기록했습니다.
+
+`GuestFanFlowIntegrationTests`에서 게스트 생성 → 내 정보 → 닉네임 변경 → 모임 신청 → 채팅 세션 →
+콘텐츠 좋아요 → 댓글 작성 → 상세 및 댓글 목록 카운트 확인을 한 흐름으로 검증했습니다.
+`./gradlew clean build --no-daemon` 결과 테스트 3건, 실패 0건으로 `BUILD SUCCESSFUL`입니다.
 
 ---
 

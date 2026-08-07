@@ -1,7 +1,8 @@
 /**
  * 팬 신원 — **로그인 대체**.
  *
- * 랜딩에서 아티스트를 고르면 랜덤 닉네임을 배정해 그것으로 신원을 삼습니다.
+ * 랜딩에서 아티스트를 고르면 서버가 관리하는 유일한 닉네임을 예약해 그것으로
+ * 신원을 삼습니다 (`NicknameDraw.tsx`, `GET/POST /api/v1/nicknames/*`).
  * 회원가입·비밀번호가 없고 `localStorage` 에만 남으므로 **같은 기기에서만** 유지됩니다.
  *
  * ⚠️ 서버 인증이 아닙니다. BE 의 간이 인증(HMAC 토큰)과는 별개이고, 쓰기 API 는
@@ -10,28 +11,6 @@
  */
 
 const STORAGE_KEY = "trot.fanIdentity";
-
-/** 귀엽고 짧은 호칭. 룰렛에 돌릴 후보입니다. */
-export const NICKNAME_POOL = [
-  "부엉이",
-  "코끼리",
-  "남편",
-  "아내",
-  "다람쥐",
-  "고슴도치",
-  "햄스터",
-  "펭귄",
-  "곰돌이",
-  "토끼",
-  "수달",
-  "여우",
-  "고양이",
-  "강아지",
-  "병아리",
-  "너구리",
-  "판다",
-  "알파카",
-];
 
 export type FanIdentity = {
   /** 응원 아티스트 이름 */
@@ -59,9 +38,4 @@ export function setFanIdentity(identity: FanIdentity | null): void {
   } catch {
     // 저장 실패해도 이번 세션 동안은 화면에 그대로 쓸 수 있습니다.
   }
-}
-
-/** 후보 중 하나를 뽑습니다. */
-export function drawNickname(): string {
-  return NICKNAME_POOL[Math.floor(Math.random() * NICKNAME_POOL.length)];
 }

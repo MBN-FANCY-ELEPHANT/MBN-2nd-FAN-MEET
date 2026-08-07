@@ -28,7 +28,8 @@
     "digestTitle": "今週のニュースまとめ",
     "digestSources": "要約に使ったニュース",
     "digestNotice": "MBN公式AIアシスタントがMBNコンテンツのみをもとにまとめました。",
-    "longform": "ステージ長編"
+    "longform": "ステージ長編",
+    "managerNotice": "ファンマネージャーのお知らせはMBN AIアシスタントのビエニーが作成します。アーティスト本人の投稿ではありません。"
   },
   "fanspace": {
     "title": "活動記録",
@@ -381,9 +382,24 @@
   "gatheringChat": {
     "aiBadge": "MBN AIアシスタント ビエニー",
     "me": "自分",
-    "placeholder": "{{nickname}}さん、気になることをどうぞ",
-    "sampleNotice": "参加者の会話は例として表示しています。実際に回答するのはMBN AIアシスタントのビエニーです。",
+    "placeholder": "コメントを残してください。",
     "notApplied": "参加申し込みをされた方だけが入れるチャットルームです。",
-    "goApply": "募集の詳細を見る"
+    "goApply": "募集の詳細を見る",
+    "aiSummaryTitle": "AI分析",
+    "aiSummaryLead": "AIがトークルームを分析した内容です。",
+    "topic": {
+      "route": "移動",
+      "meet": "集合",
+      "join": "参加",
+      "cause": "寄付先",
+      "scale": "募金規模",
+      "disclosure": "公開"
+    },
+    "value": {
+      "meet": "{{place}} · {{when}}",
+      "join": "{{people}} · 参加費 {{fee}}",
+      "scale": "1人 {{fee}}から · {{people}} 参加",
+      "disclosureDefault": "募金の内訳は終了後に公開されます。"
+    }
   }
 }

@@ -28,7 +28,8 @@
     "digestTitle": "This week at a glance",
     "digestSources": "Sources used",
     "digestNotice": "Written by MBN's AI assistant from MBN content only.",
-    "longform": "Full stage video"
+    "longform": "Full stage video",
+    "managerNotice": "Fan manager notices are written by Bienie, MBN's AI assistant — not by the artist."
   },
   "fanspace": {
     "title": "Activity",
@@ -381,9 +382,24 @@
   "gatheringChat": {
     "aiBadge": "Bienie, MBN AI assistant",
     "me": "You",
-    "placeholder": "{{nickname}}, ask anything",
-    "sampleNotice": "Participant messages are shown as examples. Replies come from Bienie, MBN's AI assistant.",
+    "placeholder": "Leave a message.",
     "notApplied": "This chat room is only for people who signed up.",
-    "goApply": "View gathering details"
+    "goApply": "View gathering details",
+    "aiSummaryTitle": "AI summary",
+    "aiSummaryLead": "Here is what AI found in this chat room.",
+    "topic": {
+      "route": "Route",
+      "meet": "Meeting point",
+      "join": "Joining",
+      "cause": "Cause",
+      "scale": "Scale",
+      "disclosure": "Disclosure"
+    },
+    "value": {
+      "meet": "{{place}} · {{when}}",
+      "join": "{{people}} · fee {{fee}}",
+      "scale": "From {{fee}} per person · {{people}} joined",
+      "disclosureDefault": "Donation records are published after the drive ends."
+    }
   }
 }

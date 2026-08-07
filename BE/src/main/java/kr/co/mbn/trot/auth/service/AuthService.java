@@ -1,5 +1,7 @@
 package kr.co.mbn.trot.auth.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
@@ -100,6 +102,23 @@ public class AuthService {
                 .orElseThrow(() -> new ApiException(ErrorCode.USER_NOT_FOUND));
         user.changeNickname(nickname);
         return UserResponse.from(user);
+    }
+
+    /**
+     * 닉네임 룰렛 <b>회전 연출용</b> 샘플. 저장도 중복검사도 하지 않습니다.
+     *
+     * <p>화면에서 이름이 빠르게 바뀌는 동안 보여줄 장식값이라 실제 배정과 무관합니다.
+     * 다만 <b>같은 후보 풀에서</b> 뽑아야 회전이 멈추는 순간 어색하지 않습니다 —
+     * 다른 어휘로 돌다가 갑자기 동물 이름으로 확정되면 연출이 끊겨 보입니다.
+     *
+     * <p>이미 쓰인 이름을 굳이 빼지 않습니다. 어차피 화면에 스쳐 지나가는 값이고,
+     * 여기서 DB 를 조회하면 랜딩 진입마다 불필요한 왕복이 생깁니다.
+     */
+    public List<String> generateNicknameSamples(int count) {
+        int size = Math.min(Math.max(count, 1), ANIMAL_NICKNAMES.size());
+        List<String> shuffled = new ArrayList<>(ANIMAL_NICKNAMES);
+        Collections.shuffle(shuffled, ThreadLocalRandom.current());
+        return List.copyOf(shuffled.subList(0, size));
     }
 
     /** 이미 사용 중인 이름을 제외한 한글 동물 이름 중 하나를 무작위로 반환합니다. */

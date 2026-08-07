@@ -177,15 +177,33 @@ INSERT INTO content (id, star_id, channel_id, type, author_type, author_name, au
 
  (13, 1, 2, 'POST', 'STAR', '임영웅', '/example_thumb.png', '오늘 훠궈 먹었어요 ^^',
     '/example_thumb.png',
-    TIMESTAMP WITH TIME ZONE '2026-08-08 03:00:00+00', 0, 12300, 1,
+    TIMESTAMP WITH TIME ZONE '2026-08-07 09:00:00+00', 0, 12300, 1,
     '오늘 훠궈 먹었어요 ^^', NULL, NULL, NULL, NULL, FALSE, NULL),
 
  (14, 1, 2, 'POST', 'STAR', '임영웅', '/example_thumb.png', '무대 준비 중입니다',
     '/example_thumb.png',
-    TIMESTAMP WITH TIME ZONE '2026-08-08 00:00:00+00', 0, 9800, 1,
-    '무대 준비 중입니다. 곧 만나요!', NULL, NULL, NULL, NULL, FALSE, NULL);
+    TIMESTAMP WITH TIME ZONE '2026-08-07 04:00:00+00', 0, 9800, 1,
+    '무대 준비 중입니다. 곧 만나요!', NULL, NULL, NULL, NULL, FALSE, NULL),
 
-ALTER TABLE content ALTER COLUMN id RESTART WITH 15;
+ -- ⚠️ 팬매니저 공지 — 소식 스레드의 세 번째 종류입니다 (아티스트 글 / 공지 / 롱폼).
+ --    `author_type='MANAGER'` 이면 FE 가 마스코트 아바타 + 종 아이콘 + 연한 오렌지
+ --    말풍선으로 렌더합니다 (Figma 27:6288).
+ -- ⚠️ **작성 주체는 AI 도우미 "비엔이" 이며 스타 본인이 아닙니다** (기획서 5-2).
+ --    공지 문안에 아티스트 1인칭을 쓰지 마세요 — 그 순간 사칭이 됩니다.
+ -- thumbnail_url 은 목록 폴백용이고, 공지 카드는 사진을 렌더하지 않습니다.
+ (15, 1, 2, 'POST', 'MANAGER', '팬매니저', '/bienie-banner.png', '8월 27일 공연 일정 추가 안내',
+    '/example_thumb.png',
+    TIMESTAMP WITH TIME ZONE '2026-08-07 07:00:00+00', 0, 12300, 2,
+    '8월 27일에 공연 일정이 새로 열립니다. 응모는 공연 화면에서 하실 수 있어요.',
+    NULL, NULL, NULL, NULL, FALSE, NULL),
+
+ (16, 1, 2, 'POST', 'MANAGER', '팬매니저', '/bienie-banner.png', '버스 대절 모집 마감 안내',
+    '/example_thumb.png',
+    TIMESTAMP WITH TIME ZONE '2026-08-07 01:00:00+00', 0, 8100, 1,
+    '대전 출발 버스 대절 모집이 8월 25일에 마감됩니다. 남은 자리는 모집 화면에서 확인해 주세요.',
+    NULL, NULL, NULL, NULL, FALSE, NULL);
+
+ALTER TABLE content ALTER COLUMN id RESTART WITH 17;
 
 -- ─────────────────────────── ContentPlace ───────────────────────────
 -- 뉴스 상세 하단 "기사에 나온 그 곳" 캐러셀.
@@ -253,9 +271,13 @@ INSERT INTO comment (id, content_id, author_id, body, like_count, created_at, de
  (5, 2, 3, '노래 왜 이리 잘함? 라이브가 음원이랑 똑같아요.', 254, TIMESTAMP WITH TIME ZONE '2026-08-05 16:33:00+00', NULL),
  (6, 4, 2, '기부 내역까지 공개하는 팬덤이라 더 자랑스럽습니다.', 176, TIMESTAMP WITH TIME ZONE '2026-08-04 10:15:00+00', NULL),
  (7, 13, 4, '맛있게 드셨나요? 다음 공연도 기대하고 있어요!', 91, TIMESTAMP WITH TIME ZONE '2026-08-08 03:12:00+00', NULL),
- (8, 14, 5, '日本から応援しています。新しい舞台を楽しみにしています！', 73, TIMESTAMP WITH TIME ZONE '2026-08-08 00:20:00+00', NULL);
+ (8, 14, 5, '日本から応援しています。新しい舞台を楽しみにしています！', 73, TIMESTAMP WITH TIME ZONE '2026-08-08 00:20:00+00', NULL),
+ -- 팬매니저 공지에 달린 댓글 — 공지에도 좋아요·댓글이 붙습니다 (content 15·16)
+ (9, 15, 2, '추가 회차 열린다니 너무 좋아요! 응모 언제부터 가능한가요?', 148, TIMESTAMP WITH TIME ZONE '2026-08-08 02:15:00+00', NULL),
+ (10, 15, 4, 'Finally another show! Counting the days.', 96, TIMESTAMP WITH TIME ZONE '2026-08-08 02:41:00+00', NULL),
+ (11, 16, 3, '대전 출발 아직 자리 남았나요? 마감 전에 신청할게요.', 64, TIMESTAMP WITH TIME ZONE '2026-08-07 23:30:00+00', NULL);
 
-ALTER TABLE comment ALTER COLUMN id RESTART WITH 9;
+ALTER TABLE comment ALTER COLUMN id RESTART WITH 12;
 
 -- ──────────────────────── CommentTranslation ────────────────────────
 -- ⚠️ 스텁 AI provider 는 번역을 흉내 내지 않고 503 을 던집니다 (가짜 번역이 더 위험).

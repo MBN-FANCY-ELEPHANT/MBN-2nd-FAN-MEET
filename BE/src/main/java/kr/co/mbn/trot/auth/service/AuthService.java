@@ -103,26 +103,33 @@ public class AuthService {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ef17231235d5a854f5e60bbae1fe4e9ad6a563ed
     /**
-     * 룰렛 회전 연출용 샘플. 실제 배정과 같은 접두사+명사+숫자 조합을 쓰지만,
-     * DB 중복 검사도 저장도 하지 않는 **장식용**입니다 — 회전 중에는 어차피 값이
-     * 계속 바뀌므로 유일성이 필요 없고, 매 프레임 쿼리를 날릴 이유도 없습니다.
+     * 룰렛 회전 연출용 샘플. 저장도 중복 검사도 하지 않는 **장식용**입니다 —
+     * 회전 중에는 어차피 값이 계속 바뀌므로 유일성이 필요 없고, 매 프레임 쿼리를
+     * 날릴 이유도 없습니다. 실제 배정과 같은 한글 동물 이름 풀에서 뽑되, 여기서는
+     * 중복이 나와도 상관없습니다.
      */
     public List<String> generateNicknameSamples(int count) {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int size = Math.max(1, Math.min(count, 50));
         return java.util.stream.Stream.generate(() ->
-                        NICKNAME_PREFIXES.get(random.nextInt(NICKNAME_PREFIXES.size()))
-                                + NICKNAME_NOUNS.get(random.nextInt(NICKNAME_NOUNS.size()))
-                                + random.nextInt(1000, 10000))
+                        ANIMAL_NICKNAMES.get(random.nextInt(ANIMAL_NICKNAMES.size())))
                 .limit(size)
                 .toList();
     }
 
+<<<<<<< HEAD
     /** 짧고 읽기 쉬운 팬 닉네임을 만들고 시드·게스트 계정과 겹치지 않는 값만 반환합니다. */
 =======
     /** 이미 사용 중인 이름을 제외한 한글 동물 이름 중 하나를 무작위로 반환합니다. */
 >>>>>>> 74743870615668cd08f84fdada72502cebe95133
+=======
+    /** 이미 사용 중인 이름을 제외한 한글 동물 이름 중 하나를 무작위로 반환합니다. */
+    private String generateUniqueNickname() {
+>>>>>>> ef17231235d5a854f5e60bbae1fe4e9ad6a563ed
     private String generateUniqueNickname() {
         Set<String> usedNicknames = userRepository.findNicknamesIn(ANIMAL_NICKNAMES).stream()
                 .collect(Collectors.toSet());

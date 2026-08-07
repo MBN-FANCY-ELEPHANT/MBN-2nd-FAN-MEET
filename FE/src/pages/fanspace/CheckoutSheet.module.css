@@ -1,0 +1,171 @@
+/* 결제수단 선택 바텀시트 — UI 목업 */
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-surface-muted);
+}
+
+.summaryBody {
+  min-width: 0;
+}
+
+.summaryName {
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summaryPrice {
+  margin-top: var(--space-1);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.sectionLabel {
+  display: block;
+  margin-top: var(--space-5);
+  font-size: var(--text-small-size);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+/* 구매 수량 +/- */
+.quantityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quantityRow .sectionLabel {
+  margin-top: 0;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.stepperButton {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.stepperButton:disabled {
+  opacity: 0.4;
+}
+
+.stepperValue {
+  min-width: 20px;
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 결제 수단 — 라디오 리스트 */
+.methods {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-2);
+}
+
+.method {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-divider);
+  background: none;
+  font-size: var(--text-card-title-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.methodActive {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.radio {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 2px solid var(--color-divider);
+}
+
+.radioActive {
+  border-color: var(--color-primary);
+  border-width: 6px;
+}
+
+/* 간편결제 선택 시 아래로 펼쳐지는 제공사 선택 */
+.providers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.provider {
+  padding: var(--space-3);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  color: var(--color-white);
+  text-align: center;
+  opacity: 0.72;
+  transition: opacity 0.15s ease, box-shadow 0.15s ease;
+}
+
+.providerActive {
+  opacity: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+.provider_naver {
+  background: #03c75a;
+}
+
+.provider_kakao {
+  background: #f2b400;
+}
+
+.payButton {
+  margin-top: var(--space-5);
+  width: 100%;
+  padding: var(--space-4);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-white);
+}

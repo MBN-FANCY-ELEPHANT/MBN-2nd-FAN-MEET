@@ -1,32 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { STAR_ID } from "../../app/constants";
-import { api, setAccessToken } from "../../api/client";
+import { ApiError, api, setAccessToken } from "../../api/client";
 import { currentLocale } from "../../i18n";
 import { setFanIdentity } from "./fanIdentity";
 import styles from "./NicknameDraw.module.css";
-
-/** 회전 연출에만 쓰는 장식용 후보 — 실제 배정값과 무관합니다. */
-const SPIN_DISPLAY_POOL = [
-  "부엉이",
-  "코끼리",
-  "다람쥐",
-  "고슴도치",
-  "햄스터",
-  "펭귄",
-  "곰돌이",
-  "토끼",
-  "수달",
-  "여우",
-  "고양이",
-  "강아지",
-  "병아리",
-  "너구리",
-  "판다",
-  "알파카",
-];
 
 /** 최소 이만큼은 돌립니다 — 서버 응답이 즉시 와도 룰렛처럼 보이도록. */
 const MIN_SPIN_MS = 2200;
@@ -58,8 +38,24 @@ export default function NicknameDraw({
 
   const [spinning, setSpinning] = useState(true);
   const [minTimeElapsed, setMinTimeElapsed] = useState(false);
-  const [display, setDisplay] = useState(SPIN_DISPLAY_POOL[0]);
+  const [display, setDisplay] = useState("");
+  // 다시 돌리기를 누를 때마다 올려서 아래 회전 연출 이펙트를 처음부터 다시 돌립니다.
+  const [spinKey, setSpinKey] = useState(0);
   const startedRef = useRef(false);
+
+  /**
+   * 회전 중 보여줄 후보 — 실제 배정 로직(접두사+명사+숫자)과 같은 조합이지만
+   * 저장·중복검사가 없는 장식값입니다 (`GET /api/v1/auth/nickname-samples`).
+   * `staleTime: Infinity` — 회전 연출용이라 자주 새로 받을 이유가 없습니다.
+   */
+  const { data: sampleData } = useQuery({
+    queryKey: ["nickname-samples"],
+    queryFn: () => api.getNicknameSamples(16),
+    staleTime: Infinity,
+  });
+  // ref 로 들고 있어야 tick() 클로저가 늦게 도착한 샘플도 바로 읽습니다.
+  const poolRef = useRef<string[]>([]);
+  poolRef.current = sampleData?.nicknames ?? [];
 
   /**
    * 발급된 닉네임 — **뮤테이션 상태가 아니라 여기서 읽습니다.**
@@ -72,6 +68,11 @@ export default function NicknameDraw({
    */
   const [issued, setIssued] = useState<{ nickname: string } | null>(null);
   const [failed, setFailed] = useState(false);
+
+  // 닉네임 수기 수정 — 서버가 뽑아준 값 대신 직접 입력한 값으로 바꿉니다.
+  const [editing, setEditing] = useState(false);
+  const [editValue, setEditValue] = useState("");
+  const [editErrorKey, setEditErrorKey] = useState<string | null>(null);
 
   const registerGuest = useMutation({
     mutationFn: () =>
@@ -94,6 +95,58 @@ export default function NicknameDraw({
     },
     onError: () => setFailed(true),
   });
+
+  /**
+   * 닉네임 수기 변경 — `PATCH /api/v1/users/me/nickname`.
+   * 서버가 전체 사용자 기준으로 중복을 검사하므로(`existsByNicknameAndIdNot`),
+   * 방금 배정된 값뿐 아니라 시드 계정·다른 게스트와 겹쳐도 409로 걸러집니다.
+   */
+  const updateNickname = useMutation({
+    mutationFn: (nickname: string) => api.updateNickname(nickname),
+    onSuccess: (user) => {
+      setIssued({ nickname: user.nickname });
+      setFanIdentity({
+        artist,
+        nickname: user.nickname,
+        issuedAt: new Date().toISOString(),
+      });
+      setEditing(false);
+      setEditErrorKey(null);
+      void queryClient.invalidateQueries();
+    },
+    onError: (error) => {
+      const isConflict = error instanceof ApiError && error.status === 409;
+      setEditErrorKey(
+        isConflict ? "identity.nicknameTaken" : "identity.nicknameInvalid",
+      );
+    },
+  });
+
+  function startEdit() {
+    if (!issued) return;
+    setEditValue(issued.nickname);
+    setEditErrorKey(null);
+    setEditing(true);
+  }
+
+  function cancelEdit() {
+    setEditing(false);
+    setEditErrorKey(null);
+  }
+
+  function submitEdit() {
+    const trimmed = editValue.trim();
+    if (trimmed.length < 2 || trimmed.length > 30) {
+      setEditErrorKey("identity.nicknameInvalid");
+      return;
+    }
+    if (issued && trimmed === issued.nickname) {
+      setEditing(false);
+      setEditErrorKey(null);
+      return;
+    }
+    updateNickname.mutate(trimmed);
+  }
 
   // StrictMode 이중 호출로 게스트 계정이 두 번 생성되지 않도록 막습니다.
   useEffect(() => {
@@ -118,9 +171,10 @@ export default function NicknameDraw({
         return;
       }
 
-      setDisplay(
-        SPIN_DISPLAY_POOL[Math.floor(Math.random() * SPIN_DISPLAY_POOL.length)],
-      );
+      const pool = poolRef.current;
+      if (pool.length > 0) {
+        setDisplay(pool[Math.floor(Math.random() * pool.length)]);
+      }
       delay = Math.min(delay * 1.18, 320);
       window.setTimeout(tick, delay);
     };
@@ -130,7 +184,7 @@ export default function NicknameDraw({
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, []);
+  }, [spinKey]);
 
   const ready = minTimeElapsed && issued !== null;
 
@@ -144,6 +198,17 @@ export default function NicknameDraw({
   function confirm() {
     if (!ready || !issued) return;
     onDone(issued.nickname);
+  }
+
+  /** 서버에서 새 닉네임을 다시 받아 룰렛을 처음부터 다시 돌립니다. */
+  function reroll() {
+    if (!ready) return;
+    setIssued(null);
+    setFailed(false);
+    setMinTimeElapsed(false);
+    setSpinning(true);
+    setSpinKey((key) => key + 1);
+    registerGuest.mutate();
   }
 
   function retry() {
@@ -171,6 +236,42 @@ export default function NicknameDraw({
               {t("identity.retry")}
             </button>
           </>
+        ) : editing ? (
+          <>
+            <div className={styles.editRow}>
+              <input
+                className={styles.editInput}
+                value={editValue}
+                onChange={(e) => {
+                  setEditValue(e.target.value);
+                  setEditErrorKey(null);
+                }}
+                maxLength={30}
+                placeholder={t("identity.nicknamePlaceholder")}
+                aria-label={t("identity.nicknamePlaceholder")}
+                autoFocus
+              />
+              <span className={styles.honorific}>{t("identity.honorific")}</span>
+            </div>
+
+            {editErrorKey && (
+              <p className={styles.editError}>{t(editErrorKey)}</p>
+            )}
+
+            <button
+              className={styles.confirm}
+              onClick={submitEdit}
+              disabled={updateNickname.isPending}
+            >
+              {updateNickname.isPending
+                ? t("identity.nicknameSaving")
+                : t("identity.nicknameSave")}
+            </button>
+
+            <button className={styles.reroll} onClick={cancelEdit}>
+              {t("identity.nicknameCancel")}
+            </button>
+          </>
         ) : (
           <>
             <p
@@ -187,6 +288,22 @@ export default function NicknameDraw({
               disabled={!ready}
             >
               {spinning ? t("identity.drawing") : t("identity.confirm")}
+            </button>
+
+            <button
+              className={styles.reroll}
+              onClick={reroll}
+              disabled={!ready}
+            >
+              {t("identity.reroll")}
+            </button>
+
+            <button
+              className={styles.editToggle}
+              onClick={startEdit}
+              disabled={!ready}
+            >
+              {t("identity.editNickname")}
             </button>
           </>
         )}

@@ -183,6 +183,9 @@ export type AuthResponse = Json<
 export type GuestAuthResponse = Json<
   paths["/api/v1/auth/guest"]["post"]["responses"]["201"]
 >;
+export type NicknameSamples = Json<
+  paths["/api/v1/auth/nickname-samples"]["get"]["responses"]["200"]
+>;
 export type PlacePage = Json<
   paths["/api/v1/places"]["get"]["responses"]["200"]
 >;
@@ -327,6 +330,10 @@ export const api = {
       method: "PATCH",
       body: JSON.stringify({ nickname }),
     }),
+
+  /** 룰렛 회전 연출용 샘플 닉네임. 실제 배정과 무관한 장식값입니다. */
+  getNicknameSamples: (count = 16) =>
+    request<NicknameSamples>(`/api/v1/auth/nickname-samples${qs({ count })}`),
 
   // ── AI 도우미 "비엔이" ──
   /**

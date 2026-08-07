@@ -55,8 +55,8 @@
     },
     "calendar": "Calendar",
     "calendarDetail": "Details",
-    "goodsNotice": "This platform does not process payments. Purchases happen at the official shop.",
-    "goodsOpenShop": "Open official shop",
+    "goodsNotice": "This platform does not process payments.",
+    "goodsOpenShop": "Buy now",
     "goodsCategory": {
       "light": "Lightsticks",
       "apparel": "Apparel",
@@ -166,6 +166,24 @@
     "participants": "Participants",
     "progress": "{{current}}/{{capacity}}",
     "free": "Free"
+  },
+  "checkout": {
+    "title": "Choose payment method",
+    "methodLabel": "Payment method",
+    "method": {
+      "card": "Credit/debit card",
+      "transfer": "Bank transfer",
+      "simple": "Simple pay"
+    },
+    "provider": {
+      "naver": "Naver Pay",
+      "kakao": "Kakao Pay"
+    },
+    "quantityLabel": "Quantity",
+    "quantityDecrease": "Decrease quantity",
+    "quantityIncrease": "Increase quantity",
+    "payButton": "Pay {{amount}}",
+    "successToast": "Purchase complete."
   },
   "chat": {
     "title": "Bienie, the AI assistant",
@@ -322,7 +340,15 @@
     "drawing": "Drawing...",
     "confirm": "Get started",
     "error": "Couldn't assign a nickname. Please try again.",
-    "retry": "Try again"
+    "retry": "Try again",
+    "reroll": "Spin again",
+    "editNickname": "Pick your own nickname",
+    "nicknamePlaceholder": "2-30 characters",
+    "nicknameSave": "Save",
+    "nicknameSaving": "Saving...",
+    "nicknameCancel": "Cancel",
+    "nicknameTaken": "That nickname is already taken.",
+    "nicknameInvalid": "Use 2-30 characters."
   },
   "concert": {
     "entryOpen": "Entries open",

@@ -26,6 +26,7 @@
 /* ⚠️ 디자인은 영도체(Yeongdo OTF Heavy) 23px / letter-spacing -2.76px 입니다.
    폰트 파일이 없어 Pretendard 로 대체하고 자간만 근사치로 맞췄습니다. */
 .logo {
+  font-family: "Yeongdo OTF Heavy", sans-serif;
   flex: 1;
   min-width: 0;
   font-size: 23px;

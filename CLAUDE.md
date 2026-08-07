@@ -3,6 +3,16 @@
 MBN AI 해커톤 출품작. 트롯 스타의 공식 콘텐츠 · 팬 커뮤니티 · AI 팬 매니저를 하나로 묶은
 **글로벌 트롯 팬덤 플랫폼**입니다.
 
+**정보구조** — 3탭 셸은 폐기됐습니다. 주 사용자층이 중장년이라 뎁스를 줄였습니다.
+
+```
+랜딩(아티스트 13명 선택) → 닉네임 룰렛(로그인 대체) → 메인 /home
+                                                      ├ 소식 /feed
+                                                      ├ 방송 /broadcast
+                                                      └ 팬공간 /fanspace  [모집|공연|굿즈]
+어느 화면에서든 마이크 FAB → 음성 AI 도우미 "비엔이" (5단계)
+```
+
 ## 구조
 
 ```
@@ -20,9 +30,9 @@ docs/   기획·계약 문서 — 여기가 단일 진실 공급원
 
 | 파일 | 내용 |
 |---|---|
-| **`docs/HANDOFF.md`** | **재개 지점. 진행률·다음 작업·결정 로그·임시 조치** |
-| **`docs/design-spec.md`** | **화면 13개의 기능 명세 (Figma 확정본). 무엇을 만들지 여기서 확인** |
-| **`docs/component-map.md`** | **컴포넌트 ↔ Figma 노드 ID 매핑. 화면 작업 전 필독** |
+| **`docs/HANDOFF.md`** | **재개 지점. §1에 현재 IA 트리, 진행률·결정 로그·점검 결과** |
+| `docs/design-spec.md` | 화면별 기능 명세. ⚠️ **1차 IA(3탭) 기준** — 현재 구조는 HANDOFF §1 |
+| `docs/component-map.md` | 컴포넌트 ↔ Figma 노드 ID 매핑. ⚠️ 일부 항목이 낡았습니다 |
 | **`docs/ai-stack.md`** | **AI 4종의 모델 선정과 파이프라인. AI 작업 전 필독** |
 | `docs/api-spec.yaml` | **API 계약.** FE/BE 모두 이 스펙을 따릅니다 |
 | `docs/design-tokens.md` | Figma 실측 토큰 (추정치 아님) |
@@ -49,6 +59,7 @@ cd BE && ./gradlew build          # 컴파일 + 테스트
 cd FE && npm run dev
 cd FE && npm run build            # 타입체크 + 번들
 cd FE && npm run api:types        # api-spec.yaml → src/api/schema.d.ts 재생성
+cd FE && python scripts/check-i18n.py   # 7개 로케일 키 정합성 (PARITY OK 확인)
 ```
 
 ## 핵심 규칙
@@ -96,6 +107,15 @@ cd FE && npm run api:types        # api-spec.yaml → src/api/schema.d.ts 재생
   `Q=$(python -c "import urllib.parse;print(urllib.parse.quote('콘서트'))")`
 - **heredoc(`python - <<'PY'`)도 CP949로 전송됩니다.** 한글이 든 스크립트는 Write 도구로
   파일에 쓴 뒤 `python 파일.py` 로 실행하세요.
+- **`.env`의 `KEY=` (빈 값)는 `${KEY:기본값}`을 무력화합니다.** 환경변수가 *존재하되 비어 있으면*
+  기본값이 아니라 빈 문자열이 주입됩니다. `AUTH_SECRET`이 이래서 **로그인이 전부 500**이었고,
+  비로그인 401은 정상 동작이라 한참 못 잡았습니다. 시크릿을 읽는 쪽에서 `isBlank()`를 한 번 더 거르세요.
+- **Vite가 낡은 모듈을 계속 서빙합니다.** `does not provide an export named 'default'`인데
+  `npm run build`는 EXIT=0이면 HMR 캐시입니다. 새로고침이 아니라
+  **`rm -rf node_modules/.vite` + dev 서버 재시작**.
+- **YouTube 임베드 차단 영상은 조용히 실패합니다** (검은 화면 + 스피너).
+  ⚠️ `youtube.com/embed/...`를 **주소창에 직접 여는 검증은 무의미합니다** — 최상위 탐색이면
+  정상 영상도 `오류 153`이 납니다. 반드시 iframe 안에서 확인하세요.
 
 ## 명령 실행 시 주의
 

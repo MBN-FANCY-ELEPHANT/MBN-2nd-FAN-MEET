@@ -55,8 +55,22 @@ export function useSpeechRecognition(onFinal: (text: string) => void) {
 
   const supported = getRecognitionCtor() !== undefined;
 
+  /**
+   * ⚠️ **핸들러를 반드시 떼고 abort 해야 합니다.**
+   *
+   * 떼지 않으면 죽은 인식기의 `onend` 가 뒤늦게 발화해 `listening` 을 false 로
+   * 덮어씁니다. React StrictMode 는 개발 모드에서 effect 를 두 번 실행하므로
+   * (start → cleanup → start) **첫 세션에서만** 이 경합이 생겼고, 그 결과
+   * "말하는 중" 실시간 표시가 첫 시도에만 안 뜨고 두 번째부터 되는 증상이 났습니다.
+   */
   const stop = useCallback(() => {
-    recognitionRef.current?.abort();
+    const recognition = recognitionRef.current;
+    if (recognition) {
+      recognition.onresult = null;
+      recognition.onerror = null;
+      recognition.onend = null;
+      recognition.abort();
+    }
     recognitionRef.current = null;
     setListening(false);
   }, []);
@@ -99,7 +113,10 @@ export function useSpeechRecognition(onFinal: (text: string) => void) {
       setListening(false);
     };
 
-    recognition.onend = () => setListening(false);
+    // 이 인식기가 아직 현재 것일 때만 상태를 내립니다 (교체된 뒤 늦게 오는 onend 무시).
+    recognition.onend = () => {
+      if (recognitionRef.current === recognition) setListening(false);
+    };
 
     recognitionRef.current = recognition;
     setListening(true);

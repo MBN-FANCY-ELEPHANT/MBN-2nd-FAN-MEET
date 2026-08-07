@@ -13,6 +13,9 @@ import {
   LoadingState,
 } from "../../components/ui/States";
 import TabBar from "../../components/ui/TabBar";
+import { GOODS, goodsByCategory } from "../../data/goods";
+import type { Goods } from "../../data/goods";
+import { listEntries } from "../../features/concert/concertEntry";
 import { formatDeadline } from "../../lib/format";
 import styles from "./FanSpaceCategory.module.css";
 
@@ -63,7 +66,13 @@ export default function FanSpaceCategoryPage() {
 
 /* ── 공연 ─────────────────────────────────────────────────────────── */
 
-/** ⚠️ 응모 도메인이 없어 일정(Schedule)을 응모 카드 형태로 세웠습니다. */
+/**
+ * ⚠️ 응모 도메인이 없어 일정(Schedule)을 응모 카드 형태로 세웠습니다.
+ *
+ * 카드를 탭하면 `/fanspace/concert/{id}` 응모 화면으로 갑니다.
+ * 이미 응모한 공연은 위쪽 **응모 내역** 에 따로 모아 둡니다 — 중장년 사용자가
+ * "내가 신청했나?"를 목록에서 뒤지지 않아도 되도록.
+ */
 function ConcertView() {
   const { t } = useTranslation();
   const { data, isPending, isError, refetch } = useQuery({
@@ -78,42 +87,75 @@ function ConcertView() {
   if (items.length === 0)
     return <EmptyMascotState message={t("fanspace.empty.concert")} />;
 
+  const entered = listEntries();
+  const enteredIds = new Set(entered.map((e) => e.scheduleId));
+  const myEntries = items.filter((s) => enteredIds.has(s.id));
+
   return (
-    <div className={styles.list}>
-      {items.map((schedule) => {
-        // 지난 일정은 `응모 종료`, 예정은 `응모 중` — 실제 응모 상태가 아니라 임시 매핑입니다
-        const open = new Date(schedule.startAt).getTime() > Date.now();
-        return (
-          <Link
-            key={schedule.id}
-            to="/schedules"
-            className={styles.concertCard}
-          >
-            <img className={styles.concertPoster} src={exampleHero} alt="" />
-            <div className={styles.concertBody}>
-              <div className={styles.concertTop}>
-                <span
-                  className={`${styles.entryBadge} ${open ? "" : styles.entryBadgeClosed}`}
-                >
-                  {t(open ? "fanspace.entryOpen" : "fanspace.entryClosed")}
-                </span>
-                <span className={styles.deadline}>
-                  {formatDeadline(schedule.startAt.slice(0, 10))}
-                </span>
+    <>
+      {myEntries.length > 0 && (
+        <>
+          <h2 className={styles.sectionTitle}>{t("concert.myEntries")}</h2>
+          <div className="scroll-x">
+            {myEntries.map((schedule) => (
+              <Link
+                key={schedule.id}
+                to={`/fanspace/concert/${schedule.id}`}
+                className={styles.miniCard}
+              >
+                <img className={styles.miniThumb} src={exampleHero} alt="" />
+                <div className={styles.miniBody}>
+                  <p className={styles.miniTitle}>{schedule.title}</p>
+                  <div className={styles.miniMeta}>
+                    <span>{t("concert.entryDoneTitle")}</span>
+                    <span>{formatDeadline(schedule.startAt.slice(0, 10))}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className={styles.list}>
+        {items.map((schedule) => {
+          // 지난 일정은 `응모 종료`, 예정은 `응모 중` — 실제 응모 상태가 아니라 임시 매핑입니다
+          const open = new Date(schedule.startAt).getTime() > Date.now();
+          const mine = enteredIds.has(schedule.id);
+          return (
+            <Link
+              key={schedule.id}
+              to={`/fanspace/concert/${schedule.id}`}
+              className={styles.concertCard}
+            >
+              <img className={styles.concertPoster} src={exampleHero} alt="" />
+              <div className={styles.concertBody}>
+                <div className={styles.concertTop}>
+                  <span
+                    className={`${styles.entryBadge} ${open ? "" : styles.entryBadgeClosed}`}
+                  >
+                    {t(open ? "fanspace.entryOpen" : "fanspace.entryClosed")}
+                  </span>
+                  <span className={styles.deadline}>
+                    {formatDeadline(schedule.startAt.slice(0, 10))}
+                  </span>
+                </div>
+                <div className={styles.concertBottom}>
+                  <p className={styles.concertTitle}>{schedule.title}</p>
+                  <span className={styles.concertStatus}>
+                    {mine
+                      ? t("concert.entryDoneTitle")
+                      : open
+                        ? t("fanspace.entryCount", { count: 10000 })
+                        : t("fanspace.entryWon")}
+                  </span>
+                </div>
               </div>
-              <div className={styles.concertBottom}>
-                <p className={styles.concertTitle}>{schedule.title}</p>
-                <span className={styles.concertStatus}>
-                  {open
-                    ? t("fanspace.entryCount", { count: 10000 })
-                    : t("fanspace.entryWon")}
-                </span>
-              </div>
-            </div>
-          </Link>
-        );
-      })}
-    </div>
+            </Link>
+          );
+        })}
+      </div>
+    </>
   );
 }
 
@@ -127,46 +169,54 @@ function VoteView() {
 
 /* ── 굿즈 ─────────────────────────────────────────────────────────── */
 
-/** ⚠️ 굿즈 도메인·상품 이미지가 없어 정적 더미입니다 (Figma 23:4956 구조만 반영). */
-const DRAFT_GOODS = [
-  { id: 1, name: "슬로건", price: 30000 },
-  { id: 2, name: "응원 파우치", price: 14000 },
-  { id: 3, name: "응원 키링", price: 30000 },
-  { id: 4, name: "응원 스티커", price: 30000 },
-] as const;
-
+/**
+ * 굿즈 — 인기 TOP 4 를 위에, 아래는 **카테고리별 전체 목록** (Figma 23:4956).
+ *
+ * ⚠️ 굿즈 도메인이 BE 에 없어 `src/data/goods.ts` 의 정적 더미입니다.
+ * ⚠️ 가격은 **표시 전용**입니다 — 상세에서 공식 판매처로 보냅니다.
+ */
 function GoodsView() {
   const { t } = useTranslation();
+  const popular = GOODS.filter((g) => g.popular).slice(0, 4);
+
   return (
     <>
       <h2 className={styles.sectionTitle}>{t("fanspace.goodsTop4")}</h2>
       <div className="grid-2">
-        {DRAFT_GOODS.map((goods) => (
-          <div key={goods.id} className={styles.goodsCard}>
-            <img className={styles.goodsThumb} src={exampleHero} alt="" />
-            <div className={styles.goodsBody}>
-              <p className={styles.goodsName}>{goods.name}</p>
-              <p className={styles.goodsPrice}>
-                {goods.price.toLocaleString()}
-                {t("fanspace.currency")}
-              </p>
-            </div>
-          </div>
+        {popular.map((goods) => (
+          <GoodsCard key={goods.id} goods={goods} />
         ))}
       </div>
 
-      <h2 className={styles.sectionTitle}>{t("fanspace.goodsLightstick")}</h2>
-      <div className="scroll-x">
-        {DRAFT_GOODS.slice(0, 3).map((goods) => (
-          <div key={goods.id} className={styles.miniCard}>
-            <img className={styles.miniThumb} src={exampleHero} alt="" />
-            <div className={styles.miniBody}>
-              <p className={styles.miniTitle}>{goods.name}</p>
-            </div>
+      {goodsByCategory().map(({ category, items }) => (
+        <div key={category}>
+          <h2 className={styles.sectionTitle}>
+            {t(`fanspace.goodsCategory.${category}`)}
+          </h2>
+          <div className="grid-2">
+            {items.map((goods) => (
+              <GoodsCard key={goods.id} goods={goods} />
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </>
+  );
+}
+
+function GoodsCard({ goods }: { goods: Goods }) {
+  const { t } = useTranslation();
+  return (
+    <Link to={`/fanspace/goods/${goods.id}`} className={styles.goodsCard}>
+      <img className={styles.goodsThumb} src={exampleHero} alt="" />
+      <div className={styles.goodsBody}>
+        <p className={styles.goodsName}>{goods.name}</p>
+        <p className={styles.goodsPrice}>
+          {goods.price.toLocaleString()}
+          {t("fanspace.currency")}
+        </p>
+      </div>
+    </Link>
   );
 }
 

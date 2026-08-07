@@ -1,27 +1,37 @@
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-import { api } from "../api/client";
+import { api, type ContentSummary } from "../api/client";
 import { STAR_ID } from "../app/constants";
+import HeaderBack from "../components/layout/HeaderBack";
 import Icon from "../components/ui/Icon";
+import { ErrorState } from "../components/ui/States";
 import { FEED_POSTS } from "../data/feed";
 import type { FeedPost } from "../data/feed";
 import { getSelectedArtist } from "../features/artist/selectedArtist";
-import { formatCount } from "../lib/format";
+import { currentLocale } from "../i18n";
+import { formatCount, formatDuration } from "../lib/format";
 import styles from "./FeedPage.module.css";
-import { useQuery } from "@tanstack/react-query";
 
 /**
- * 소식 탭 — 활동 기록 피드 (Figma 19:912 / 19:1351).
+ * 소식 탭 — 활동 기록 스레드 (Figma 19:912 / 19:1351).
  *
- * 아티스트 본인 글과 **팬매니저(비엔이) 공지**가 한 타임라인에 섞입니다.
- * 공지는 연한 오렌지 말풍선이고 댓글이 없습니다.
+ * 한 타임라인에 **세 종류**가 섞입니다:
+ *  - `ARTIST`   아티스트 본인 글. 사진 + 본문 + 좋아요 + 댓글
+ *  - `MANAGER`  팬매니저(비엔이) 공지. 연한 오렌지 말풍선, 댓글 없음
+ *  - **무대 롱폼 영상** 실제 `Content(VIDEO)` 카드. 탭하면 영상 상세로
  *
- * ⚠️ 데이터는 `src/data/feed.ts` 의 **정적 더미**입니다. BE 에 `Post` 도메인이
- *    없습니다 (개편 3단계에서 계약 추가).
+ * 그리고 스레드 맨 위에 **AI 소식 요약**이 고정으로 붙습니다.
+ * 카드를 열 개 읽지 않아도 "이번 주에 무슨 일이 있었는지"를 알 수 있어야 하기 때문입니다.
+ *
+ * ⚠️ 아티스트 글·공지는 `src/data/feed.ts` 의 **정적 더미**입니다 (BE 에 `Post` 도메인 없음).
+ *    반면 영상과 AI 요약은 **실제 API** 입니다 — 섞여 있으니 걷어낼 때 헷갈리지 마세요.
  */
 
 export default function FeedPage() {
   const { t } = useTranslation();
+  const locale = currentLocale();
 
   // 아티스트 이름만 실제 데이터에서 가져옵니다 — 랜딩 선택이 없을 때의 폴백입니다.
   const { data: star } = useQuery({
@@ -31,15 +41,161 @@ export default function FeedPage() {
   });
   const artistName = getSelectedArtist() ?? star?.name ?? "";
 
+  // 스레드에 끼워 넣을 무대 롱폼. 2건이면 글 사이사이에 자연스럽게 들어갑니다.
+  const { data: videos } = useQuery({
+    queryKey: ["contents", STAR_ID, "VIDEO", "feed"],
+    queryFn: () => api.getContents({ starId: STAR_ID, type: "VIDEO", size: 2 }),
+    staleTime: 5 * 60 * 1000,
+  });
+  const longforms = videos?.content ?? [];
+
   return (
-    <>
-      <h2 className={styles.title}>{t("feed.title")}</h2>
-      <div className={styles.list}>
-        {FEED_POSTS.map((post) => (
-          <PostCard key={post.id} post={post} artistName={artistName} />
-        ))}
+    <div className={styles.page}>
+      <HeaderBack />
+      <div className={styles.sheet}>
+        <h2 className={styles.title}>{t("feed.title")}</h2>
+
+        <NewsDigestCard locale={locale} />
+
+        <div className={styles.list}>
+          {FEED_POSTS.map((post, index) => (
+            <div key={post.id}>
+              <PostCard post={post} artistName={artistName} />
+              {/* 글 하나 걸러 하나씩 무대 영상을 끼웁니다 */}
+              {longforms[index] && <LongformCard content={longforms[index]} />}
+            </div>
+          ))}
+        </div>
       </div>
-    </>
+    </div>
+  );
+}
+
+/**
+ * AI 소식 요약 — 스레드 맨 위 고정 카드.
+ *
+ * ⚠️ 작성 주체는 **AI 도우미 "비엔이"** 입니다. 스타 본인의 말투를 흉내내지 않습니다
+ *    (기획서 5-2). 그래서 헤더에 AI 라벨과 생성 안내를 항상 붙입니다.
+ *
+ * 서버가 캐시를 채우기 전 첫 요청은 LLM 왕복이라 느립니다. 그동안은 스켈레톤을 띄우고,
+ * 실패하면 카드 자체를 접습니다 — 소식 스레드는 이게 없어도 성립합니다.
+ */
+function NewsDigestCard({ locale }: { locale: string }) {
+  const { t } = useTranslation();
+
+  const { data, isPending, isError, refetch } = useQuery({
+    queryKey: ["newsDigest", STAR_ID, locale],
+    queryFn: () => api.getNewsDigest(STAR_ID),
+    staleTime: 10 * 60 * 1000,
+    retry: false,
+  });
+
+  if (isError) {
+    return (
+      <div className={styles.digest}>
+        <ErrorState onRetry={() => void refetch()} />
+      </div>
+    );
+  }
+
+  return (
+    <section className={styles.digest}>
+      <div className={styles.digestHead}>
+        <span className={styles.digestBadge}>{t("feed.digestBadge")}</span>
+        <h3 className={styles.digestTitle}>{t("feed.digestTitle")}</h3>
+      </div>
+
+      {isPending ? (
+        <div className={styles.digestSkeleton} aria-hidden>
+          <span />
+          <span />
+          <span />
+        </div>
+      ) : (
+        <>
+          <p className={styles.digestSummary}>{data.summary}</p>
+
+          <dl className={styles.digestItems}>
+            {data.items?.map((item) => (
+              <div key={item.title} className={styles.digestItem}>
+                <dt className={styles.digestItemTitle}>{item.title}</dt>
+                <dd className={styles.digestItemBody}>{item.body}</dd>
+              </div>
+            ))}
+          </dl>
+
+          {data.sources && data.sources.length > 0 && (
+            <div className={styles.digestSources}>
+              <p className={styles.digestSourceLabel}>{t("feed.digestSources")}</p>
+              <div className={styles.digestSourceList}>
+                {data.sources.map((source) => (
+                  <Link
+                    key={source.contentId}
+                    className={styles.digestSource}
+                    to={
+                      source.type === "VIDEO"
+                        ? `/videos/${source.contentId}`
+                        : `/articles/${source.contentId}`
+                    }
+                  >
+                    {source.title}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      <p className={styles.digestNotice}>{t("feed.digestNotice")}</p>
+    </section>
+  );
+}
+
+/** 스레드에 섞이는 무대 롱폼 영상. 탭하면 영상 상세로 갑니다. */
+function LongformCard({ content }: { content: ContentSummary }) {
+  const { t } = useTranslation();
+
+  return (
+    <article className={styles.post}>
+      <div className={styles.postHead}>
+        <div className={styles.author}>
+          <span className={styles.longformMark} aria-hidden>
+            <Icon name="youtube" size={20} />
+          </span>
+          <div className={styles.authorText}>
+            <span className={styles.authorName}>{content.channelName}</span>
+            <span className={styles.authorTime}>{t("feed.longform")}</span>
+          </div>
+        </div>
+      </div>
+
+      <Link className={styles.longformLink} to={`/videos/${content.id}`}>
+        <span className={styles.longformThumb}>
+          <img src={content.thumbnailUrl} alt="" loading="lazy" />
+          <span className={styles.longformPlay} aria-hidden>
+            <Icon name="youtube" size={24} />
+          </span>
+          {content.durationSec != null && (
+            <span className={styles.longformDuration}>
+              {formatDuration(content.durationSec)}
+            </span>
+          )}
+        </span>
+        <span className={styles.longformTitle}>{content.title}</span>
+      </Link>
+
+      <div className={styles.actions}>
+        <span className={styles.action}>
+          <Icon name="heartFilled" size={24} />
+          <span>{formatCount(content.likeCount ?? 0)}</span>
+        </span>
+        <span className={styles.action}>
+          <Icon name="chatBubble" size={24} />
+          <span>{formatCount(content.commentCount ?? 0)}</span>
+        </span>
+      </div>
+    </article>
   );
 }
 
@@ -77,7 +233,7 @@ function PostCard({
       {isManager ? (
         <p className={styles.noticeBubble}>{post.body}</p>
       ) : (
-        <p className={styles.body}>{post.body}</p>
+        <p className={styles.postBody}>{post.body}</p>
       )}
 
       <div className={styles.actions}>

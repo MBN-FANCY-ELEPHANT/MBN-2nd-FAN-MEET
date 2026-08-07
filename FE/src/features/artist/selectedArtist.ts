@@ -55,6 +55,46 @@ export function shortArtistName(name: string): string {
  * 디자인 문구가 "오늘도 **서진이**와 즐거운 하루 보내세요!" 인데, 받침을 따지지 않으면
  * `나츠코이와` 처럼 어색해집니다. 한국어 로케일에서만 씁니다.
  */
+/**
+ * 시드 데이터(`BE/.../data.sql`)의 스타 이름. 스타가 아직 하나뿐이라 모든 일정·모임·
+ * 콘텐츠 제목에 이 이름이 박혀 있습니다.
+ */
+const SEED_STAR_NAME = "임영웅";
+
+/**
+ * 시드 제목에 박힌 스타 이름을 **선택한 아티스트 이름으로 바꿉니다.**
+ *
+ * ⚠️ **데모용 임시 조치입니다.** 다중 스타가 컷된 상태라(`docs/mvp-scope.md`) 팬공간
+ *    캘린더에 `이찬원` 을 고른 사용자에게 "임영웅의 팬미팅" 이 뜨는 문제를 가립니다.
+ *    BE 도 AI 답변에서 같은 치환을 합니다(`ChatService.rewriteArtist`).
+ *    `Star` 가 여러 개가 되는 순간 양쪽 다 걷어내세요.
+ */
+export function personalizeArtistNames<T>(data: T): T {
+  const artist = getSelectedArtist();
+  if (!artist || artist === SEED_STAR_NAME) return data;
+
+  const short = shortArtistName(artist);
+  const rewrite = (s: string) =>
+    s
+      .split(SEED_STAR_NAME)
+      .join(artist)
+      .split(shortArtistName(SEED_STAR_NAME))
+      .join(short);
+
+  const walk = (value: unknown): unknown => {
+    if (typeof value === "string") return rewrite(value);
+    if (Array.isArray(value)) return value.map(walk);
+    if (value && typeof value === "object") {
+      return Object.fromEntries(
+        Object.entries(value).map(([k, v]) => [k, walk(v)]),
+      );
+    }
+    return value;
+  };
+
+  return walk(data) as T;
+}
+
 export function withKoreanNameParticle(name: string): string {
   const last = Array.from(name).at(-1);
   if (!last || !/[가-힣]/.test(last)) return name;

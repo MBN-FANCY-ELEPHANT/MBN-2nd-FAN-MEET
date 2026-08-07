@@ -14,6 +14,8 @@
   --tabbar-height: 27px;
   /* 하단 탭바 (디자인 2차본에서 상단 탭 → 하단 탭바로 이동, Figma 19:752) */
   --tabbar-height-bottom: 72px;
+  /* 하단 네비 (디자인 3차본 — 2탭 + 중앙 마이크 FAB, Figma 27:6110 실측 h 81) */
+  --nav-height: 81px;
 
   /* ── Figma 변수 (디자이너가 등록한 6개 — 이것이 정본) ── */
   --color-primary: #f58220;
@@ -36,6 +38,12 @@
   --color-avatar-surface: #fff1e5;
   /* 팬매니저 공지 말풍선 (Figma 19:955 실측) */
   --color-notice-surface: #fff9f5;
+  /* 하단 네비 구분선 (Figma color/neutral/gray) */
+  --color-nav-border: #dde1f0;
+  /* 헤더는 페이지 그라데이션 위에 얹히므로 배경을 깔지 않습니다 */
+  --color-header-bg: transparent;
+  /* LIVE 배지 (Figma 27:6030 실측) */
+  --color-live: #ef4444;
 
   /* ── 랜딩(아티스트 선택) 전용 다크 테마 ──
      ⚠️ 이 화면만 의도적으로 앱 본편과 반대 명도로 갑니다. 진입 → 팬덤 공간 전환을

@@ -1,6 +1,5 @@
 package kr.co.mbn.trot.chat.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,12 +51,8 @@ public class ChatController {
     @PostMapping("/sessions")
     @ResponseStatus(HttpStatus.CREATED)
     public ChatSessionResponse createSession(@Valid @RequestBody ChatSessionCreateRequest request) {
-        return chatService.createSession(request.starId(), request.locale());
-    }
-
-    @GetMapping("/sessions/{sessionId}/messages")
-    public List<ChatMessageResponse> getMessages(@PathVariable String sessionId) {
-        return chatService.getMessages(sessionId);
+        return chatService.createSession(
+                request.starId(), request.locale(), request.artistName());
     }
 
     /** 한 번에 완성된 답변을 받습니다. 테스트와 폴백 경로용. */

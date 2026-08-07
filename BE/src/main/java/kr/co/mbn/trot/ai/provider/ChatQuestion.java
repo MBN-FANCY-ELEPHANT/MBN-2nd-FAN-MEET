@@ -18,6 +18,8 @@ public record ChatQuestion(
         Locale locale,
         Intent intent,
         boolean inScope,
-        List<Evidence> evidence
+        List<Evidence> evidence,
+        /** 사용자가 응원하는 아티스트 이름. null 이면 프롬프트에 넣지 않습니다. */
+        String artistName
 ) {
 }

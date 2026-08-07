@@ -7,16 +7,27 @@
 ```
 src/
   api/         client.ts (fetch 래퍼 + 엔드포인트), schema.d.ts (자동 생성, gitignore)
-  app/         App.tsx (라우팅 + STAR_ID)
+  app/         App.tsx (라우팅 22개 + STAR_ID)
   components/
-    layout/    AppShell — 3개 탭이 공유하는 셸
-    ui/        Section, Skeleton 등 재사용 프리미티브
-  pages/       HomePage / CommunityPage / PlayPage / ChatPage
-  i18n/        index.ts + locales/{ko,en}.json
+    layout/    AppHeader / HeaderBack / BottomNav / NotificationDrawer / LanguageSheet
+    live/      LiveBanner + useYouTubePlayer (YouTube IFrame API)
+    ui/        Section, Toast, States 등 재사용 프리미티브
+  features/
+    artist/    선택 아티스트 (localStorage) + 시드 이름 치환
+    auth/      닉네임 룰렛(로그인 대체) · 간이 로그인
+    voice/     VoiceAssistant(5단계) · VoiceStages(이펙트) · STT/TTS 훅
+    concert/   공연 응모 상태 (localStorage)
+    notification/ 알림 키워드 (localStorage)
+  pages/       라우트별 화면 — 목록은 docs/worklog-fe.md §0
+  data/        BE 계약이 없는 구간의 정적 더미 (feed / goods / live / programs)
+  i18n/        index.ts + locales/{ko,en,fr,ja,es,zh,ru}.json
   styles/      tokens.css (디자인 토큰) + global.css
-  hooks/       커스텀 훅
-  mocks/       MSW 핸들러 (BE 미구현 구간 개발용)
+  lib/         format.ts (조회수·상대시각·재생시간)
 ```
+
+⚠️ `pages/HomePage.tsx` · `CommunityPage.tsx` · `PlayPage.tsx` · `ui/Skeleton.tsx` 는
+**죽은 파일**입니다 (라우팅 안 됨). `HomePage` 는 없는 경로로 링크해 이미 깨져 있으니
+참고용으로도 믿지 마세요.
 
 ## 스타일링
 
@@ -42,9 +53,18 @@ src/
 
 ## i18n
 
-- 사용자에게 보이는 문자열은 전부 `t('key')`. `locales/ko.json`과 `en.json` **양쪽**에 추가합니다.
+- 사용자에게 보이는 문자열은 전부 `t('key')`. **7개 로케일 파일 전부**에 추가합니다
+  (`ko` `en` `fr` `ja` `es` `zh` `ru`). 번역 검수는 ko/en 만 합니다.
 - 한쪽에만 키를 추가하면 언어 전환 시 키 문자열이 그대로 노출됩니다 — 데모 중 가장 눈에 띄는 사고입니다.
 - 스타 이름 같은 동적 값은 보간을 씁니다: `t('star.fandomSpace', { name })`
+- **국가명·통화 같은 것도 예외가 아닙니다.** 한때 댓글 국가 배지가 한글로 굳어 있어
+  영어로 바꿔도 "미국·일본"이 그대로 남았습니다. 글로벌이 주제인데 가장 아픈 자리였습니다.
+
+키 정합성은 커밋 전에 확인하세요:
+
+```bash
+cd FE && python scripts/check-i18n.py   # PARITY OK 를 눈으로 확인
+```
 
 ## TypeScript
 

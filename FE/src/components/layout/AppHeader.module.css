@@ -1,0 +1,53 @@
+/* 공통 헤더 — Figma 27:6735 실측 (h 52, padding 16/10, border-bottom divider) */
+
+/* ⚠️ 고정하지 않습니다. 하단 네비가 이미 고정이라 위아래 둘 다 붙어 있으면
+   375px 화면에서 볼 수 있는 영역이 너무 줄어듭니다. 스크롤하면 위로 사라집니다. */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 52px;
+  padding: 10px var(--page-padding-x);
+  border-bottom: 1px solid var(--color-divider);
+  background: var(--color-header-bg);
+}
+
+.back {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+/* ⚠️ 디자인은 영도체(Yeongdo OTF Heavy) 23px / letter-spacing -2.76px 입니다.
+   폰트 파일이 없어 Pretendard 로 대체하고 자간만 근사치로 맞췄습니다. */
+.logo {
+  flex: 1;
+  min-width: 0;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: -0.09em;
+  color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+}

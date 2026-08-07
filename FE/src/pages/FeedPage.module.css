@@ -73,7 +73,9 @@
   background: var(--color-surface-muted);
 }
 
-.body {
+/* ⚠️ `.body` 로 두면 아래 페이지 컨테이너 `.body` 와 이름이 겹쳐 카드 배경·그림자가
+   글 본문에도 먹습니다. 클래스를 분리해 두세요. */
+.postBody {
   font-size: var(--text-section-size);
   font-weight: 500;
   line-height: 1.5;
@@ -108,4 +110,226 @@
   font-size: var(--text-caption-size);
   font-weight: 600;
   color: var(--color-text-secondary);
+}
+
+/* 3탭 셸에서 떨어져 나오면서 자체 배경·여백을 갖게 됐습니다 */
+.page {
+  min-height: 100%;
+  background: var(--gradient-page-detail);
+  padding-bottom: var(--space-10);
+}
+
+.sheet {
+  margin-top: var(--space-3);
+  padding: var(--space-4) var(--space-5) var(--space-8);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--color-white);
+  box-shadow: var(--shadow-sheet);
+}
+
+/* ── AI 소식 요약 ──────────────────────────────────────────
+   AI 계열은 앱 전체에서 인디고로 통일합니다 (AiPanel · 음성 답변 카드와 같은 어법). */
+.digest {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid var(--color-ai-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-ai-surface);
+}
+
+.digestHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.digestBadge {
+  flex-shrink: 0;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-xs);
+  background: var(--color-ai-text);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.digestTitle {
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.digestSummary {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.digestItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.digestItem {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+}
+
+.digestItemTitle {
+  margin-bottom: var(--space-1);
+  font-size: var(--text-meta-size);
+  font-weight: 700;
+  color: var(--color-ai-text);
+}
+
+.digestItemBody {
+  margin: 0;
+  font-size: var(--text-card-title-size);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.digestSources {
+  margin-top: var(--space-1);
+}
+
+.digestSourceLabel {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.digestSourceList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.digestSource {
+  max-width: 100%;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pill);
+  background: var(--color-white);
+  font-size: var(--text-caption-size);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.digestNotice {
+  font-size: var(--text-caption-size);
+  color: var(--color-text-secondary);
+}
+
+/* 첫 요청은 서버가 LLM 을 부르는 동안 비어 있습니다 */
+.digestSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.digestSkeleton span {
+  height: 14px;
+  border-radius: var(--radius-xs);
+  background: var(--color-white);
+  opacity: 0.7;
+  animation: digestPulse 1.4s ease-in-out infinite;
+}
+
+.digestSkeleton span:nth-child(2) {
+  width: 80%;
+  animation-delay: 0.15s;
+}
+
+.digestSkeleton span:nth-child(3) {
+  width: 60%;
+  animation-delay: 0.3s;
+}
+
+@keyframes digestPulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .digestSkeleton span {
+    animation: none;
+  }
+}
+
+/* ── 스레드에 섞이는 무대 롱폼 ── */
+.longformMark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+}
+
+.longformLink {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: inherit;
+}
+
+.longformThumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 193px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+
+.longformThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.longformPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.longformDuration {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-xs);
+  background: rgba(0, 0, 0, 0.7);
+  font-size: var(--text-caption-size);
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.longformTitle {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
 }

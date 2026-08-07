@@ -1,3 +1,4 @@
+import { personalizeArtistNames } from "../features/artist/selectedArtist";
 import { LOCALE_BCP47, currentLocale } from "../i18n";
 import type { paths } from "./schema";
 
@@ -66,7 +67,9 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     );
   }
 
-  return body as T;
+  // 시드 스타 이름을 사용자가 고른 아티스트로 치환합니다 (데모용 임시 조치 —
+  // 이유와 걷어낼 시점은 `personalizeArtistNames` 주석 참고).
+  return personalizeArtistNames(body) as T;
 }
 
 /** 쿼리 파라미터에서 undefined/null 을 제거하고 문자열로 직렬화 */
@@ -111,6 +114,9 @@ export type ContentSummary = NonNullable<ContentPage["content"]>[number];
 export type AiAnalysis = Json<
   paths["/api/v1/contents/{id}/ai-analysis"]["get"]["responses"]["200"]
 >;
+export type NewsDigest = Json<
+  paths["/api/v1/stars/{starId}/news-digest"]["get"]["responses"]["200"]
+>;
 export type CommentPage = Json<
   paths["/api/v1/contents/{id}/comments"]["get"]["responses"]["200"]
 >;
@@ -125,7 +131,18 @@ export type User = Json<paths["/api/v1/users/me"]["get"]["responses"]["200"]>;
 export type ChatMessage = Json<
   paths["/api/v1/chat/sessions/{sessionId}/messages"]["post"]["responses"]["200"]
 >;
-export type ChatCitation = { type: string; id: number; title: string };
+/**
+ * ⚠️ 손으로 쓴 타입입니다 — SSE 는 생성 스키마에 없어서 여기서 정의합니다.
+ * `docs/api-spec.yaml` 의 `Citation` 과 맞춰 두세요.
+ *
+ * `route` 는 `type: "FEATURE"`(기능 안내) 근거에서만 채워지고, 이때 `id` 는 없습니다.
+ */
+export type ChatCitation = {
+  type: string;
+  id?: number | null;
+  title: string;
+  route?: string | null;
+};
 export type AuthResponse = Json<
   paths["/api/v1/auth/login"]["post"]["responses"]["200"]
 >;
@@ -136,6 +153,9 @@ export type TipPage = Json<paths["/api/v1/tips"]["get"]["responses"]["200"]>;
 export type Tip = Json<paths["/api/v1/tips/{id}"]["get"]["responses"]["200"]>;
 export type SchedulePage = Json<
   paths["/api/v1/schedules"]["get"]["responses"]["200"]
+>;
+export type Schedule = Json<
+  paths["/api/v1/schedules/{id}"]["get"]["responses"]["200"]
 >;
 export type SearchResponse = Json<
   paths["/api/v1/search"]["get"]["responses"]["200"]
@@ -189,6 +209,10 @@ export const api = {
 
   getAiAnalysis: (id: number) =>
     request<AiAnalysis>(`/api/v1/contents/${id}/ai-analysis`),
+
+  /** 소식 스레드 상단의 AI 소식 요약. 서버가 (starId, locale) 단위로 캐시합니다. */
+  getNewsDigest: (starId: number) =>
+    request<NewsDigest>(`/api/v1/stars/${starId}/news-digest`),
 
   likeContent: (id: number) =>
     request<LikeState>(`/api/v1/contents/${id}/like`, { method: "POST" }),
@@ -245,12 +269,13 @@ export const api = {
   getMe: () => request<User>("/api/v1/users/me"),
 
   // ── AI 도우미 "비엔이" ──
-  createChatSession: (starId: number, locale: string) =>
+  /** `artistName` 은 랜딩에서 고른 응원 아티스트 — AI 가 그 사람 기준으로 답합니다. */
+  createChatSession: (starId: number, locale: string, artistName?: string) =>
     request<{ sessionId: string; suggestedQuestions: string[] }>(
       "/api/v1/chat/sessions",
       {
         method: "POST",
-        body: JSON.stringify({ starId, locale }),
+        body: JSON.stringify({ starId, locale, artistName }),
       },
     ),
 
@@ -332,6 +357,8 @@ export const api = {
     page?: number;
     size?: number;
   }) => request<SchedulePage>(`/api/v1/schedules${qs(params)}`),
+
+  getSchedule: (id: number) => request<Schedule>(`/api/v1/schedules/${id}`),
 
   search: (params: { starId: number; q: string; limitPerCategory?: number }) =>
     request<SearchResponse>(`/api/v1/search${qs(params)}`),

@@ -23,7 +23,12 @@
   "feed": {
     "title": "活動記録",
     "manager": "ファンマネージャー",
-    "hoursAgo": "{{count}}時間前"
+    "hoursAgo": "{{count}}時間前",
+    "digestBadge": "AI要約",
+    "digestTitle": "今週のニュースまとめ",
+    "digestSources": "要約に使ったニュース",
+    "digestNotice": "MBN公式AIアシスタントがMBNコンテンツのみをもとにまとめました。",
+    "longform": "ステージ長編"
   },
   "fanspace": {
     "title": "活動記録",
@@ -47,6 +52,16 @@
       "concert": "予定された公演がありません",
       "vote": "進行中の投票がありません",
       "gathering": "募集中の集まりがありません"
+    },
+    "calendar": "カレンダー",
+    "calendarDetail": "詳細",
+    "goodsNotice": "当プラットフォームは金銭のやり取りを仲介しません。購入は公式ショップで行われます。",
+    "goodsOpenShop": "公式ショップで見る",
+    "goodsCategory": {
+      "light": "ペンライト",
+      "apparel": "アパレル",
+      "photo": "フォト・スローガン",
+      "living": "リビング"
     }
   },
   "broadcast": {
@@ -59,7 +74,24 @@
     }
   },
   "notification": {
-    "title": "通知"
+    "title": "通知",
+    "registerKeyword": "キーワード登録",
+    "sample": {
+      "keywordVideo": "設定されたキーワード「{{keyword}}」の映像が登録されました。",
+      "gatheringJoined": "「{{title}}」の申し込みに成功しました。"
+    },
+    "keywordTitle": "キーワード通知",
+    "keywordLead": "登録した言葉が含まれるお知らせが届いたらご案内します。",
+    "keywordPlaceholder": "例: コンサート、新曲",
+    "keywordAdd": "登録",
+    "keywordMine": "マイキーワード ({{count}}/{{max}})",
+    "keywordEmpty": "まだ登録したキーワードがありません。",
+    "keywordSuggested": "こんなキーワードはいかがですか",
+    "keywordRemove": "キーワード{{word}}を削除",
+    "keywordFull": "キーワードは最大{{max}}件まで登録できます。",
+    "keywordNotice": "キーワードはこの端末にのみ保存されます。別の端末では再登録してください。",
+    "myKeywords": "登録キーワード",
+    "keywordDuplicate": "すでに登録済みのキーワードです。"
   },
   "banner": {
     "home": {
@@ -177,7 +209,10 @@
     "hint": "スター名・予定・集まりで探せます。",
     "noResult": "「{{query}}」の結果がありません。",
     "trendingTitle": "現在の人気検索ワード",
-    "trendingAsOf": "8月6日 12:00 時点"
+    "trendingAsOf": "8月6日 12:00 時点",
+    "voiceStart": "音声で検索",
+    "voiceStop": "音声入力を止める",
+    "voiceListening": "聞いています。お探しのものをどうぞ。"
   },
   "tip": {
     "updatedAt": "{{date}} 時点",
@@ -203,17 +238,73 @@
     "titleLine2": "選んでください",
     "subtitle": "MBNの番組で出会ったあの人のファンダム空間へ。",
     "eyebrow": "MBN トロット ファンダム",
-    "stat": "{{programs}}番組 · アーティスト{{artists}}名",
+    "stat": "MBN トロットアーティスト {{artists}}名",
     "searchPlaceholder": "アーティスト名で検索",
     "clearSearch": "検索をクリア",
     "resultCount": "検索結果 {{count}}名",
     "confirmLabel": "選択したアーティスト",
-    "castCount": "出演 {{count}}名",
-    "expand": "全出演者を見る",
-    "collapse": "閉じる",
-    "noCast": "出演者リストは準備中です。",
     "enter": "ファンダム空間へ",
     "linkedSuffix": " さんを選択しました · 仮リンク",
     "change": "変更"
+  },
+  "voice": {
+    "ctaTitle": "声で聞く",
+    "ctaSub": "押して話してください",
+    "menuTitle": "何をしますか？",
+    "followUpHint": "マイクを押して「募集を見せて」と言うとすぐ移動します",
+    "moving": "{{target}} に移動します",
+    "commandHome": "メイン",
+    "step": {
+      "listen": "聞き取り",
+      "write": "文字起こし",
+      "analyze": "分析",
+      "answer": "回答",
+      "next": "次の指示"
+    },
+    "stepStatus": "ステップ{{step}} · {{label}}",
+    "followUpReady": "どうぞお話しください。ご希望の画面へご案内します。"
+  },
+  "live": {
+    "badge": "LIVE",
+    "subtitle": "24時間ライブ",
+    "title": "プレイリスト",
+    "openPlayer": "ライブ映像を見る",
+    "rotateHint": "横向きにすると大きく見られます"
+  },
+  "vote": {
+    "bannerSub": "開催中",
+    "bannerCta": "投票する"
+  },
+  "identity": {
+    "welcome": "ようこそ！",
+    "of": "の",
+    "honorific": "さん",
+    "drawing": "抽選中...",
+    "confirm": "はじめる"
+  },
+  "concert": {
+    "when": "公演日時",
+    "where": "会場",
+    "seats": "応募枚数",
+    "seatsLimit": "1人あたり最大{{max}}枚",
+    "seatPick": "何枚応募しますか？",
+    "seatCount": "{{count}}枚",
+    "apply": "応募する",
+    "cancel": "応募を取り消す",
+    "backToList": "公演一覧へ",
+    "myEntries": "応募した公演",
+    "entryDoneTitle": "応募完了",
+    "entryDone": "応募を受け付けました。",
+    "entryCanceled": "応募を取り消しました。",
+    "paymentNotice": "応募は抽選の申し込みであり決済ではありません。当選後の購入は公式チケットサイトで行われ、本プラットフォームは金銭取引を仲介しません。"
+  },
+  "country": {
+    "KR": "韓国",
+    "US": "アメリカ",
+    "JP": "日本",
+    "FR": "フランス",
+    "ES": "スペイン",
+    "CN": "中国",
+    "RU": "ロシア"
   }
 }

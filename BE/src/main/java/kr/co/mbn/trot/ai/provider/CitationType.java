@@ -6,5 +6,7 @@ public enum CitationType {
     CONTENT,
     GATHERING,
     PLACE,
-    TIP
+    TIP,
+    /** DB 리소스가 아니라 **이 앱의 기능(화면)** 안내. id 가 없고 route 로 이동합니다. */
+    FEATURE
 }

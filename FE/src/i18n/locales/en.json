@@ -23,7 +23,12 @@
   "feed": {
     "title": "Activity",
     "manager": "Fan Manager",
-    "hoursAgo": "{{count}}h ago"
+    "hoursAgo": "{{count}}h ago",
+    "digestBadge": "AI recap",
+    "digestTitle": "This week at a glance",
+    "digestSources": "Sources used",
+    "digestNotice": "Written by MBN's AI assistant from MBN content only.",
+    "longform": "Full stage video"
   },
   "fanspace": {
     "title": "Activity",
@@ -47,6 +52,16 @@
       "concert": "No upcoming shows",
       "vote": "No votes in progress",
       "gathering": "No open gatherings"
+    },
+    "calendar": "Calendar",
+    "calendarDetail": "Details",
+    "goodsNotice": "This platform does not process payments. Purchases happen at the official shop.",
+    "goodsOpenShop": "Open official shop",
+    "goodsCategory": {
+      "light": "Lightsticks",
+      "apparel": "Apparel",
+      "photo": "Photo & slogans",
+      "living": "Living"
     }
   },
   "broadcast": {
@@ -59,7 +74,24 @@
     }
   },
   "notification": {
-    "title": "Notifications"
+    "title": "Notifications",
+    "registerKeyword": "Add keyword",
+    "sample": {
+      "keywordVideo": "A new video about '{{keyword}}' has been posted.",
+      "gatheringJoined": "You joined '{{title}}'."
+    },
+    "keywordTitle": "Alert keywords",
+    "keywordLead": "We'll let you know when news mentions a word you saved.",
+    "keywordPlaceholder": "e.g. concert, new single",
+    "keywordAdd": "Add",
+    "keywordMine": "My keywords ({{count}}/{{max}})",
+    "keywordEmpty": "No keywords saved yet.",
+    "keywordSuggested": "Try one of these",
+    "keywordRemove": "Remove keyword {{word}}",
+    "keywordFull": "You can save up to {{max}} keywords.",
+    "keywordNotice": "Keywords are stored on this device only. Add them again on another device.",
+    "myKeywords": "Your keywords",
+    "keywordDuplicate": "That keyword is already saved."
   },
   "banner": {
     "home": {
@@ -177,7 +209,10 @@
     "hint": "Try a star name, a schedule, or a gathering.",
     "noResult": "No results for \"{{query}}\".",
     "trendingTitle": "Trending searches",
-    "trendingAsOf": "As of Aug 6, 12:00"
+    "trendingAsOf": "As of Aug 6, 12:00",
+    "voiceStart": "Search by voice",
+    "voiceStop": "Stop voice input",
+    "voiceListening": "Listening — say what you're looking for."
   },
   "tip": {
     "updatedAt": "As of {{date}}",
@@ -203,17 +238,73 @@
     "titleLine2": "Artist",
     "subtitle": "Step into the fandom space of the artist you met on MBN.",
     "eyebrow": "MBN TROT FANDOM",
-    "stat": "{{programs}} shows · {{artists}} artists",
+    "stat": "{{artists}} MBN trot artists",
     "searchPlaceholder": "Search by artist name",
     "clearSearch": "Clear search",
     "resultCount": "{{count}} results",
     "confirmLabel": "Selected artist",
-    "castCount": "{{count}} artists",
-    "expand": "See all artists",
-    "collapse": "Collapse",
-    "noCast": "The cast list is being prepared.",
     "enter": "Enter fandom space",
     "linkedSuffix": " selected · placeholder link",
     "change": "Change"
+  },
+  "voice": {
+    "ctaTitle": "Ask by voice",
+    "ctaSub": "Tap and speak",
+    "menuTitle": "What would you like to do?",
+    "followUpHint": "Tap the mic and say \"show gatherings\" to jump straight there",
+    "moving": "Opening {{target}}",
+    "commandHome": "Home",
+    "step": {
+      "listen": "Listening",
+      "write": "Transcribing",
+      "analyze": "Analyzing",
+      "answer": "Answer",
+      "next": "Next step"
+    },
+    "stepStatus": "Step {{step}} · {{label}}",
+    "followUpReady": "Go ahead — say where you want to go and I'll take you there."
+  },
+  "live": {
+    "badge": "LIVE",
+    "subtitle": "24h live",
+    "title": "Playlist",
+    "openPlayer": "Open live video",
+    "rotateHint": "Rotate your phone for a bigger view"
+  },
+  "vote": {
+    "bannerSub": "Now open",
+    "bannerCta": "Go vote"
+  },
+  "identity": {
+    "welcome": "Welcome!",
+    "of": "'s",
+    "honorific": "",
+    "drawing": "Drawing...",
+    "confirm": "Get started"
+  },
+  "concert": {
+    "when": "Date & time",
+    "where": "Venue",
+    "seats": "Tickets",
+    "seatsLimit": "Up to {{max}} per person",
+    "seatPick": "How many tickets?",
+    "seatCount": "{{count}} ticket(s)",
+    "apply": "Enter the draw",
+    "cancel": "Withdraw entry",
+    "backToList": "Back to concerts",
+    "myEntries": "My entries",
+    "entryDoneTitle": "Entered",
+    "entryDone": "Your entry has been received.",
+    "entryCanceled": "Your entry was withdrawn.",
+    "paymentNotice": "Entering the draw is not a purchase. If you win, booking happens on the official ticketing site — this platform does not handle payments."
+  },
+  "country": {
+    "KR": "Korea",
+    "US": "USA",
+    "JP": "Japan",
+    "FR": "France",
+    "ES": "Spain",
+    "CN": "China",
+    "RU": "Russia"
   }
 }

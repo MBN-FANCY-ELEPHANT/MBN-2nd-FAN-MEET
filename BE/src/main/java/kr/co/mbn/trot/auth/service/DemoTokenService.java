@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +27,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class DemoTokenService {
 
+    private static final Logger log = LoggerFactory.getLogger(DemoTokenService.class);
+
     private static final String ALGORITHM = "HmacSHA256";
     private static final Base64.Encoder ENCODER = Base64.getUrlEncoder().withoutPadding();
     private static final Base64.Decoder DECODER = Base64.getUrlDecoder();
 
+    /**
+     * ⚠️ {@code application.yml} 의 {@code ${AUTH_SECRET:...}} 기본값은
+     * <b>환경변수가 아예 없을 때만</b> 적용됩니다. {@code .env} 에 {@code AUTH_SECRET=} 처럼
+     * <b>빈 값으로 존재하면</b> 빈 문자열이 그대로 주입되고, {@code SecretKeySpec} 이
+     * {@code IllegalArgumentException: Empty key} 를 던져 <b>모든 로그인이 500</b> 이 됩니다.
+     * (실제로 겪은 버그입니다.) 그래서 여기서 공백을 한 번 더 걸러냅니다.
+     */
+    private static final String FALLBACK_SECRET =
+            "local-dev-only-secret-please-change-me-at-least-32-bytes";
+
     private final byte[] secret;
 
     public DemoTokenService(@Value("${app.auth.secret}") String secret) {
-        this.secret = secret.getBytes(StandardCharsets.UTF_8);
+        String resolved = secret == null || secret.isBlank() ? FALLBACK_SECRET : secret;
+        if (resolved.equals(FALLBACK_SECRET)) {
+            log.warn("AUTH_SECRET 이 비어 있어 로컬 기본 키로 대체합니다. 운영에서는 반드시 설정하세요.");
+        }
+        this.secret = resolved.getBytes(StandardCharsets.UTF_8);
     }
 
     public String issue(Long userId) {

@@ -23,7 +23,12 @@
   "feed": {
     "title": "活动记录",
     "manager": "粉丝经理",
-    "hoursAgo": "{{count}}小时前"
+    "hoursAgo": "{{count}}小时前",
+    "digestBadge": "AI 摘要",
+    "digestTitle": "本周消息一览",
+    "digestSources": "摘要来源",
+    "digestNotice": "由 MBN 官方 AI 助手仅依据 MBN 内容整理。",
+    "longform": "舞台完整视频"
   },
   "fanspace": {
     "title": "活动记录",
@@ -47,6 +52,16 @@
       "concert": "暂无即将开始的演出",
       "vote": "暂无进行中的投票",
       "gathering": "暂无招募中的聚会"
+    },
+    "calendar": "日历",
+    "calendarDetail": "详情",
+    "goodsNotice": "本平台不提供支付服务，购买请前往官方商店。",
+    "goodsOpenShop": "前往官方商店",
+    "goodsCategory": {
+      "light": "应援棒",
+      "apparel": "服饰",
+      "photo": "照片与横幅",
+      "living": "生活用品"
     }
   },
   "broadcast": {
@@ -59,7 +74,24 @@
     }
   },
   "notification": {
-    "title": "通知"
+    "title": "通知",
+    "registerKeyword": "添加关键词",
+    "sample": {
+      "keywordVideo": "您设置的关键词「{{keyword}}」有新视频了。",
+      "gatheringJoined": "已成功报名「{{title}}」。"
+    },
+    "keywordTitle": "关注关键词",
+    "keywordLead": "当消息中出现您登记的词时，我们会通知您。",
+    "keywordPlaceholder": "例如：演唱会、新歌",
+    "keywordAdd": "登记",
+    "keywordMine": "我的关键词（{{count}}/{{max}}）",
+    "keywordEmpty": "还没有登记关键词。",
+    "keywordSuggested": "试试这些关键词",
+    "keywordRemove": "删除关键词 {{word}}",
+    "keywordFull": "最多可登记 {{max}} 个关键词。",
+    "keywordNotice": "关键词仅保存在本设备，换设备请重新登记。",
+    "myKeywords": "已登记关键词",
+    "keywordDuplicate": "该关键词已登记。"
   },
   "banner": {
     "home": {
@@ -177,7 +209,10 @@
     "hint": "可以搜索艺人、日程或聚会。",
     "noResult": "没有找到“{{query}}”的结果。",
     "trendingTitle": "当前热门搜索",
-    "trendingAsOf": "截至 8月6日 12:00"
+    "trendingAsOf": "截至 8月6日 12:00",
+    "voiceStart": "语音搜索",
+    "voiceStop": "停止语音输入",
+    "voiceListening": "正在聆听，请说出您要找的内容。"
   },
   "tip": {
     "updatedAt": "{{date}} 更新",
@@ -203,17 +238,73 @@
     "titleLine2": "艺人",
     "subtitle": "进入你在 MBN 节目中认识的艺人的粉丝空间。",
     "eyebrow": "MBN TROT 粉丝空间",
-    "stat": "{{programs}} 个节目 · {{artists}} 位艺人",
+    "stat": "MBN 演歌艺人 {{artists}} 位",
     "searchPlaceholder": "按艺人姓名搜索",
     "clearSearch": "清除搜索",
     "resultCount": "找到 {{count}} 位",
     "confirmLabel": "已选艺人",
-    "castCount": "出演 {{count}} 位",
-    "expand": "查看全部出演者",
-    "collapse": "收起",
-    "noCast": "出演者名单准备中。",
     "enter": "进入粉丝空间",
     "linkedSuffix": " 已选择 · 临时链接",
     "change": "更换"
+  },
+  "voice": {
+    "ctaTitle": "用语音提问",
+    "ctaSub": "按下直接说",
+    "menuTitle": "您想做什么？",
+    "followUpHint": "按下麦克风说“打开招募”即可直接跳转",
+    "moving": "正在打开 {{target}}",
+    "commandHome": "主页",
+    "step": {
+      "listen": "聆听",
+      "write": "转写",
+      "analyze": "分析",
+      "answer": "回答",
+      "next": "下一步"
+    },
+    "stepStatus": "第 {{step}} 步 · {{label}}",
+    "followUpReady": "请说话，告诉我想去哪个页面，我带您过去。"
+  },
+  "live": {
+    "badge": "LIVE",
+    "subtitle": "24小时直播",
+    "title": "播放列表",
+    "openPlayer": "观看直播",
+    "rotateHint": "横屏可以看得更大"
+  },
+  "vote": {
+    "bannerSub": "进行中",
+    "bannerCta": "去投票"
+  },
+  "identity": {
+    "welcome": "欢迎！",
+    "of": "的",
+    "honorific": "",
+    "drawing": "抽取中...",
+    "confirm": "开始"
+  },
+  "concert": {
+    "when": "演出时间",
+    "where": "场馆",
+    "seats": "申请张数",
+    "seatsLimit": "每人最多 {{max}} 张",
+    "seatPick": "要申请几张？",
+    "seatCount": "{{count}} 张",
+    "apply": "参加抽选",
+    "cancel": "取消申请",
+    "backToList": "返回演出列表",
+    "myEntries": "我申请的演出",
+    "entryDoneTitle": "申请完成",
+    "entryDone": "已收到您的申请。",
+    "entryCanceled": "已取消您的申请。",
+    "paymentNotice": "参加抽选并非购票。中选后请在官方售票渠道购票，本平台不代收任何款项。"
+  },
+  "country": {
+    "KR": "韩国",
+    "US": "美国",
+    "JP": "日本",
+    "FR": "法国",
+    "ES": "西班牙",
+    "CN": "中国",
+    "RU": "俄罗斯"
   }
 }

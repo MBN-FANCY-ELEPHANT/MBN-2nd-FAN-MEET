@@ -138,7 +138,7 @@ export default function GatheringDetailPage() {
             {/* fee 는 표시 전용입니다. 플랫폼은 결제를 중개하지 않습니다 */}
             <span>
               {data.fee > 0
-                ? `${data.fee.toLocaleString()}원`
+                ? `${data.fee.toLocaleString()}${t("fanspace.currency")}`
                 : t("gathering.free")}
             </span>
           </div>

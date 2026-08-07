@@ -1,0 +1,84 @@
+/**
+ * 하단 네비게이션 — Figma 27:6110 실측 (h 81, 네비 본체 60, 마이크가 위로 튀어나옴).
+ *
+ * ⚠️ 탭이 **2개(소식·팬공간)** 이고 가운데를 **마이크 FAB** 이 차지합니다.
+ *    음성이 메뉴와 동등한 1급 진입점이라는 뜻이라, 마이크를 탭 목록에 넣지 않고
+ *    별도 버튼으로 띄웁니다.
+ */
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: 100%;
+  max-width: var(--app-width);
+  height: var(--nav-height);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* 네비 본체 — 마이크가 위로 나올 자리를 남기고 아래쪽만 채웁니다 */
+.bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  border-top: 0.5px solid var(--color-nav-border);
+  background: var(--color-background);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-caption-size);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.itemActive {
+  color: var(--color-primary);
+}
+
+/* Figma 아이콘 원본이 활성 상태(주황)로 그려져 있어 비활성은 눌러둡니다 */
+.icon {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(6%) saturate(11%)
+    hue-rotate(316deg) brightness(94%) contrast(90%);
+}
+
+.itemActive .icon {
+  filter: brightness(0) saturate(100%) invert(58%) sepia(72%) saturate(1932%)
+    hue-rotate(348deg) brightness(99%) contrast(92%);
+}
+
+/* ── 중앙 마이크 FAB ── */
+.mic {
+  position: absolute;
+  left: 50%;
+  bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: 76px;
+  height: 76px;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.mic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* 탭 사이 가운데를 마이크가 차지하므로 라벨이 겹치지 않게 비워둡니다 */
+.spacer {
+  width: 92px;
+  flex-shrink: 0;
+}

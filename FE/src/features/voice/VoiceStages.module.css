@@ -1,0 +1,199 @@
+/* 음성 도우미 5단계 표시 + 주황 물감 이펙트 */
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.dots {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 240px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 점들을 잇는 가는 선 — 팬공간 캘린더 타임라인과 같은 어법입니다 */
+.dots::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--color-divider);
+}
+
+.dot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+}
+
+.dotMark {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-divider);
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.dotDone .dotMark {
+  background: var(--color-primary);
+}
+
+/* 현재 단계만 크게 + 링. 색만으로 구분하면 중장년 사용자가 놓칩니다 */
+.dotCurrent .dotMark {
+  width: 12px;
+  height: 12px;
+  background: var(--color-primary);
+  transform: scale(1);
+  box-shadow: 0 0 0 4px rgba(245, 130, 32, 0.22);
+}
+
+.stepLabel {
+  font-size: var(--text-meta-size);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/**
+ * 주황 물감 번짐 / 폭죽.
+ *
+ * blob 은 흐린 주황 원입니다. 각자 다른 방향으로 퍼지면서 사라져 "번지는" 느낌을 냅니다.
+ * 단계별 차이는 두 변수로만 냅니다:
+ *   --burst-speed   한 번 퍼지는 데 걸리는 시간
+ *   --burst-spread  퍼져 나가는 거리
+ */
+.burst {
+  --burst-speed: 3.2s;
+  --burst-spread: 46px;
+  --burst-alpha: 0.36;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 마이크(104px)가 가운데를 덮으므로 blob 은 그보다 크게 잡아야 밖으로 번져 보입니다 */
+.blob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 132px;
+  height: 132px;
+  margin: -66px 0 0 -66px;
+  border-radius: var(--radius-pill);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(245, 130, 32, var(--burst-alpha)) 0%,
+    rgba(245, 130, 32, 0) 70%
+  );
+  filter: blur(10px);
+  opacity: 0;
+  animation: bloom var(--burst-speed) ease-out infinite;
+}
+
+/* 6방향 — 각도만 다르고 나머지는 같습니다 */
+.blob0 {
+  --angle: 0deg;
+  animation-delay: 0s;
+}
+.blob1 {
+  --angle: 60deg;
+  animation-delay: calc(var(--burst-speed) * 0.16);
+}
+.blob2 {
+  --angle: 120deg;
+  animation-delay: calc(var(--burst-speed) * 0.32);
+}
+.blob3 {
+  --angle: 180deg;
+  animation-delay: calc(var(--burst-speed) * 0.48);
+}
+.blob4 {
+  --angle: 240deg;
+  animation-delay: calc(var(--burst-speed) * 0.64);
+}
+.blob5 {
+  --angle: 300deg;
+  animation-delay: calc(var(--burst-speed) * 0.8);
+}
+
+@keyframes bloom {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(0) scale(0.35);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateY(calc(var(--burst-spread) * -1))
+      scale(1.45);
+  }
+}
+
+/* ── 단계별 세기 ─────────────────────────────────────────────
+   듣기: 숨쉬듯 천천히 / 받아쓰기: 조금 빠르게
+   분석: 폭죽처럼 빠르고 넓게 (여기가 "분석 중"이라는 가장 강한 신호)
+   답변·다음 지시: 거의 멈춘 잔광                              */
+
+.burstLISTENING {
+  --burst-speed: 3s;
+  --burst-spread: 48px;
+  --burst-alpha: 0.38;
+}
+
+.burstTRANSCRIBING {
+  --burst-speed: 2s;
+  --burst-spread: 64px;
+  --burst-alpha: 0.46;
+}
+
+.burstTHINKING {
+  --burst-speed: 1s;
+  --burst-spread: 92px;
+  --burst-alpha: 0.58;
+}
+
+.burstANSWERED,
+.burstFOLLOW_UP {
+  --burst-speed: 4.5s;
+  --burst-spread: 26px;
+  --burst-alpha: 0.22;
+}
+
+/* 움직임을 줄여달라는 사용자에게는 은은한 글로우만 남깁니다 */
+@media (prefers-reduced-motion: reduce) {
+  .blob {
+    animation: none;
+    opacity: 0.5;
+    transform: none;
+  }
+  .blob1,
+  .blob2,
+  .blob3,
+  .blob4,
+  .blob5 {
+    display: none;
+  }
+}

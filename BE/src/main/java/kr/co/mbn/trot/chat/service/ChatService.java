@@ -20,6 +20,7 @@ import kr.co.mbn.trot.chat.repository.ChatSessionRepository;
 import kr.co.mbn.trot.common.error.ApiException;
 import kr.co.mbn.trot.common.error.ErrorCode;
 import kr.co.mbn.trot.common.security.CurrentUserProvider;
+import kr.co.mbn.trot.star.repository.StarRepository;
 import kr.co.mbn.trot.user.domain.Locale;
 
 /**
@@ -52,26 +53,60 @@ public class ChatService {
     private final EvidenceFinder evidenceFinder;
     private final AiProvider aiProvider;
     private final CurrentUserProvider currentUser;
+    private final StarRepository starRepository;
 
     public ChatService(
             ChatSessionRepository sessionRepository,
             ChatMessageRepository messageRepository,
             EvidenceFinder evidenceFinder,
             AiProvider aiProvider,
+            StarRepository starRepository,
             CurrentUserProvider currentUser) {
         this.sessionRepository = sessionRepository;
         this.messageRepository = messageRepository;
         this.evidenceFinder = evidenceFinder;
         this.aiProvider = aiProvider;
         this.currentUser = currentUser;
+        this.starRepository = starRepository;
+    }
+
+    /**
+     * 근거 텍스트의 시드 스타 이름을 <b>사용자가 고른 아티스트 이름으로 치환</b>합니다.
+     *
+     * <p>⚠️ <b>데모 shim 입니다.</b> MVP 는 스타 1명(임영웅) 데이터만 있는데 랜딩에서는
+     * 13명 중 하나를 고를 수 있습니다. 치환하지 않으면 박서진을 골라도 근거에 적힌
+     * "임영웅의 팬미팅" 을 그대로 읽어 <b>다른 사람 이름으로 답합니다</b> (실제로 겪음).
+     * 프롬프트로만 지시하면 모델이 근거의 문자열을 그대로 따라가서 안 지켜집니다.
+     *
+     * <p>다중 스타가 확정되면 이 메서드를 지우고 {@code starId} 로 진짜 데이터를 조회하세요.
+     */
+    private List<Evidence> rewriteArtist(List<Evidence> evidence, Long starId, String artistName) {
+        if (artistName == null || artistName.isBlank()) {
+            return evidence;
+        }
+        String seedName = starRepository.findById(starId)
+                .map(star -> star.getName())
+                .orElse(null);
+        if (seedName == null || seedName.equals(artistName)) {
+            return evidence;
+        }
+        return evidence.stream()
+                .map(e -> new Evidence(
+                        e.type(),
+                        e.id(),
+                        e.title() == null ? null : e.title().replace(seedName, artistName),
+                        e.detail() == null ? null : e.detail().replace(seedName, artistName),
+                        e.route()))
+                .toList();
     }
 
     @Transactional
-    public ChatSessionResponse createSession(Long starId, Locale locale) {
+    public ChatSessionResponse createSession(Long starId, Locale locale, String artistName) {
         Locale resolved = locale == null ? Locale.KO : locale;
 
         ChatSession session = sessionRepository.save(
-                ChatSession.open(currentUser.findUserId().orElse(null), starId, resolved));
+                ChatSession.open(
+                        currentUser.findUserId().orElse(null), starId, resolved, artistName));
 
         return new ChatSessionResponse(
                 session.getId(),
@@ -93,27 +128,23 @@ public class ChatService {
 
         Intent intent = evidenceFinder.classify(question);
         boolean inScope = intent != Intent.OUT_OF_SCOPE;
-        List<Evidence> evidence = evidenceFinder.find(intent, session.getStarId());
+        List<Evidence> evidence = rewriteArtist(
+                evidenceFinder.find(intent, session.getStarId(), question),
+                session.getStarId(),
+                session.getArtistName());
 
         ChatAnswer answer = aiProvider.answer(
-                new ChatQuestion(question, session.getLocale(), intent, inScope, evidence));
+                new ChatQuestion(
+                        question, session.getLocale(), intent, inScope, evidence,
+                        session.getArtistName()));
 
         List<ChatCitation> citations = answer.citations().stream()
-                .map(e -> ChatCitation.of(e.type(), e.id(), e.title()))
+                .map(e -> ChatCitation.of(e.type(), e.id(), e.title(), e.route()))
                 .toList();
 
         ChatMessage saved = messageRepository.save(ChatMessage.ofAssistant(
                 sessionId, answer.text(), answer.outOfScope(), citations));
 
         return ChatMessageResponse.from(saved);
-    }
-
-    public List<ChatMessageResponse> getMessages(String sessionId) {
-        if (!sessionRepository.existsById(sessionId)) {
-            throw new ApiException(ErrorCode.CHAT_SESSION_NOT_FOUND);
-        }
-        return messageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId).stream()
-                .map(ChatMessageResponse::from)
-                .toList();
     }
 }

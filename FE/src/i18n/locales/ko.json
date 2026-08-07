@@ -23,7 +23,12 @@
   "feed": {
     "title": "활동 기록",
     "manager": "팬매니저",
-    "hoursAgo": "{{count}}시간 전"
+    "hoursAgo": "{{count}}시간 전",
+    "digestBadge": "AI 요약",
+    "digestTitle": "이번 주 소식 한눈에",
+    "digestSources": "요약에 쓰인 소식",
+    "digestNotice": "MBN 공식 AI 도우미가 MBN 콘텐츠만 보고 정리했습니다.",
+    "longform": "무대 롱폼"
   },
   "fanspace": {
     "title": "활동 기록",
@@ -47,6 +52,16 @@
       "concert": "예정된 공연이 없어요",
       "vote": "진행중인 투표가 없어요",
       "gathering": "모집중인 모임이 없어요"
+    },
+    "calendar": "캘린더",
+    "calendarDetail": "자세히",
+    "goodsNotice": "플랫폼은 금전 거래를 중개하지 않습니다. 구매는 공식 판매처에서 진행됩니다.",
+    "goodsOpenShop": "공식 판매처에서 보기",
+    "goodsCategory": {
+      "light": "응원봉",
+      "apparel": "의류",
+      "photo": "포토·슬로건",
+      "living": "리빙"
     }
   },
   "broadcast": {
@@ -59,7 +74,24 @@
     }
   },
   "notification": {
-    "title": "알림"
+    "title": "알림",
+    "registerKeyword": "키워드 등록",
+    "sample": {
+      "keywordVideo": "키워드 설정하신 '{{keyword}}'에 대한 영상이 등록되었습니다.",
+      "gatheringJoined": "'{{title}}' 신청에 성공했습니다."
+    },
+    "keywordTitle": "관심 키워드",
+    "keywordLead": "등록한 단어가 들어간 소식이 올라오면 알려드려요.",
+    "keywordPlaceholder": "예: 콘서트, 신곡",
+    "keywordAdd": "등록",
+    "keywordMine": "내 키워드 ({{count}}/{{max}})",
+    "keywordEmpty": "아직 등록한 키워드가 없어요.",
+    "keywordSuggested": "이런 키워드는 어때요?",
+    "keywordRemove": "{{word}} 키워드 삭제",
+    "keywordFull": "키워드는 최대 {{max}}개까지 등록할 수 있어요.",
+    "keywordNotice": "키워드는 이 기기에만 저장됩니다. 다른 기기에서는 다시 등록해 주세요.",
+    "myKeywords": "등록한 키워드",
+    "keywordDuplicate": "이미 등록한 키워드예요."
   },
   "banner": {
     "home": {
@@ -177,7 +209,10 @@
     "hint": "스타 이름, 일정, 모임 이름으로 찾아보세요.",
     "noResult": "'{{query}}' 에 대한 결과가 없습니다.",
     "trendingTitle": "현재 인기있는 검색어",
-    "trendingAsOf": "08월 06일 12:00 기준"
+    "trendingAsOf": "08월 06일 12:00 기준",
+    "voiceStart": "음성으로 검색하기",
+    "voiceStop": "음성 입력 멈추기",
+    "voiceListening": "듣고 있어요. 찾으실 것을 말씀해 주세요."
   },
   "tip": {
     "updatedAt": "{{date}} 기준",
@@ -203,17 +238,73 @@
     "titleLine2": "선택하세요",
     "subtitle": "MBN 방송에서 만난 그 사람의 팬덤 공간으로 들어가세요.",
     "eyebrow": "MBN 트롯 팬덤",
-    "stat": "{{programs}}개 프로그램 · 아티스트 {{artists}}명",
+    "stat": "MBN 트롯 아티스트 {{artists}}명",
     "searchPlaceholder": "아티스트 이름으로 찾기",
     "clearSearch": "검색어 지우기",
     "resultCount": "검색 결과 {{count}}명",
     "confirmLabel": "선택한 아티스트",
-    "castCount": "출연 {{count}}명",
-    "expand": "전체 출연자 보기",
-    "collapse": "접기",
-    "noCast": "출연자 명단이 준비 중입니다.",
     "enter": "팬덤 공간 들어가기",
     "linkedSuffix": " 님을 선택했습니다 · 임시 연결",
     "change": "변경"
+  },
+  "voice": {
+    "ctaTitle": "말로 물어보기",
+    "ctaSub": "누르고 말씀하세요",
+    "menuTitle": "무엇을 하시겠어요?",
+    "followUpHint": "마이크를 누르고 \"모집 보여줘\" 처럼 말하면 바로 이동해요",
+    "moving": "{{target}} 화면으로 이동할게요",
+    "commandHome": "메인",
+    "step": {
+      "listen": "듣기",
+      "write": "받아쓰기",
+      "analyze": "분석",
+      "answer": "답변",
+      "next": "다음 지시"
+    },
+    "stepStatus": "{{step}}단계 · {{label}}",
+    "followUpReady": "이제 말씀하세요. 원하는 화면으로 옮겨드려요."
+  },
+  "live": {
+    "badge": "LIVE",
+    "subtitle": "24시간 라이브",
+    "title": "플레이리스트",
+    "openPlayer": "라이브 영상 보기",
+    "rotateHint": "가로로 돌리면 크게 볼 수 있어요"
+  },
+  "vote": {
+    "bannerSub": "지금 진행 중",
+    "bannerCta": "투표하러 가기"
+  },
+  "identity": {
+    "welcome": "환영합니다!",
+    "of": "의",
+    "honorific": "님",
+    "drawing": "추첨 중...",
+    "confirm": "시작하기"
+  },
+  "concert": {
+    "when": "공연 일시",
+    "where": "장소",
+    "seats": "응모 매수",
+    "seatsLimit": "1인 최대 {{max}}매",
+    "seatPick": "몇 매를 응모하시겠어요?",
+    "seatCount": "{{count}}매",
+    "apply": "응모하기",
+    "cancel": "응모 취소하기",
+    "backToList": "공연 목록으로",
+    "myEntries": "내가 응모한 공연",
+    "entryDoneTitle": "응모 완료",
+    "entryDone": "응모가 접수되었습니다.",
+    "entryCanceled": "응모를 취소했습니다.",
+    "paymentNotice": "응모는 추첨 신청이며 결제가 아닙니다. 당첨 안내 후 실제 예매는 공식 예매처에서 진행되며, 이 플랫폼은 금전 거래를 중개하지 않습니다."
+  },
+  "country": {
+    "KR": "한국",
+    "US": "미국",
+    "JP": "일본",
+    "FR": "프랑스",
+    "ES": "스페인",
+    "CN": "중국",
+    "RU": "러시아"
   }
 }

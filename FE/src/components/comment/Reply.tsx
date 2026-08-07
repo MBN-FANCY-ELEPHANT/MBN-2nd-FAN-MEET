@@ -18,16 +18,14 @@ import styles from "./Reply.module.css";
  * 서버가 `(댓글, 언어)` 단위로 캐싱하므로 두 번째부터는 즉시 옵니다.
  */
 
-/** 국가 코드 → 표시 라벨. 디자인은 "한국" 처럼 한글 국가명을 씁니다. */
-const COUNTRY_LABEL: Record<string, string> = {
-  KR: "한국",
-  US: "미국",
-  JP: "일본",
-  FR: "프랑스",
-  ES: "스페인",
-  CN: "중국",
-  RU: "러시아",
-};
+/**
+ * 국가 배지에 쓰는 코드 목록.
+ *
+ * ⚠️ 라벨을 여기에 적지 마세요. 이 컴포넌트가 증명하려는 게 **글로벌 팬덤**인데
+ *    국가명만 한국어로 굳어 있으면 언어를 바꿔도 "미국·일본"이 그대로 남습니다.
+ *    라벨은 `country.*` i18n 키에서 옵니다.
+ */
+const COUNTRY_CODES = ["KR", "US", "JP", "FR", "ES", "CN", "RU"] as const;
 
 export default function Reply({ comment }: { comment: Comment }) {
   const { t } = useTranslation();
@@ -87,7 +85,12 @@ export default function Reply({ comment }: { comment: Comment }) {
           <div className={styles.nameRow}>
             <span className={styles.nickname}>{comment.author.nickname}</span>
             <span className={styles.country}>
-              {COUNTRY_LABEL[comment.author.country] ?? comment.author.country}
+              {/* 목록에 없는 코드는 코드 그대로 — 키 문자열이 노출되면 안 됩니다 */}
+              {COUNTRY_CODES.includes(
+                comment.author.country as (typeof COUNTRY_CODES)[number],
+              )
+                ? t(`country.${comment.author.country}`)
+                : comment.author.country}
             </span>
           </div>
         </div>

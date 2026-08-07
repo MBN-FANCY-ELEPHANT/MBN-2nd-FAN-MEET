@@ -92,6 +92,54 @@
   color: var(--color-text-faint);
 }
 
+/* 검색어 음성 입력 — 자판 대신 말로 넣습니다 (중장년 사용자 대응) */
+.voice {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+}
+
+.voiceIcon {
+  filter: brightness(0);
+  opacity: 0.55;
+}
+
+/* 듣는 중 — 색만 바꾸면 못 알아채므로 링까지 함께 켭니다 */
+.voiceOn {
+  background: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(245, 130, 32, 0.22);
+  animation: voicePulse 1.4s ease-in-out infinite;
+}
+
+.voiceOn .voiceIcon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
+@keyframes voicePulse {
+  50% {
+    box-shadow: 0 0 0 9px rgba(245, 130, 32, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voiceOn {
+    animation: none;
+  }
+}
+
+.voiceHint {
+  margin: var(--space-2) var(--page-padding-x) 0;
+  font-size: var(--text-meta-size);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
 /* ── 인기 검색어 ── */
 .trendTitle {
   margin: var(--space-5) var(--page-padding-x) var(--space-3);

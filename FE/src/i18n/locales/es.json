@@ -23,7 +23,12 @@
   "feed": {
     "title": "Actividad",
     "manager": "Fan Manager",
-    "hoursAgo": "hace {{count}} h"
+    "hoursAgo": "hace {{count}} h",
+    "digestBadge": "Resumen IA",
+    "digestTitle": "La semana de un vistazo",
+    "digestSources": "Fuentes utilizadas",
+    "digestNotice": "Redactado por el asistente de IA de MBN solo con contenido de MBN.",
+    "longform": "Vídeo completo del escenario"
   },
   "fanspace": {
     "title": "Actividad",
@@ -47,6 +52,16 @@
       "concert": "No hay conciertos próximos",
       "vote": "No hay votaciones activas",
       "gathering": "No hay encuentros abiertos"
+    },
+    "calendar": "Calendario",
+    "calendarDetail": "Detalles",
+    "goodsNotice": "Esta plataforma no procesa pagos. Las compras se realizan en la tienda oficial.",
+    "goodsOpenShop": "Abrir tienda oficial",
+    "goodsCategory": {
+      "light": "Lightsticks",
+      "apparel": "Ropa",
+      "photo": "Fotos y pancartas",
+      "living": "Hogar"
     }
   },
   "broadcast": {
@@ -59,7 +74,24 @@
     }
   },
   "notification": {
-    "title": "Notificaciones"
+    "title": "Notificaciones",
+    "registerKeyword": "Añadir palabra clave",
+    "sample": {
+      "keywordVideo": "Se ha publicado un vídeo sobre «{{keyword}}».",
+      "gatheringJoined": "Te has unido a «{{title}}»."
+    },
+    "keywordTitle": "Palabras clave",
+    "keywordLead": "Le avisaremos cuando una noticia mencione una palabra guardada.",
+    "keywordPlaceholder": "p. ej. concierto, nuevo tema",
+    "keywordAdd": "Añadir",
+    "keywordMine": "Mis palabras clave ({{count}}/{{max}})",
+    "keywordEmpty": "Aún no ha guardado ninguna palabra clave.",
+    "keywordSuggested": "Pruebe con estas",
+    "keywordRemove": "Eliminar la palabra clave {{word}}",
+    "keywordFull": "Puede guardar hasta {{max}} palabras clave.",
+    "keywordNotice": "Las palabras clave se guardan solo en este dispositivo.",
+    "myKeywords": "Sus palabras clave",
+    "keywordDuplicate": "Esa palabra clave ya está guardada."
   },
   "banner": {
     "home": {
@@ -177,7 +209,10 @@
     "hint": "Prueba con un nombre, un evento o un encuentro.",
     "noResult": "Sin resultados para «{{query}}».",
     "trendingTitle": "Búsquedas populares",
-    "trendingAsOf": "Al 6 de agosto, 12:00"
+    "trendingAsOf": "Al 6 de agosto, 12:00",
+    "voiceStart": "Buscar por voz",
+    "voiceStop": "Detener la entrada de voz",
+    "voiceListening": "Le escucho: diga qué está buscando."
   },
   "tip": {
     "updatedAt": "A fecha de {{date}}",
@@ -203,17 +238,73 @@
     "titleLine2": "artista",
     "subtitle": "Entra en el espacio de fans del artista que conociste en MBN.",
     "eyebrow": "FANDOM TROT MBN",
-    "stat": "{{programs}} programas · {{artists}} artistas",
+    "stat": "{{artists}} artistas trot de MBN",
     "searchPlaceholder": "Buscar por nombre",
     "clearSearch": "Borrar búsqueda",
     "resultCount": "{{count}} resultados",
     "confirmLabel": "Artista seleccionado",
-    "castCount": "{{count}} artistas",
-    "expand": "Ver todos los artistas",
-    "collapse": "Contraer",
-    "noCast": "La lista de artistas está en preparación.",
     "enter": "Entrar al espacio de fans",
     "linkedSuffix": " seleccionado · enlace provisional",
     "change": "Cambiar"
+  },
+  "voice": {
+    "ctaTitle": "Preguntar con la voz",
+    "ctaSub": "Pulsa y habla",
+    "menuTitle": "¿Qué quieres hacer?",
+    "followUpHint": "Pulsa el micro y di «abrir encuentros» para ir directo",
+    "moving": "Abriendo {{target}}",
+    "commandHome": "Inicio",
+    "step": {
+      "listen": "Escuchando",
+      "write": "Transcribiendo",
+      "analyze": "Analizando",
+      "answer": "Respuesta",
+      "next": "Siguiente"
+    },
+    "stepStatus": "Paso {{step}} · {{label}}",
+    "followUpReady": "Hable ahora: diga adónde ir y le llevo allí."
+  },
+  "live": {
+    "badge": "LIVE",
+    "subtitle": "En directo 24h",
+    "title": "Playlist",
+    "openPlayer": "Abrir vídeo en directo",
+    "rotateHint": "Gira el móvil para verlo más grande"
+  },
+  "vote": {
+    "bannerSub": "En curso",
+    "bannerCta": "Ir a votar"
+  },
+  "identity": {
+    "welcome": "¡Bienvenido!",
+    "of": "de",
+    "honorific": "",
+    "drawing": "Sorteando...",
+    "confirm": "Empezar"
+  },
+  "concert": {
+    "when": "Fecha y hora",
+    "where": "Lugar",
+    "seats": "Entradas",
+    "seatsLimit": "Máximo {{max}} por persona",
+    "seatPick": "¿Cuántas entradas?",
+    "seatCount": "{{count}} entrada(s)",
+    "apply": "Participar en el sorteo",
+    "cancel": "Retirar participación",
+    "backToList": "Volver a conciertos",
+    "myEntries": "Mis participaciones",
+    "entryDoneTitle": "Participación registrada",
+    "entryDone": "Hemos registrado su participación.",
+    "entryCanceled": "Se ha retirado su participación.",
+    "paymentNotice": "Participar en el sorteo no es una compra. Si resulta ganador, la reserva se hace en la web oficial de venta; esta plataforma no gestiona pagos."
+  },
+  "country": {
+    "KR": "Corea",
+    "US": "EE. UU.",
+    "JP": "Japón",
+    "FR": "Francia",
+    "ES": "España",
+    "CN": "China",
+    "RU": "Rusia"
   }
 }

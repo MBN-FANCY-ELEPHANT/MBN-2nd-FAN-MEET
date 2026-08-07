@@ -17,7 +17,8 @@ public record ChatMessageResponse(
         Instant createdAt
 ) {
 
-    public record Citation(CitationType type, Long id, String title) {
+    /** {@code route} 는 FEATURE 근거에서만 채워집니다 (docs/api-spec.yaml Citation). */
+    public record Citation(CitationType type, Long id, String title, String route) {
     }
 
     public static ChatMessageResponse from(ChatMessage m) {
@@ -27,7 +28,8 @@ public record ChatMessageResponse(
                 m.getContent(),
                 m.isOutOfScope(),
                 m.getCitations().stream()
-                        .map(c -> new Citation(c.getType(), c.getTargetId(), c.getTitle()))
+                        .map(c -> new Citation(
+                                c.getType(), c.getTargetId(), c.getTitle(), c.getRoute()))
                         .toList(),
                 m.getCreatedAt());
     }

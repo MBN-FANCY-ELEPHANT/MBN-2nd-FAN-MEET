@@ -36,7 +36,9 @@ export default function ShortformPage() {
 
   return (
     <div className={styles.page}>
-      <HeaderBack title={t("app.logo")} />
+      {/* 다른 상세 화면과 같이 `매일{아티스트}` 브랜드 모드로 둡니다.
+          여기만 "MBN AI" 로 떠서 아티스트 공간을 벗어난 것처럼 보였습니다. */}
+      <HeaderBack />
 
       <div className={styles.stage}>
         <img src={data.thumbnailUrl} alt="" />

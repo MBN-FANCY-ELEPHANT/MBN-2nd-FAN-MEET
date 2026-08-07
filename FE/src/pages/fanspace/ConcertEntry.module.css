@@ -1,0 +1,172 @@
+/* 공연 응모 상세 — 굿즈 상세와 같은 어법(포스터 → 흰 시트 → 하단 액션)입니다 */
+
+.page {
+  min-height: 100%;
+  background: var(--gradient-page-detail);
+  padding-bottom: var(--space-10);
+}
+
+.poster {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  background: var(--color-surface-muted);
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: calc(-1 * var(--space-5));
+  padding: var(--space-5) var(--space-5) var(--space-8);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--color-white);
+  box-shadow: var(--shadow-sheet);
+}
+
+.badge {
+  align-self: flex-start;
+  padding: 2px var(--space-3);
+  border-radius: var(--radius-xs);
+  background: var(--color-primary);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.badgeClosed {
+  background: var(--color-text-secondary);
+}
+
+.title {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.fact {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.fact dt {
+  flex-shrink: 0;
+  width: 72px;
+  font-size: var(--text-meta-size);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.fact dd {
+  margin: 0;
+  font-size: var(--text-card-title-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.description {
+  font-size: var(--text-card-title-size);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.seatPicker {
+  display: flex;
+  flex-direction: column;
+}
+
+.seatLabel {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-meta-size);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.seatOptions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+/* 매수 선택은 손가락으로 눌러야 하므로 44px 이상으로 잡습니다 */
+.seatOption {
+  flex: 1;
+  height: 48px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.seatOptionOn {
+  border-color: var(--color-primary);
+  background: var(--color-notice-surface);
+  color: var(--color-primary);
+}
+
+.doneCard {
+  padding: var(--space-4);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-notice-surface);
+}
+
+.doneTitle {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.doneMeta {
+  margin-top: var(--space-1);
+  font-size: var(--text-meta-size);
+  color: var(--color-text-secondary);
+}
+
+.notice {
+  font-size: var(--text-meta-size);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.primary {
+  height: 56px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.primary:disabled {
+  background: var(--color-text-secondary);
+}
+
+.secondary {
+  height: 48px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}

@@ -30,6 +30,10 @@ public class ChatSession {
     @Column(nullable = false, length = 5)
     private Locale locale;
 
+    /** 랜딩에서 고른 응원 아티스트. 없으면 시드 스타로 답합니다. */
+    @Column(name = "artist_name", length = 60)
+    private String artistName;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -37,16 +41,22 @@ public class ChatSession {
         // JPA
     }
 
-    private ChatSession(Long userId, Long starId, Locale locale) {
+    private ChatSession(Long userId, Long starId, Locale locale, String artistName) {
         this.id = UUID.randomUUID().toString();
         this.userId = userId;
         this.starId = starId;
         this.locale = locale;
+        this.artistName = artistName;
         this.createdAt = Instant.now();
     }
 
-    public static ChatSession open(Long userId, Long starId, Locale locale) {
-        return new ChatSession(userId, starId, locale);
+    public static ChatSession open(
+            Long userId, Long starId, Locale locale, String artistName) {
+        return new ChatSession(userId, starId, locale, artistName);
+    }
+
+    public String getArtistName() {
+        return artistName;
     }
 
     public String getId() {

@@ -146,6 +146,19 @@ public class StubAiProvider implements AiProvider {
             case TIP -> korean
                     ? "'%s' 안내를 확인해 보세요. %s".formatted(top.title(), top.detail())
                     : "Check out '%s'. %s".formatted(top.title(), top.detail());
+            // 기능 안내. 스텁이라 카탈로그 앞 세 개를 그대로 읽어줍니다.
+            case SERVICE -> {
+                String names = citations.stream()
+                        .limit(3)
+                        .map(Evidence::title)
+                        .reduce((a, b) -> a + ", " + b)
+                        .orElse(top.title());
+                yield korean
+                        ? "%s 같은 걸 도와드릴 수 있어요. 원하시는 걸 말씀하시면 바로 열어드릴게요."
+                                .formatted(names)
+                        : "I can help with %s. Just say which one and I'll open it."
+                                .formatted(names);
+            }
             default -> korean
                     ? "'%s' 정보를 찾았어요. %s".formatted(top.title(), top.detail())
                     : "I found '%s'. %s".formatted(top.title(), top.detail());

@@ -56,6 +56,21 @@ public class OpenAiProvider implements AiProvider {
             [답변 범위]
             - MBN 방송, 트롯 아티스트, 그리고 아래 제공되는 플랫폼 데이터에 대해서만 답합니다.
             - 범위 밖 주제(날씨, 주식, 코딩, 정치, 의료 등)는 답하지 않습니다.
+            - **이 앱의 기능·사용법에 대한 질문은 반드시 답합니다.** 모른다고 하지 마세요.
+
+            [이 서비스]
+            - 이 앱은 MBN 트롯 팬덤 앱입니다. 팬이 아티스트를 고르면 그 아티스트 전용 공간이 열립니다.
+            - 아래 [응원 아티스트] 가 주어지면 **그 아티스트에 대한 질문으로 받아들이세요.**
+              "우리 오빠", "그 사람" 같은 표현도 그 아티스트를 가리킵니다.
+              [근거] 의 일정·모임·콘텐츠는 **그 아티스트의 것**입니다. 다른 이름이라고
+              말하거나 "정보가 없다"고 하지 마세요.
+            - 기능을 묻는 질문에는 [근거] 의 기능 목록에서 **질문 상황에 맞는 2~3개만** 골라
+              안내하세요. 일곱 개를 전부 나열하지 마세요.
+            - "무엇을 하고 싶다"는 요청에는 **어느 화면에서 하는지 화면 이름을 반드시 말하세요**
+              (예: "공연 응모는 공연 화면에서 하실 수 있어요").
+            - ⚠️ 사용자가 요청한 기능이 [근거] 기능 목록에 **있으면 절대 "없다"고 하지 마세요.**
+              목록의 맨 앞 기능이 보통 요청한 기능입니다. 그 기능부터 안내하세요.
+            - 주 사용자층이 중장년입니다. 짧고 쉬운 말로, 전문 용어 없이 답하세요.
 
             [사실 원칙 — 가장 중요]
             - 아래 [근거] 에 없는 사실은 절대 지어내지 마세요.
@@ -64,6 +79,8 @@ public class OpenAiProvider implements AiProvider {
 
             [형식]
             - 2~3문장으로 짧게 답합니다. 음성으로 읽히기 때문입니다.
+            - 기능을 안내한 뒤에는 "말씀하시면 바로 열어드릴게요" 처럼
+              **다음 발화를 유도하는 한마디**를 붙이세요.
             - 목록이나 마크다운을 쓰지 말고 자연스러운 문장으로 답하세요.
             - 사용자의 언어로 답하세요.
             """;
@@ -157,7 +174,7 @@ public class OpenAiProvider implements AiProvider {
                 [BODY]
                 %s
                 """.formatted(
-                "ARTICLE".equals(request.kind()) ? "news article" : "video",
+                describeKind(request.kind()),
                 request.title(),
                 request.body() == null ? "(no body — analyze from the title alone)"
                         : truncate(request.body(), 3000));
@@ -184,6 +201,22 @@ public class OpenAiProvider implements AiProvider {
             log.warn("OpenAI 분석 실패 — 스텁으로 폴백: {}", e.getMessage());
             return fallback.analyze(request);
         }
+    }
+
+    /**
+     * 분석 대상이 무엇인지 모델에게 한 줄로 알려줍니다.
+     *
+     * <p>{@code NEWS_DIGEST} 는 콘텐츠 <b>여러 건을 묶은</b> 소식 모아보기입니다.
+     * 이걸 "video" 라고 알려주면 모델이 한 편의 영상인 줄 알고 요약이 어긋납니다.
+     */
+    private static String describeKind(String kind) {
+        return switch (kind == null ? "" : kind) {
+            case "ARTICLE" -> "news article";
+            case "NEWS_DIGEST" ->
+                    "a roundup of several recent MBN articles and videos about one trot artist "
+                            + "— summarize what happened overall, not each item";
+            default -> "video";
+        };
     }
 
     /** 본문이 길면 앞부분만 보냅니다. 기사 도입부에 핵심이 있고, 입력 비용도 줄어듭니다. */

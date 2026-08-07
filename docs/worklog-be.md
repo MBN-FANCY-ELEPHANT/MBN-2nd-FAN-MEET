@@ -3,7 +3,7 @@
 > `backend-dev` 서브에이전트와 백엔드 작업을 하는 세션이 **시작 시 읽고, 종료 시 갱신**하는 문서입니다.
 > 전체 맥락은 `docs/HANDOFF.md` 를 먼저 보세요.
 
-**최종 갱신:** 2026-08-07 · **전 도메인 구현 완료. OpenAI 실연결 검증 완료**
+**최종 갱신:** 2026-08-07 · **소식 요약 추가 + 전면 점검. 로그인 500 수정 (§2-1)**
 
 > ⚠️ **먼저 읽으세요:** `docs/design-spec.md`(무엇을 만들지) · `docs/ai-stack.md`(AI 작업 시)
 
@@ -26,6 +26,7 @@
 | **Subscription** | `POST·DELETE /api/v1/channels/{id}/subscription` | ✅ 멱등 |
 | **AiAnalysis** | `GET /api/v1/contents/{id}/ai-analysis` | ✅ 사전 생성 + DB 조회 (locale 폴백 KO) |
 | **AiAnalysis** | `POST /api/v1/admin/ai-analysis/regenerate` | ✅ ADMIN 전용 |
+| **AiAnalysis** | `GET /api/v1/stars/{starId}/news-digest` | ✅ 소식 스레드용 AI 소식 요약. `(starId, locale)` 메모리 캐시 |
 | Gathering | `GET /api/v1/gatherings`, `/{id}` | ✅ 비로그인 조회 가능 |
 | Gathering | `POST·DELETE .../applications` | ✅ 다중 사용자 경합 검증 완료 |
 | **Chat** | `POST /api/v1/chat/sessions` | ✅ 비회원 허용 |
@@ -87,6 +88,50 @@
 
 ---
 
+## 2-1. 전면 점검 (2026-08-07 후반)
+
+### 치명 — 로그인이 전부 500 이었습니다
+
+`POST /api/v1/auth/login` 이 **유효한 모든 userId 에 500** 을 반환했습니다.
+존재하지 않는 id 는 정상적으로 404 가 나와서, 조회 이후 단계가 원인이었습니다.
+
+원인은 `BE/.env` 의 `AUTH_SECRET=` (빈 값)입니다.
+`${AUTH_SECRET:기본값}` 은 **환경변수가 없을 때만** 기본값을 씁니다 — 존재하되 비어 있으면
+빈 문자열이 주입되고, `new SecretKeySpec(new byte[0], ...)` 가
+`IllegalArgumentException: Empty key` 를 던집니다. 이 예외는 unchecked 라
+`DemoTokenService.sign()` 의 `catch (GeneralSecurityException)` 에 잡히지 않고 500 으로 샜습니다.
+
+`DemoTokenService` 생성자가 **공백을 "없는 값"으로 취급**하고 폴백 키로 대체하도록 고쳤습니다.
+경고 로그도 함께 남깁니다.
+
+⚠️ **화면상으로는 드러나지 않던 결함입니다.** 좋아요·구독·모임신청·댓글작성이 전부 막혀
+있었는데, 비로그인 상태에서는 401 이 정상 동작이라 눈치채기 어려웠습니다.
+
+### 재검증한 인증 플로우 (전부 통과)
+
+```
+로그인 200 → 내정보 200 → 좋아요 431↔432 → 댓글 작성 201·좋아요·번역·삭제 204
+→ 채널 구독/취소 → 모임 신청 201 (18→19) · 취소 204 (→18, myApplication 정확히 반영)
+→ 위조 토큰 401
+```
+
+### 그 외 수정
+
+| 문제 | 조치 |
+|---|---|
+| "성지순례 어디로 가면 돼?" 가 **SERVICE 로 오분류** — `SERVICE_WORDS` 의 "어디로" 가 먼저 걸림 | `STRONG_PLACE_WORDS` 를 SERVICE 앞에서 검사 (§3 분류 순서 참고) |
+| `GET /chat/sessions/{id}/messages` 가 **계약에 없고 아무도 안 씀** | 컨트롤러·서비스에서 제거 |
+| 관리자 재생성 API 의 **403 이 스펙에 없음** | `api-spec.yaml` 에 403 추가 |
+| 성지순례·응원이 **FE 네비에서 도달 불가** | `ServiceCatalog` 에 두 기능을 추가해 AI 안내로 진입 가능하게 |
+
+### 점검했지만 문제 없던 것
+
+컨트롤러 ↔ 스펙 1:1 일치 · 응답 required 필드 · 트랜잭션 경계(`readOnly` 위반 없음) ·
+모임 정원 원자적 UPDATE · `OPENAI_API_KEY` 의 FE 노출 경로 없음 ·
+AI 사칭 금지/스코프 제한 프롬프트 · 굿즈·참가비 표시 전용 정책.
+
+---
+
 ## 3. AI 운영 메모
 
 ### provider 전환
@@ -98,6 +143,29 @@ OPENAI_API_KEY=sk-...
 ```
 
 기동 로그에서 `provider=live` 를 확인하세요. `stub` 이면 `.env` 를 다시 보세요.
+
+### 의도 분류 순서 (`EvidenceFinder.classify`)
+
+순서가 곧 우선순위입니다. **BLOCKED → STRONG_PLACE → SERVICE → 도메인 의도** 입니다.
+
+- `SERVICE` 가 도메인보다 앞인 이유: "공연 예매하고 싶어" 가 `SCHEDULE_WORDS` 의 "공연"에
+  먼저 걸려 일정만 답하고 예매 화면을 못 알려줬습니다.
+- `STRONG_PLACE` 가 `SERVICE` 보다 앞인 이유: `SERVICE_WORDS` 에 "어디서"·"어디로" 가 있어
+  **"성지순례 어디로 가면 돼?" 가 SERVICE 로 분류**돼 성지순례와 무관한 공연·모집을
+  안내했습니다. 순서를 바꾸면 이 두 증상이 되살아납니다.
+
+### 소식 요약 (`NewsDigestService`)
+
+`AiProvider.analyze()` 를 **재사용**합니다 — 새 provider 메서드를 만들지 않았습니다.
+최근 콘텐츠 6건을 한 덩어리로 붙여 `kind = "NEWS_DIGEST"` 로 넘기고,
+`OpenAiProvider.describeKind()` 가 "여러 건을 묶은 모아보기" 라고 모델에 알려줍니다.
+
+⚠️ `kind` 를 그냥 넘기면 `ARTICLE` 이 아닌 모든 값이 "video" 로 해석돼 요약이 어긋납니다.
+새 `kind` 를 추가할 때는 `describeKind()` 도 같이 고치세요.
+
+⚠️ **캐시는 메모리입니다.** 서버를 재시작하면 첫 요청만 LLM 왕복(수 초)이 발생하고
+FE 는 그동안 스켈레톤을 띄웁니다. 워밍업 대상에는 넣지 않았습니다 — 기동이 이미
+AI 분석 워밍업으로 50초쯤 걸립니다.
 
 ### 실연결 시 겪은 것
 

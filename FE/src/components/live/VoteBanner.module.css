@@ -1,0 +1,74 @@
+/* 팬공간 투표 배너 — LIVE 배너와 같은 규격 (343×160, radius 16) */
+
+.banner {
+  position: relative;
+  display: block;
+  width: calc(100% - 2 * var(--page-padding-x));
+  height: 160px;
+  margin: var(--space-5) var(--page-padding-x) 0;
+  border-radius: var(--radius-lg);
+  background: var(--color-text-primary);
+  overflow: hidden;
+  color: inherit;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  /* 배너 이미지에 큰 글자가 들어 있어 캡션이 묻힙니다.
+     오른쪽 아래로 갈수록 진해지는 그라데이션으로 캡션 자리를 확보합니다. */
+  background: linear-gradient(
+    160deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.35) 55%,
+    rgba(0, 0, 0, 0.78) 100%
+  );
+}
+
+.badge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--radius-xs);
+  background: var(--color-live);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-white);
+}
+
+.caption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  color: var(--color-white);
+  text-align: right;
+}
+
+.captionSub {
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.captionTitle {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}

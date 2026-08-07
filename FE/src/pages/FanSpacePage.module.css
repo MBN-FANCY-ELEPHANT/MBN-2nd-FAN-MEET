@@ -1,55 +1,189 @@
-/* 팬공간 탭 — 활동 기록 4카테고리 (Figma 19:2987) */
+/* 팬공간 — Figma 27:5115. 메인과 상단부를 공유하고 시트 안이 다릅니다. */
 
-.title {
-  font-size: var(--text-section-size);
-  font-weight: 700;
-  line-height: 1.4;
-  margin-bottom: var(--space-4);
+.page {
+  min-height: 100%;
+  background: var(--gradient-page-detail);
+  padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom, 0px));
 }
 
-.categories {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+.search {
+  display: flex;
+  align-items: center;
   gap: var(--space-2);
+  width: calc(100% - 2 * var(--page-padding-x));
+  height: 56px;
+  margin: var(--space-3) var(--page-padding-x) 0;
+  padding: 10px var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+}
+
+.searchPlaceholder {
+  font-size: var(--text-search-size);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.greetingRow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: var(--space-5) var(--page-padding-x) 0;
+}
+
+.greetingMascot {
+  flex-shrink: 0;
+  width: 55px;
+  height: 64px;
+  object-fit: contain;
+  transform: scaleX(-1);
+}
+
+.greeting {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: pre-line;
+}
+
+.sheet {
+  margin-top: var(--space-4);
+  padding: var(--space-5) var(--space-5) var(--space-8);
+  border-top: 1px solid var(--color-divider);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  background: var(--color-white);
+  box-shadow: var(--shadow-sheet);
+}
+
+/* ── 메뉴 3종 (모집 · 응모 · 굿즈) ── */
+.menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
   margin-bottom: var(--space-6);
 }
 
-.category {
+.menuItem {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  border: none;
-  background: none;
-  padding: 0;
   color: inherit;
 }
 
-.tile {
+.menuTile {
   display: grid;
   place-items: center;
-  width: 57px;
-  height: 57px;
-  border-radius: 15px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
   background: var(--color-progress-track);
 }
 
-.tile img {
-  display: block;
-  width: 36px;
-  height: 36px;
+.menuTile img {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
-.categoryLabel {
-  font-size: var(--text-body-size);
-  font-weight: 500;
-  line-height: 17px;
-  letter-spacing: -0.5px;
-  text-align: center;
+.menuLabel {
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-.list {
-  display: grid;
-  gap: var(--space-4);
+/* ── 캘린더 (Figma 27:5115) ──
+   행마다 구분선을 긋지 않습니다. 점들을 잇는 **세로 타임라인 선** 하나로 묶습니다. */
+.calendar {
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.calendarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.calendarTitle {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* 점 중심(왼쪽 4px + 반지름)을 지나는 세로선 */
+.timeline {
+  position: relative;
+  padding-left: var(--space-5);
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  /* 첫 점과 마지막 점 사이만 잇습니다 */
+  top: 18px;
+  bottom: 18px;
+  width: 2px;
+  background: var(--color-divider);
+}
+
+.calendarRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  color: inherit;
+}
+
+.dot {
+  position: absolute;
+  left: calc(-1 * var(--space-5) + 1px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-ai-border);
+  /* 선 위에 얹히도록 배경색으로 테두리를 줍니다 */
+  box-shadow: 0 0 0 3px var(--color-white);
+}
+
+.calendarText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.calendarDate {
+  font-size: var(--text-small-size);
+  color: var(--color-text-muted);
+}
+
+.calendarLabel {
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendarMore {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  font-size: var(--text-small-size);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.moreIcon {
+  transform: scaleX(-1);
 }

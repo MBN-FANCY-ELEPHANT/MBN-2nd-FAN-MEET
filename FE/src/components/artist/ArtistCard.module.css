@@ -1,7 +1,7 @@
 /**
  * 아티스트 아바타 카드 — 랜딩(다크) 전용.
  *
- * preview: 대표 3인 (큰 아바타) · grid: 펼친 전체 명단 (중간) · row: 검색 결과 (작은, 가로)
+ * preview: 대표 3인 (큰 아바타) · row: 검색 결과 (작은, 가로)
  */
 
 .card {
@@ -19,8 +19,7 @@
   border-radius: var(--radius-md);
 }
 
-.preview,
-.grid {
+.preview {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
@@ -76,11 +75,6 @@
   height: 84px;
 }
 
-.grid .avatar {
-  width: 56px;
-  height: 56px;
-}
-
 .row .avatar {
   width: 44px;
   height: 44px;
@@ -98,11 +92,6 @@
 
 .preview .name {
   font-size: var(--text-small-size);
-  font-weight: 500;
-}
-
-.grid .name {
-  font-size: var(--text-caption-size);
   font-weight: 500;
 }
 
@@ -160,8 +149,7 @@
   border: 2px solid var(--landing-bg);
 }
 
-.row .check,
-.grid .check {
+.row .check {
   width: 18px;
   height: 18px;
   font-size: 10px;

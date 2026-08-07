@@ -66,6 +66,30 @@ public class EvidenceFinder {
             "투표", "스밍", "스트리밍", "응원", "티켓", "팁", "방법", "어떻게",
             "vote", "streaming", "ticket", "tip", "how");
 
+    /**
+     * <b>이 앱 자체</b>에 대한 질문. "어떤 기능이 있어?", "공연 예매하고 싶어" 처럼
+     * 도메인 단어가 없어도 서비스 질문이면 받아야 합니다.
+     *
+     * <p>⚠️ 이전에는 이런 질문이 최종 폴백에서 {@code OUT_OF_SCOPE} 로 떨어져
+     * <b>LLM 호출조차 되지 않았습니다.</b> 도우미가 자기 앱을 모르는 상태였습니다.
+     */
+    private static final Set<String> SERVICE_WORDS = Set.of(
+            "기능", "뭐 할", "뭘 할", "뭐가 있", "무엇을 할", "무엇이 있", "뭐 있",
+            "사용법", "어떻게 써", "어떻게 쓰", "메뉴", "어디서", "어디로",
+            "예매", "응모", "구매", "사고 싶", "신청하고 싶", "참여하고 싶",
+            "what can you", "how do i", "how to use", "feature", "menu");
+
+    /**
+     * <b>서비스 질문보다 먼저</b> 봐야 하는 장소 단어.
+     *
+     * <p>⚠️ {@code SERVICE_WORDS} 에 "어디서"·"어디로" 가 들어 있어서 "성지순례 어디로 가면 돼?"
+     * 가 SERVICE 로 분류되고, 성지순례와 상관없는 공연·모집 기능이 안내됐습니다 (실제로 겪음).
+     * 이 단어들이 있으면 명백히 장소 질문이므로 PLACE 가 이깁니다.
+     */
+    private static final Set<String> STRONG_PLACE_WORDS = Set.of(
+            "성지", "성지순례", "맛집", "카페", "다녀간", "다녀온",
+            "pilgrimage", "restaurant", "cafe");
+
     /** 플랫폼 주제임을 강하게 시사하는 단어. 의도가 안 잡혀도 이게 있으면 GENERAL 로 받습니다. */
     private static final Set<String> DOMAIN_WORDS = Set.of(
             "임영웅", "트롯", "트로트", "mbn", "가수", "스타", "팬덤", "팬",
@@ -96,6 +120,16 @@ public class EvidenceFinder {
         if (containsAny(q, BLOCKED)) {
             return Intent.OUT_OF_SCOPE;
         }
+        // ⚠️ 서비스 질문을 **도메인 의도보다 먼저** 봅니다. "공연 예매하고 싶어" 는
+        //    SCHEDULE_WORDS 의 "공연" 에 먼저 걸려 일정만 답하고 예매 화면을 못 알려줍니다.
+        //    반대로 "콘서트가 언제야?" 에는 예매/응모 같은 서비스 표현이 없어 그대로 SCHEDULE 입니다.
+        // 장소 단어는 서비스 질문보다 먼저입니다 — 위 STRONG_PLACE_WORDS 주석 참고.
+        if (containsAny(q, STRONG_PLACE_WORDS)) {
+            return Intent.PLACE;
+        }
+        if (containsAny(q, SERVICE_WORDS)) {
+            return Intent.SERVICE;
+        }
         if (containsAny(q, SCHEDULE_WORDS)) {
             return Intent.SCHEDULE;
         }
@@ -115,13 +149,21 @@ public class EvidenceFinder {
         return containsAny(q, DOMAIN_WORDS) ? Intent.GENERAL : Intent.OUT_OF_SCOPE;
     }
 
-    public List<Evidence> find(Intent intent, Long starId) {
+    public List<Evidence> find(Intent intent, Long starId, String question) {
         return switch (intent) {
             case SCHEDULE -> schedules(starId);
             case GATHERING -> gatherings(starId);
             case CONTENT -> contents(starId);
             case PLACE -> places(starId);
             case TIP -> tips(starId);
+            // 기능 카탈로그 + 일정·모임. "공연 예매하고 싶어" 에 **어디서 하는지와
+            // 지금 뭐가 열려 있는지**를 함께 답할 수 있어야 합니다.
+            case SERVICE -> {
+                List<Evidence> all = new ArrayList<>(ServiceCatalog.featuresFor(question));
+                all.addAll(schedules(starId));
+                all.addAll(gatherings(starId));
+                yield all;
+            }
             case GENERAL -> {
                 List<Evidence> all = new ArrayList<>();
                 all.addAll(schedules(starId));
@@ -138,7 +180,7 @@ public class EvidenceFinder {
                 .findByStarIdAndStartAtAfterOrderByStartAtAsc(
                         starId, java.time.Instant.now(), PageRequest.of(0, 3))
                 .getContent().stream()
-                .map(s -> new Evidence(
+                .map(s -> Evidence.of(
                         CitationType.SCHEDULE,
                         s.getId(),
                         s.getTitle(),
@@ -153,7 +195,7 @@ public class EvidenceFinder {
                 .findByStarIdAndStatusOrderByDeadlineAsc(
                         starId, GatheringStatus.RECRUITING, PageRequest.of(0, 3))
                 .getContent().stream()
-                .map(g -> new Evidence(
+                .map(g -> Evidence.of(
                         CitationType.GATHERING,
                         g.getId(),
                         g.getTitle(),
@@ -165,7 +207,7 @@ public class EvidenceFinder {
     private List<Evidence> contents(Long starId) {
         return contentRepository.findTop10ByStarIdOrderByPublishedAtDesc(starId).stream()
                 .limit(3)
-                .map(c -> new Evidence(
+                .map(c -> Evidence.of(
                         CitationType.CONTENT,
                         c.getId(),
                         c.getTitle(),
@@ -178,7 +220,7 @@ public class EvidenceFinder {
     private List<Evidence> places(Long starId) {
         return placeRepository.findTop10ByStarIdOrderByIdAsc(starId).stream()
                 .limit(3)
-                .map(p -> new Evidence(
+                .map(p -> Evidence.of(
                         CitationType.PLACE,
                         p.getId(),
                         p.getName(),
@@ -189,7 +231,7 @@ public class EvidenceFinder {
     private List<Evidence> tips(Long starId) {
         return tipRepository.findTop6ByStarIdOrderByUpdatedAtDesc(starId).stream()
                 .limit(3)
-                .map(t -> new Evidence(
+                .map(t -> Evidence.of(
                         CitationType.TIP,
                         t.getId(),
                         t.getTitle(),

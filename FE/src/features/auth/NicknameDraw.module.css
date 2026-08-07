@@ -1,0 +1,104 @@
+/* 닉네임 추첨 오버레이 — 랜딩 위에 뜹니다 */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: var(--space-5);
+  /* 뒤 화면(랜딩)을 블러 처리 */
+  background: rgba(13, 17, 23, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.welcome {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  color: var(--landing-text);
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  color: var(--landing-text);
+}
+
+.artist {
+  color: var(--color-primary);
+}
+
+.of {
+  color: var(--landing-text-muted);
+}
+
+/* 추첨되는 닉네임 — 이 화면의 주인공 */
+.nickname {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  min-height: 56px;
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+}
+
+/* 돌아가는 동안 살짝 흔들리고 흐려집니다 */
+.spinning {
+  animation: roll 0.28s ease-in-out infinite alternate;
+  filter: blur(0.4px);
+}
+
+@keyframes roll {
+  from {
+    transform: translateY(-4px);
+    opacity: 0.75;
+  }
+  to {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+.honorific {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  color: var(--landing-text);
+}
+
+.confirm {
+  margin-top: var(--space-4);
+  width: 100%;
+  padding: var(--space-4);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.confirm:disabled {
+  opacity: 0.55;
+}
+
+/* 움직임에 민감한 사용자는 흔들림을 끕니다 */
+@media (prefers-reduced-motion: reduce) {
+  .spinning {
+    animation: none;
+  }
+}

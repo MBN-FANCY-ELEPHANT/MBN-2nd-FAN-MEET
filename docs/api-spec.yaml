@@ -92,6 +92,31 @@ paths:
                     maxItems: 4
                     items: { $ref: '#/components/schemas/GatheringSummary' }
 
+  /api/v1/stars/{starId}/news-digest:
+    get:
+      tags: [AiAnalysis]
+      summary: 아티스트 소식 AI 요약
+      description: |
+        소식 스레드 상단에 붙는 **AI 소식 요약**입니다.
+        해당 스타의 최근 기사·영상을 한 덩어리로 묶어 한 번에 요약합니다.
+
+        결과는 `(starId, locale)` 단위로 서버 메모리에 캐시되며 캐시가 비어 있을 때만
+        LLM 을 호출합니다. `OPENAI_API_KEY` 는 서버에서만 사용합니다.
+
+        ⚠️ 요약은 **MBN 콘텐츠에서 나온 내용만** 담습니다. 스타 본인의 말투를 흉내내지
+        않으며 작성 주체는 AI 도우미 "비엔이" 입니다 (기획서 5-2).
+      security: []
+      parameters:
+        - $ref: '#/components/parameters/StarIdPath'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/NewsDigest' }
+        '404': { $ref: '#/components/responses/NotFound' }
+
   /api/v1/stars/{starId}/play:
     get:
       tags: [Home]
@@ -309,6 +334,11 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/AiAnalysis' }
         '401': { $ref: '#/components/responses/Unauthorized' }
+        '403':
+          description: 로그인했지만 ADMIN 권한이 아닙니다 (SecurityConfig 의 `/admin/**` 규칙).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
         '503':
           description: AI 제공자 호출 실패
           content:
@@ -695,6 +725,16 @@ paths:
               properties:
                 starId: { type: integer, format: int64 }
                 locale: { $ref: '#/components/schemas/Locale' }
+                artistName:
+                  type: string
+                  nullable: true
+                  description: |
+                    사용자가 랜딩에서 고른 응원 아티스트 이름. 주면 AI 가 그 아티스트를
+                    전제로 답합니다 (예: "우리 오빠 콘서트 언제야?" → 해당 아티스트).
+
+                    ⚠️ 데모 편의 필드입니다. MVP 는 스타 1명(`starId=1`)의 데이터만 있고
+                    아티스트 선택은 표시 전용이라, 플랫폼 데이터를 이 이름으로 안내합니다.
+                    다중 스타가 확정되면 `starId` 로 대체하고 이 필드를 지우세요.
       responses:
         '201':
           description: 세션 생성됨
@@ -1082,6 +1122,36 @@ components:
               body: { type: string }
         generatedAt: { type: string, format: date-time }
 
+    NewsDigest:
+      type: object
+      description: |
+        소식 스레드용 AI 소식 요약. 스타의 최근 콘텐츠를 묶어 한 번에 요약한 결과입니다.
+        `sources` 는 요약에 쓰인 원본이며 FE 에서 상세로 이동합니다.
+      required: [starId, locale, summary, items, sources, generatedAt]
+      properties:
+        starId: { type: integer, format: int64 }
+        locale: { $ref: '#/components/schemas/Locale' }
+        summary: { type: string, example: 이번 주 MBN 무대 소식을 모았습니다. }
+        items:
+          type: array
+          items:
+            type: object
+            required: [title, body]
+            properties:
+              title: { type: string, example: 이번 주 무대 }
+              body: { type: string }
+        sources:
+          type: array
+          description: 요약에 사용된 원본 콘텐츠. 카드 하단 출처 칩으로 노출됩니다.
+          items:
+            type: object
+            required: [contentId, title, type]
+            properties:
+              contentId: { type: integer, format: int64 }
+              title: { type: string }
+              type: { $ref: '#/components/schemas/ContentType' }
+        generatedAt: { type: string, format: date-time }
+
     # ── 댓글 ──
     Comment:
       type: object
@@ -1217,12 +1287,27 @@ components:
     # ── Chat ──
     Citation:
       type: object
-      required: [type, id, title]
-      description: AI 답변의 근거 리소스. FE는 이를 카드로 렌더링하고 해당 화면으로 딥링크합니다.
+      required: [type, title]
+      description: |
+        AI 답변의 근거. FE는 이를 카드로 렌더링하고 해당 화면으로 딥링크합니다.
+
+        FEATURE 타입은 DB 리소스가 아니라 **이 앱의 기능(화면) 안내**입니다.
+        "어떤 기능이 있어?" 같은 서비스 질문에 대한 답변에 붙으며, 이때 id 는 없고
+        route 로 이동합니다.
       properties:
-        type: { type: string, enum: [SCHEDULE, CONTENT, GATHERING, PLACE, TIP] }
-        id: { type: integer, format: int64 }
+        type: { type: string, enum: [SCHEDULE, CONTENT, GATHERING, PLACE, TIP, FEATURE] }
+        id:
+          type: integer
+          format: int64
+          nullable: true
+          description: "DB 리소스 식별자. FEATURE 근거에서는 null 입니다."
         title: { type: string }
+        route:
+          type: string
+          nullable: true
+          description: |
+            FE 라우트 경로 (예: `/fanspace/concert`). 주어지면 FE 는 `type`/`id` 로
+            경로를 유추하지 않고 이 값으로 바로 이동합니다.
 
     ChatMessage:
       type: object

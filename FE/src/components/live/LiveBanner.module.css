@@ -1,0 +1,114 @@
+/* LIVE 스트리밍 배너 — Figma 27:6025 실측 (343×160, radius 16, top 210) */
+
+.banner {
+  position: relative;
+  display: block;
+  width: calc(100% - 2 * var(--page-padding-x));
+  height: 160px;
+  margin: var(--space-5) var(--page-padding-x) 0;
+  border: none;
+  padding: 0;
+  border-radius: var(--radius-lg);
+  background: var(--color-primary);
+  overflow: hidden;
+  text-align: left;
+}
+
+/* 포스터 — 영상 **위에** 덮습니다.
+   재생 시작 전까지 YouTube 의 검은 배경·스피너·큰 재생버튼을 가리고,
+   iframe 이 아예 못 뜨면(네트워크·임베드 차단) 그대로 남아 폴백이 됩니다. */
+.poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.posterHidden {
+  opacity: 0;
+}
+
+/* ⚠️ `controls=0` 을 줘도 YouTube 는 **제목 바·채널명·재생 버튼·로고**를 영상 위에
+   그립니다. iframe 내부라 CSS 로 숨길 수 없습니다.
+   그래서 영상을 배너보다 크게 확대해 그 UI 가 **배너 밖으로 밀려나게** 합니다
+   (배너에 `overflow: hidden` 이 걸려 있어 잘립니다).
+   pointer-events 를 끄면 iframe 이 아니라 배너 버튼이 탭을 받습니다. */
+/* 플레이어는 배너보다 크게 키워 YouTube 자체 UI(제목·로고·컨트롤)를 밖으로 밀어냅니다.
+   `controls=0` 을 줘도 iframe 내부라 CSS 로 숨길 수 없습니다. */
+.playerWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.player {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%) scale(1.75);
+  transform-origin: center;
+}
+
+/* IFrame API 가 이 자리에 iframe 을 심습니다 */
+.player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(87, 87, 87, 0.2) 47%,
+    rgba(0, 0, 0, 0.2) 72%
+  );
+}
+
+.liveBadge {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  display: grid;
+  place-items: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--radius-xs);
+  background: var(--color-live);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-white);
+}
+
+/* 캡션은 우측 하단 정렬 (Figma left 227 / top 99) */
+.caption {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  color: var(--color-white);
+  text-align: right;
+}
+
+.captionSub {
+  font-size: var(--text-body-size);
+  font-weight: 500;
+}
+
+.captionTitle {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+}

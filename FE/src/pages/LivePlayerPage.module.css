@@ -1,0 +1,75 @@
+/* 가로 영상 플레이어 — Figma 27:6368 (812×375) */
+
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100dvh;
+  background: var(--color-text-primary);
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.close {
+  position: absolute;
+  top: calc(var(--space-4) + env(safe-area-inset-top, 0px));
+  left: var(--space-4);
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0;
+}
+
+.closeIcon {
+  filter: brightness(0) invert(1);
+}
+
+.meta {
+  padding: var(--space-4) var(--page-padding-x);
+  color: var(--color-white);
+}
+
+.title {
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.channel {
+  margin-top: var(--space-1);
+  font-size: var(--text-small-size);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.notice,
+.rotateHint {
+  padding: var(--space-4) var(--page-padding-x);
+  font-size: var(--text-small-size);
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* 가로로 눕히면 회전 안내는 필요 없습니다 */
+@media (orientation: landscape) {
+  .rotateHint {
+    display: none;
+  }
+}

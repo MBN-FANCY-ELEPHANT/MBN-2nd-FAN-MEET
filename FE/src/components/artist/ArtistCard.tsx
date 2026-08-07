@@ -16,8 +16,8 @@ const PLACEHOLDER_PROFILE = exampleProfile;
 
 type Props = {
   name: string;
-  /** preview: 대표 3인 · grid: 펼친 전체 명단 · row: 검색 결과 */
-  variant: "preview" | "grid" | "row";
+  /** preview: 아티스트 그리드 · row: 검색 결과 */
+  variant: "preview" | "row";
   selected?: boolean;
   /** row 에서만 씁니다 — 출연 프로그램 등 보조 정보 */
   meta?: string;
@@ -33,7 +33,15 @@ export default function ArtistCard({
 }: Props) {
   const avatar = (
     <span className={styles.avatar}>
-      <img src={PLACEHOLDER_PROFILE} alt="" aria-hidden />
+      {/* ⚠️ 랜딩이 274명을 한 화면에 뿌립니다. 지연 로딩·비동기 디코딩이 없으면
+          초기 렌더에서 브라우저가 눈에 띄게 버벅입니다 (실제로 겪음). */}
+      <img
+        src={PLACEHOLDER_PROFILE}
+        alt=""
+        aria-hidden
+        loading="lazy"
+        decoding="async"
+      />
       {selected && (
         <span className={styles.check} aria-hidden>
           ✓

@@ -5,8 +5,10 @@ import { api } from "../api/client";
 import { STAR_ID } from "../app/constants";
 import ContentCard from "../components/content/ContentCard";
 import ShortformCard from "../components/content/ShortformCard";
+import HeaderBack from "../components/layout/HeaderBack";
 import Section from "../components/ui/Section";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/States";
+import styles from "./BroadcastPage.module.css";
 
 /**
  * 방송 탭 (Figma 19:3203 / 19:3444).
@@ -27,8 +29,20 @@ export default function BroadcastPage() {
     queryFn: () => api.getHome(STAR_ID),
   });
 
-  if (isPending) return <LoadingState />;
-  if (isError) return <ErrorState onRetry={() => void refetch()} />;
+  if (isPending)
+    return (
+      <div className={styles.page}>
+        <HeaderBack />
+        <LoadingState />
+      </div>
+    );
+  if (isError)
+    return (
+      <div className={styles.page}>
+        <HeaderBack />
+        <ErrorState onRetry={() => void refetch()} />
+      </div>
+    );
 
   const contents = data.contents ?? [];
   // 기사&롱폼은 LIVE 를 빼고 보여줍니다 — LIVE 는 아래 숏폼 캐러셀의 몫입니다
@@ -38,33 +52,39 @@ export default function BroadcastPage() {
   );
 
   return (
-    <>
-      <Section title={t("broadcast.articlesAndLongform")} seeAllTo="/contents">
-        {articlesAndLongform.length === 0 ? (
-          <EmptyState message={t("list.empty")} />
-        ) : (
-          <div className="scroll-x">
-            {articlesAndLongform.map((content) => (
-              <ContentCard key={content.id} content={content} />
-            ))}
-          </div>
-        )}
-      </Section>
+    <div className={styles.page}>
+      <HeaderBack />
+      <div className={styles.body}>
+        <Section
+          title={t("broadcast.articlesAndLongform")}
+          seeAllTo="/contents"
+        >
+          {articlesAndLongform.length === 0 ? (
+            <EmptyState message={t("list.empty")} />
+          ) : (
+            <div className="scroll-x">
+              {articlesAndLongform.map((content) => (
+                <ContentCard key={content.id} content={content} />
+              ))}
+            </div>
+          )}
+        </Section>
 
-      <Section
-        title={t("broadcast.shortform")}
-        seeAllTo="/contents?tab=longform"
-      >
-        {shortform.length === 0 ? (
-          <EmptyState message={t("list.empty")} />
-        ) : (
-          <div className="scroll-x">
-            {shortform.map((content) => (
-              <ShortformCard key={content.id} content={content} />
-            ))}
-          </div>
-        )}
-      </Section>
-    </>
+        <Section
+          title={t("broadcast.shortform")}
+          seeAllTo="/contents?tab=longform"
+        >
+          {shortform.length === 0 ? (
+            <EmptyState message={t("list.empty")} />
+          ) : (
+            <div className="scroll-x">
+              {shortform.map((content) => (
+                <ShortformCard key={content.id} content={content} />
+              ))}
+            </div>
+          )}
+        </Section>
+      </div>
+    </div>
   );
 }

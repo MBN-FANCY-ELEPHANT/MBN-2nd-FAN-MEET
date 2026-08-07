@@ -1,0 +1,81 @@
+/* 굿즈 상세 — Figma 27:6651 */
+
+.page {
+  min-height: 100%;
+  background: var(--color-background);
+  padding-bottom: 96px;
+}
+
+.photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: var(--color-surface-muted);
+}
+
+.body {
+  padding: var(--space-5) var(--page-padding-x);
+}
+
+.category {
+  font-size: var(--text-small-size);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.name {
+  margin-top: var(--space-2);
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.price {
+  margin-top: var(--space-2);
+  font-size: var(--text-section-size);
+  font-weight: 700;
+}
+
+.description {
+  margin-top: var(--space-4);
+  font-size: var(--text-card-title-size);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* 금전 거래 미중개 고지 — 모임 참가비와 같은 원칙입니다 */
+.notice {
+  margin-top: var(--space-5);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-muted);
+  font-size: var(--text-small-size);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.actionBar {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--app-width);
+  padding: var(--space-3) var(--page-padding-x)
+    calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  background: var(--color-white);
+  box-shadow: var(--shadow-sheet);
+}
+
+.cta {
+  display: block;
+  width: 100%;
+  padding: var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+  color: var(--color-white);
+  text-align: center;
+}

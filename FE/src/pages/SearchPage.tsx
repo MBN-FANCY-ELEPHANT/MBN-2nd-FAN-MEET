@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
@@ -16,6 +16,7 @@ import {
   getSelectedArtist,
   shortArtistName,
 } from "../features/artist/selectedArtist";
+import { useSpeechRecognition } from "../features/voice/useSpeechRecognition";
 import { LOCALE_LABEL, currentLocale } from "../i18n";
 import { formatDate } from "../lib/format";
 import styles from "./SearchPage.module.css";
@@ -76,6 +77,24 @@ export default function SearchPage() {
     setParams(next ? { q: next } : {});
   }
 
+  /**
+   * 검색어 음성 입력 — 음성 도우미와 **같은 훅**을 씁니다.
+   *
+   * 중장년 사용자에게는 한글 자판이 가장 큰 벽입니다. "박서진 한일가왕전" 을
+   * 손으로 치게 하지 말고 말해서 넣게 합니다. 인식이 끝나면 바로 검색까지 실행합니다.
+   *
+   * ⚠️ 미지원 브라우저·권한 거부면 버튼을 숨깁니다. 눌러도 아무 일 없는 버튼이
+   *    남아 있으면 사용자는 앱이 고장 났다고 판단합니다.
+   */
+  const speech = useSpeechRecognition((text) => submit(text));
+  const canUseMic =
+    speech.supported && speech.error !== "unsupported" && speech.error !== "denied";
+
+  // 말하는 도중에도 입력창에 실시간으로 쌓입니다 — 인식이 되고 있다는 유일한 신호입니다.
+  useEffect(() => {
+    if (speech.listening && speech.transcript) setDraft(speech.transcript);
+  }, [speech.listening, speech.transcript]);
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -124,7 +143,28 @@ export default function SearchPage() {
             ✕
           </button>
         )}
+
+        {canUseMic && (
+          <button
+            type="button"
+            className={`${styles.voice} ${speech.listening ? styles.voiceOn : ""}`}
+            onClick={() => (speech.listening ? speech.stop() : speech.start())}
+            aria-label={t(
+              speech.listening ? "search.voiceStop" : "search.voiceStart",
+            )}
+            aria-pressed={speech.listening}
+          >
+            <Icon name="mic" size={20} className={styles.voiceIcon} />
+          </button>
+        )}
       </form>
+
+      {speech.listening && (
+        <p className={styles.voiceHint}>{t("search.voiceListening")}</p>
+      )}
+      {speech.error === "denied" && (
+        <p className={styles.voiceHint}>{t("chat.micDenied")}</p>
+      )}
 
       {!query ? (
         <>

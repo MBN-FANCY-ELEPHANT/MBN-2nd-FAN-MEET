@@ -1287,7 +1287,7 @@ components:
         - `VIDEO` → 좌 `durationSec`, 우 `viewCount`
         - `VIDEO` + `live=true` → 좌 LIVE 배지, 우 `viewerCount`
         - `POST` → 아티스트 작성자와 본문 중심의 SNS형 카드
-      required: [id, type, title, thumbnailUrl, publishedAt, channelName, author, viewCount, likeCount, commentCount, live]
+      required: [id, type, title, thumbnailUrl, publishedAt, channelName, author, viewCount, likeCount, commentCount, liked, live]
       properties:
         id: { type: integer, format: int64 }
         type: { $ref: '#/components/schemas/ContentType' }
@@ -1302,6 +1302,14 @@ components:
         viewCount: { type: integer }
         likeCount: { type: integer }
         commentCount: { type: integer }
+        liked:
+          type: boolean
+          description: |
+            내가 좋아요를 눌렀는지. 비로그인이면 항상 false.
+
+            ⚠️ 목록에도 있어야 합니다. 없으면 소식 스레드에서 하트를 눌러도 **채워지지 않아**
+            누른 티가 나지 않습니다 (`likeCount` 는 만 단위로 반올림돼 1 증가가 안 보입니다).
+            목록 전체를 한 번의 `IN` 조회로 채우므로 N+1 이 아닙니다.
         live:
           type: boolean
           description: |

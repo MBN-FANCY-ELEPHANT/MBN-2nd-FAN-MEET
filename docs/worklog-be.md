@@ -17,7 +17,7 @@
 | Home | `GET /api/v1/stars/{starId}/home` | ✅ 응답 필드 `contents` (기사·영상 혼합) |
 | Home | `GET /api/v1/stars/{starId}/play` | ✅ 성지순례+응원하기 집계 |
 | Schedule | `GET /api/v1/schedules`, `/{id}` | ✅ |
-| **Content** | `GET /api/v1/contents`, `/{id}`, `/{id}/related` | ✅ ARTICLE·VIDEO·POST + 작성 주체 |
+| **Content** | `GET /api/v1/contents`, `/{id}`, `/{id}/related` | ✅ ARTICLE·VIDEO·POST + 작성 주체 + **목록에도 `liked`** |
 | **Reaction** | `POST·DELETE /api/v1/contents/{id}/like` | ✅ 멱등 |
 | **Reaction** | `POST·DELETE /api/v1/comments/{id}/like` | ✅ 멱등 |
 | **Comment** | `GET·POST /api/v1/contents/{id}/comments` | ✅ 국가 배지 포함 |
@@ -198,6 +198,26 @@
 `409 NICKNAME_POOL_EXHAUSTED`를 반환합니다.
 
 `ContentType.POST`와 `ContentAuthorType`을 추가했습니다. 아티스트 SNS형 게시물도 기존 Content 좋아요·댓글 API를 그대로 사용하며 대댓글은 두지 않습니다.
+
+---
+
+## 1-4. 소식 스레드 — 목록 응답의 `liked` (2026-08-08)
+
+`ContentSummary` 에 `liked` 를 추가했습니다. 메인 소식 스레드에서 하트를 눌러도
+**채워지지 않아 누른 티가 전혀 나지 않던** 문제 때문입니다 — `likeCount` 는 화면에서
+만 단위로 반올림돼(12,300 → "1.2만") 1 증가가 보이지 않습니다.
+
+⚠️ **건별 조회로 채우지 마세요.** `ContentService.likedContentIds()` 가 목록 id 를 모아
+`findByUserIdAndTargetTypeAndTargetIdIn` **한 번**으로 가져옵니다. 건별로 돌면 N+1 입니다.
+
+⚠️ 비로그인이면 빈 집합이라 전부 `false` 입니다 (401 이 아닙니다).
+
+**팬매니저 공지 시드 추가** — `author_type='MANAGER'` 인 `POST` 콘텐츠가 하나도 없어서
+소식 스레드의 세 번째 종류를 만들 수 없었습니다. `content` 15·16 + 댓글 3건을 넣었습니다.
+공지 문안에 **아티스트 1인칭을 쓰지 마세요** — 작성 주체는 AI 도우미입니다 (기획서 5-2).
+
+**소식 시드 시각을 과거로 조정** — 기존 `POST` 시드가 현재보다 미래라 화면에
+"6시간 후" 로 표시됐습니다. 데모 날짜가 밀리면 다시 확인하세요.
 
 ---
 

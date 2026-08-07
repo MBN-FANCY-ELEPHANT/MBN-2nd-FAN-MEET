@@ -24,11 +24,11 @@
 
 -- ─────────────────────────────── Star ───────────────────────────────
 INSERT INTO star (id, name, name_en, profile_image_url, cover_image_url, greeting, verified, follower_count) VALUES
- (1, '성리',   'Sungri',        'https://placehold.co/200x200/F58220/FFFFFF?text=SR', '/example_thumb.png',
+ (1, '성리',   'Sungri',        '/artists/sungri/profile.png', '/artists/sungri/cover.png',
      '오늘도 제 노래로 잠깐 웃으셨으면 좋겠어요!', TRUE,  84200),
- (2, '이찬원', 'Lee Chan-won',  'https://placehold.co/200x200/E4741A/FFFFFF?text=CW', '/example_thumb.png',
+ (2, '이찬원', 'Lee Chan-won',  '/artists/chanwon/profile.png', '/artists/chanwon/cover.png',
      '언제나 좋은 노래로 찾아뵙겠습니다!',        TRUE,  96200),
- (3, '박서진', 'Park Seo-jin',  'https://placehold.co/200x200/EA580C/FFFFFF?text=SJ', '/example_thumb.png',
+ (3, '박서진', 'Park Seo-jin',  '/artists/seojin/profile.png', '/artists/seojin/cover.png',
      '늘 응원해 주셔서 고맙습니다. 힘내서 노래할게요!', TRUE, 91500);
 
 ALTER TABLE star ALTER COLUMN id RESTART WITH 4;
@@ -132,53 +132,53 @@ ALTER TABLE schedule ALTER COLUMN id RESTART WITH 26;
 INSERT INTO place (id, star_id, name, type, address, latitude, longitude, image_url, visit_context, source_url, map_url) VALUES
  -- 성리 (서울 중심)
  (1, 1, '충무로 옛날손칼국수', 'RESTAURANT', '서울 중구 충무로 12', 37.5613, 126.9942,
-    '/example_thumb.png', '2026.06 MBN [트롯신이 떴다] 촬영 중 방문',
+    '/artists/sungri/place-1.png', '2026.06 MBN [트롯신이 떴다] 촬영 중 방문',
     'https://www.mbn.co.kr/news/sample-1', 'https://map.kakao.com'),
  (2, 1, '한강 노을 카페', 'CAFE', '서울 영등포구 여의동로 330', 37.5285, 126.9326,
-    '/example_thumb.png', '2026.04 뮤직비디오 촬영지',
+    '/artists/sungri/place-2.png', '2026.04 뮤직비디오 촬영지',
     'https://www.mbn.co.kr/news/sample-2', 'https://map.kakao.com'),
  (3, 1, 'KSPO DOME', 'VENUE', '서울 송파구 올림픽로 424', 37.5203, 127.1268,
-    '/example_thumb.png', '2026 전국투어 서울 공연장',
+    '/artists/sungri/place-3.png', '2026 전국투어 서울 공연장',
     'https://www.mbn.co.kr/news/sample-3', 'https://map.kakao.com'),
  (4, 1, '남산 케이블카 승강장', 'FILMING_LOCATION', '서울 중구 소파로 83', 37.5563, 126.9836,
-    '/example_thumb.png', '2026.05 데뷔 다큐 촬영지',
+    '/artists/sungri/place-4.png', '2026.05 데뷔 다큐 촬영지',
     'https://www.mbn.co.kr/news/sample-4', 'https://map.kakao.com'),
  (5, 1, '성수동 골목 사진관', 'FILMING_LOCATION', '서울 성동구 연무장길 45', 37.5443, 127.0557,
-    '/example_thumb.png', '2026.03 앨범 재킷 촬영지',
+    '/artists/sungri/place-5.png', '2026.03 앨범 재킷 촬영지',
     'https://www.mbn.co.kr/news/sample-5', 'https://map.kakao.com'),
 
  -- 이찬원 (대구 중심)
  (11, 2, '대구 서문시장 칼국수 골목', 'RESTAURANT', '대구 중구 큰장로26길 8', 35.8693, 128.5824,
-    '/example_thumb.png', '2026.06 방송 촬영 중 방문',
+    '/artists/chanwon/place-1.png', '2026.06 방송 촬영 중 방문',
     'https://www.mbn.co.kr/news/sample-11', 'https://map.kakao.com'),
  (12, 2, '수성못 카페거리', 'CAFE', '대구 수성구 두산동 512', 35.8283, 128.6187,
-    '/example_thumb.png', '2026.05 공개 방문',
+    '/artists/chanwon/place-2.png', '2026.05 공개 방문',
     'https://www.mbn.co.kr/news/sample-12', 'https://map.kakao.com'),
  (13, 2, '대구 엑스코', 'VENUE', '대구 북구 엑스코로 10', 35.9204, 128.5804,
-    '/example_thumb.png', '2026 전국투어 대구 공연장',
+    '/artists/chanwon/place-3.png', '2026 전국투어 대구 공연장',
     'https://www.mbn.co.kr/news/sample-13', 'https://map.kakao.com'),
  (14, 2, '김광석 다시그리기 길', 'FILMING_LOCATION', '대구 중구 달구벌대로450길 27', 35.8657, 128.6012,
-    '/example_thumb.png', '2026.04 다큐 촬영지',
+    '/artists/chanwon/place-4.png', '2026.04 다큐 촬영지',
     'https://www.mbn.co.kr/news/sample-14', 'https://map.kakao.com'),
  (15, 2, '서울 올림픽홀', 'VENUE', '서울 송파구 올림픽로 424', 37.5203, 127.1268,
-    '/example_thumb.png', '2026 전국투어 서울 공연장',
+    '/artists/chanwon/place-5.png', '2026 전국투어 서울 공연장',
     'https://www.mbn.co.kr/news/sample-15', 'https://map.kakao.com'),
 
  -- 박서진 (남해안 중심)
  (21, 3, '여수 낭만포차 거리', 'RESTAURANT', '전남 여수시 이순신광장로 30', 34.7370, 127.7376,
-    '/example_thumb.png', '2026.06 방송 촬영 중 방문',
+    '/artists/seojin/place-1.png', '2026.06 방송 촬영 중 방문',
     'https://www.mbn.co.kr/news/sample-21', 'https://map.kakao.com'),
  (22, 3, '남해 다랭이마을', 'FILMING_LOCATION', '경남 남해군 남면 남면로 679', 34.7180, 127.9160,
-    '/example_thumb.png', '2026.05 뮤직비디오 촬영지',
+    '/artists/seojin/place-2.png', '2026.05 뮤직비디오 촬영지',
     'https://www.mbn.co.kr/news/sample-22', 'https://map.kakao.com'),
  (23, 3, '광주 양동시장 국밥골목', 'RESTAURANT', '광주 서구 천변좌하로 342', 35.1546, 126.9046,
-    '/example_thumb.png', '2026.04 공개 방문',
+    '/artists/seojin/place-3.png', '2026.04 공개 방문',
     'https://www.mbn.co.kr/news/sample-23', 'https://map.kakao.com'),
  (24, 3, '잠실실내체육관', 'VENUE', '서울 송파구 올림픽로 25', 37.5117, 127.0730,
-    '/example_thumb.png', '2026 단독 콘서트 서울 공연장',
+    '/artists/seojin/place-4.png', '2026 단독 콘서트 서울 공연장',
     'https://www.mbn.co.kr/news/sample-24', 'https://map.kakao.com'),
  (25, 3, '돌산 바다뷰 카페', 'CAFE', '전남 여수시 돌산읍 진두민내길 25', 34.7040, 127.7570,
-    '/example_thumb.png', '2026.03 앨범 재킷 촬영지',
+    '/artists/seojin/place-5.png', '2026.03 앨범 재킷 촬영지',
     'https://www.mbn.co.kr/news/sample-25', 'https://map.kakao.com');
 
 ALTER TABLE place ALTER COLUMN id RESTART WITH 26;
@@ -189,62 +189,62 @@ ALTER TABLE place ALTER COLUMN id RESTART WITH 26;
 --    카테고리 필터가 비면 화면이 빈 상태로 보입니다.
 INSERT INTO tip (id, star_id, title, category, thumbnail_url, content, external_url, updated_at) VALUES
  -- 성리
- (1, 1, '멜론 스밍하는 방법', 'STREAMING', '/example_thumb.png',
+ (1, 1, '멜론 스밍하는 방법', 'STREAMING', '/artists/_common/tip-streaming.png',
     '## 스트리밍 기본 규칙' || CHR(10) || '1. 1시간 이상 간격을 두고 재생하세요.' || CHR(10) || '2. 볼륨은 0으로 두지 마세요.' || CHR(10) || '3. 같은 곡 연속 반복은 집계에서 제외됩니다.',
     'https://www.melon.com', TIMESTAMP WITH TIME ZONE '2026-08-01 09:00:00+00'),
- (2, 1, '트롯가왕 투표 방법', 'VOTE', '/example_thumb.png',
+ (2, 1, '트롯가왕 투표 방법', 'VOTE', '/artists/_common/tip-vote.png',
     '## 문자 투표' || CHR(10) || '방송 중 자막으로 안내되는 번호로 발송하세요.' || CHR(10) || '## 앱 투표' || CHR(10) || '하루 1회 무료 투표가 제공됩니다.',
     'https://www.mbn.co.kr', TIMESTAMP WITH TIME ZONE '2026-07-28 09:00:00+00'),
- (3, 1, '전국투어 티켓팅 준비물', 'TICKETING', '/example_thumb.png',
+ (3, 1, '전국투어 티켓팅 준비물', 'TICKETING', '/artists/_common/tip-ticketing.png',
     '## 예매 전 체크리스트' || CHR(10) || '- 회원 가입과 본인 인증을 미리 마치세요.' || CHR(10) || '- 결제 수단을 등록해 두세요.' || CHR(10) || '- 서버 시간을 확인하세요.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-20 09:00:00+00'),
- (4, 1, '응원봉 사용 가이드', 'CHEER', '/example_thumb.png',
+ (4, 1, '응원봉 사용 가이드', 'CHEER', '/artists/_common/tip-cheer.png',
     '## 공연장 응원 매너' || CHR(10) || '- 발라드 구간에서는 응원봉을 낮춰주세요.' || CHR(10) || '- 촬영은 지정된 구간에서만 가능합니다.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-12 09:00:00+00'),
- (5, 1, '공식 팬클럽 가입 안내', 'FANCLUB', '/example_thumb.png',
+ (5, 1, '공식 팬클럽 가입 안내', 'FANCLUB', '/artists/_common/tip-fanclub.png',
     '## 가입 절차' || CHR(10) || '연 1회 모집합니다. 선예매 권한이 부여됩니다.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-02 09:00:00+00'),
- (6, 1, '해외 팬 응원 참여 방법', 'CHEER', '/example_thumb.png',
+ (6, 1, '해외 팬 응원 참여 방법', 'CHEER', '/artists/_common/tip-cheer.png',
     '## For international fans' || CHR(10) || 'Global streaming and voting are supported. See the guide for regional details.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-06-25 09:00:00+00'),
 
  -- 이찬원
- (11, 2, '음원 스트리밍 가이드', 'STREAMING', '/example_thumb.png',
+ (11, 2, '음원 스트리밍 가이드', 'STREAMING', '/artists/_common/tip-streaming.png',
     '## 스트리밍 기본 규칙' || CHR(10) || '1. 1시간 이상 간격을 두고 재생하세요.' || CHR(10) || '2. 볼륨은 0으로 두지 마세요.' || CHR(10) || '3. 무료 체험 계정은 집계에서 제외됩니다.',
     'https://www.melon.com', TIMESTAMP WITH TIME ZONE '2026-08-02 09:00:00+00'),
- (12, 2, '한일톱텐쇼 투표 방법', 'VOTE', '/example_thumb.png',
+ (12, 2, '한일톱텐쇼 투표 방법', 'VOTE', '/artists/_common/tip-vote.png',
     '## 앱 투표' || CHR(10) || '하루 1회 무료 투표가 제공됩니다.' || CHR(10) || '## 문자 투표' || CHR(10) || '방송 중 안내되는 번호로 발송하세요.',
     'https://www.mbn.co.kr', TIMESTAMP WITH TIME ZONE '2026-07-30 09:00:00+00'),
- (13, 2, '대구 공연 티켓팅 팁', 'TICKETING', '/example_thumb.png',
+ (13, 2, '대구 공연 티켓팅 팁', 'TICKETING', '/artists/_common/tip-ticketing.png',
     '## 예매 전 체크리스트' || CHR(10) || '- 팬클럽 선예매는 본인 인증이 선행되어야 합니다.' || CHR(10) || '- 좌석 배치도를 미리 확인하세요.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-22 09:00:00+00'),
- (14, 2, '떼창 구간 안내', 'CHEER', '/example_thumb.png',
+ (14, 2, '떼창 구간 안내', 'CHEER', '/artists/_common/tip-cheer.png',
     '## 공연장 응원 매너' || CHR(10) || '- 간주 구간에서만 함께 불러주세요.' || CHR(10) || '- 앞자리 관객의 시야를 가리지 않도록 주의해 주세요.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-14 09:00:00+00'),
- (15, 2, '공식 팬클럽 가입 안내', 'FANCLUB', '/example_thumb.png',
+ (15, 2, '공식 팬클럽 가입 안내', 'FANCLUB', '/artists/_common/tip-fanclub.png',
     '## 가입 절차' || CHR(10) || '상시 모집이며 가입 즉시 선예매 권한이 부여됩니다.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-04 09:00:00+00'),
- (16, 2, '해외 팬 투표 참여 방법', 'VOTE', '/example_thumb.png',
+ (16, 2, '해외 팬 투표 참여 방법', 'VOTE', '/artists/_common/tip-vote.png',
     '## For international fans' || CHR(10) || 'App voting is available worldwide. SMS voting is limited to Korean carriers.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-06-28 09:00:00+00'),
 
  -- 박서진
- (21, 3, '신보 [항해] 스트리밍 가이드', 'STREAMING', '/example_thumb.png',
+ (21, 3, '신보 [항해] 스트리밍 가이드', 'STREAMING', '/artists/_common/tip-streaming.png',
     '## 스트리밍 기본 규칙' || CHR(10) || '1. 1시간 이상 간격을 두고 재생하세요.' || CHR(10) || '2. 전곡 재생이 타이틀곡 반복보다 유리합니다.',
     'https://www.melon.com', TIMESTAMP WITH TIME ZONE '2026-08-03 09:00:00+00'),
- (22, 3, '현역가왕 투표 방법', 'VOTE', '/example_thumb.png',
+ (22, 3, '현역가왕 투표 방법', 'VOTE', '/artists/_common/tip-vote.png',
     '## 앱 투표' || CHR(10) || '하루 1회 무료 투표가 제공됩니다.' || CHR(10) || '## 유의사항' || CHR(10) || '중복 계정 투표는 무효 처리됩니다.',
     'https://www.mbn.co.kr', TIMESTAMP WITH TIME ZONE '2026-07-31 09:00:00+00'),
- (23, 3, '단독 콘서트 티켓팅 준비물', 'TICKETING', '/example_thumb.png',
+ (23, 3, '단독 콘서트 티켓팅 준비물', 'TICKETING', '/artists/_common/tip-ticketing.png',
     '## 예매 전 체크리스트' || CHR(10) || '- 예매처 계정을 미리 만들어 두세요.' || CHR(10) || '- 동시 접속이 몰리므로 유선 네트워크를 권장합니다.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-24 09:00:00+00'),
- (24, 3, '응원 슬로건 제작 안내', 'CHEER', '/example_thumb.png',
+ (24, 3, '응원 슬로건 제작 안내', 'CHEER', '/artists/_common/tip-cheer.png',
     '## 공연장 응원 매너' || CHR(10) || '- 슬로건은 A4 이하 크기를 권장합니다.' || CHR(10) || '- 발라드 구간에는 내려주세요.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-16 09:00:00+00'),
- (25, 3, '공식 팬클럽 가입 안내', 'FANCLUB', '/example_thumb.png',
+ (25, 3, '공식 팬클럽 가입 안내', 'FANCLUB', '/artists/_common/tip-fanclub.png',
     '## 가입 절차' || CHR(10) || '연 2회 모집하며 굿즈 선구매 권한이 부여됩니다.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-07-06 09:00:00+00'),
- (26, 3, '해외 팬 굿즈 배송 안내', 'FANCLUB', '/example_thumb.png',
+ (26, 3, '해외 팬 굿즈 배송 안내', 'FANCLUB', '/artists/_common/tip-fanclub.png',
     '## For international fans' || CHR(10) || 'Global shipping is available for official goods. Check the regional fee table.',
     NULL, TIMESTAMP WITH TIME ZONE '2026-06-30 09:00:00+00');
 
@@ -269,51 +269,51 @@ INSERT INTO content (id, star_id, channel_id, type, author_type, author_name, au
  -- ══════════════════ 성리 (star 1) ══════════════════
  (1, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '"팬 여러분 덕분이에요"…성리, 전국투어 서울 공연 전석 매진',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-06 10:00:00+00', 27400, 212, 3,
+    '/artists/sungri/news-1.png', TIMESTAMP WITH TIME ZONE '2026-08-06 10:00:00+00', 27400, 212, 3,
     '[ 앵커멘트 ]' || CHR(10) || '가수 성리의 2026 전국투어 서울 공연이 예매 시작 12분 만에 전석 매진됐습니다. 이번 공연은 [[스탠딩석|무대 앞 입석 구역으로, 좌석 없이 관람하는 자리]]을 포함해 총 1만 2천석 규모로 진행됩니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '소속사는 추가 회차 편성을 검토 중이라고 밝혔습니다. 지방 공연은 부산에서 이어집니다.' || CHR(10) || CHR(10) || '- 인터뷰 : 성리 / 가수' || CHR(10) || '"이렇게 많은 분들이 기다려 주실 줄 몰랐어요. 좋은 무대로 보답하겠습니다."',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
  (2, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '신곡 [첫사랑 편지] 최초 라이브 무대',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-05 12:00:00+00', 121000, 3102, 2,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 214, FALSE, NULL),
+    'https://i.ytimg.com/vi/BsJtZSa0MQo/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-08-05 12:00:00+00', 121000, 3102, 2,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/BsJtZSa0MQo', 151, FALSE, NULL),
 
  (3, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '트롯가왕 본선 2차 생중계',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 02:00:00+00', 8200, 431, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', NULL, TRUE, 82),
+    'https://i.ytimg.com/vi/hnxX2cW8H20/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-08-07 02:00:00+00', 8200, 431, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/hnxX2cW8H20', NULL, TRUE, 82),
 
  (4, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '성리 팬덤, 데뷔 기념일 맞아 아동복지시설에 3천만원 기부',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-04 09:00:00+00', 18300, 154, 1,
+    '/artists/sungri/news-2.png', TIMESTAMP WITH TIME ZONE '2026-08-04 09:00:00+00', 18300, 154, 1,
     '[ 앵커멘트 ]' || CHR(10) || '가수 성리의 팬덤이 데뷔 기념일을 맞아 아동복지시설에 3천만원을 기부했습니다. 이번 기부는 [[팬덤 모금|팬들이 자발적으로 모금해 스타의 이름으로 기부하는 문화]]의 사례로 꼽힙니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '팬덤 측은 모금 내역과 기부 영수증을 전액 공개했습니다.',
     '박준영 기자', 'https://placehold.co/80x80/E4741A/FFFFFF?text=PARK', NULL, NULL, FALSE, NULL),
 
  (5, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '0730 성리 콘서트 직관 영상',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-30 12:00:00+00', 88120, 2431, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 251, FALSE, NULL),
+    'https://i.ytimg.com/vi/e229ghL4akE/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-07-30 12:00:00+00', 88120, 2431, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/e229ghL4akE', 251, FALSE, NULL),
 
  (6, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '성리 신곡 [첫사랑 편지], 발매 첫 주 음원 차트 1위',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-18 09:00:00+00', 31200, 245, 0,
+    '/artists/sungri/news-3.png', TIMESTAMP WITH TIME ZONE '2026-07-18 09:00:00+00', 31200, 245, 0,
     '[ 앵커멘트 ]' || CHR(10) || '성리의 신곡 [첫사랑 편지]가 발매 첫 주 주요 음원 차트에서 1위를 기록했습니다. [[퍼펙트 올킬|국내 모든 주요 음원 차트에서 동시에 1위를 차지하는 것]]도 함께 달성했습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '음반 판매량도 초동 기준 자체 최고치를 경신했습니다.',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
  (7, 1, 3, 'VIDEO', 'CHANNEL', 'MBN 한일톱텐쇼', 'https://placehold.co/64x64/EA580C/FFFFFF?text=T10',
     '성리 [찔레꽃] 무대 직캠',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-15 12:00:00+00', 64300, 1980, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 298, FALSE, NULL),
+    'https://i.ytimg.com/vi/9MAUrWDvrng/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-07-15 12:00:00+00', 64300, 1980, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/9MAUrWDvrng', 201, FALSE, NULL),
 
- (8, 1, 2, 'POST', 'STAR', '성리', 'https://placehold.co/200x200/F58220/FFFFFF?text=SR',
+ (8, 1, 2, 'POST', 'STAR', '성리', '/artists/sungri/profile.png',
     '오늘도 연습실이에요 ^^',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 09:00:00+00', 0, 12300, 1,
+    '/artists/sungri/post-1.png', TIMESTAMP WITH TIME ZONE '2026-08-07 09:00:00+00', 0, 12300, 1,
     '오늘도 연습실이에요 ^^ 목 관리 잘하고 좋은 무대로 만나요!',
     NULL, NULL, NULL, NULL, FALSE, NULL),
 
- (9, 1, 2, 'POST', 'STAR', '성리', 'https://placehold.co/200x200/F58220/FFFFFF?text=SR',
+ (9, 1, 2, 'POST', 'STAR', '성리', '/artists/sungri/profile.png',
     '팬미팅 준비 중입니다',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 04:00:00+00', 0, 9800, 1,
+    '/artists/sungri/post-2.png', TIMESTAMP WITH TIME ZONE '2026-08-07 04:00:00+00', 0, 9800, 1,
     '팬미팅 준비 중입니다. 어떤 이야기 나눌지 고민이 많아요. 곧 만나요!',
     NULL, NULL, NULL, NULL, FALSE, NULL),
 
@@ -338,51 +338,51 @@ INSERT INTO content (id, star_id, channel_id, type, author_type, author_name, au
  -- ══════════════════ 이찬원 (star 2) ══════════════════
  (21, 2, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '"고향에서 노래하고 싶었어요"…이찬원, 대구 공연 추가 편성',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-06 08:00:00+00', 29800, 231, 3,
+    '/artists/chanwon/news-1.png', TIMESTAMP WITH TIME ZONE '2026-08-06 08:00:00+00', 29800, 231, 3,
     '[ 앵커멘트 ]' || CHR(10) || '가수 이찬원의 2026 전국투어에 대구 공연이 추가 편성됐습니다. 서울 공연이 [[선예매|팬클럽 회원에게 일반 예매보다 먼저 열리는 예매 회차]] 단계에서 매진된 데 따른 결정입니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '대구 공연은 9월 26일 엑스코에서 열립니다.' || CHR(10) || CHR(10) || '- 인터뷰 : 이찬원 / 가수' || CHR(10) || '"고향에서 노래하는 건 언제나 특별합니다. 꼭 좋은 무대 보여드릴게요."',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
  (22, 2, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '신곡 [진심 한 줄] 최초 라이브 무대',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-05 11:00:00+00', 143000, 3840, 2,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 226, FALSE, NULL),
+    'https://i.ytimg.com/vi/fJLnz27EjtA/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-08-05 11:00:00+00', 143000, 3840, 2,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/fJLnz27EjtA', 393, FALSE, NULL),
 
  (23, 2, 3, 'VIDEO', 'CHANNEL', 'MBN 한일톱텐쇼', 'https://placehold.co/64x64/EA580C/FFFFFF?text=T10',
     '한일톱텐쇼 본선 무대 생중계',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 03:00:00+00', 11400, 612, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', NULL, TRUE, 141),
+    'https://i.ytimg.com/vi/x-Oy_LGYLD4/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-08-07 03:00:00+00', 11400, 612, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/x-Oy_LGYLD4', NULL, TRUE, 141),
 
  (24, 2, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '이찬원 팬덤, 지역 아동센터에 도서 5천 권 기부',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-03 09:00:00+00', 16700, 142, 1,
+    '/artists/chanwon/news-2.png', TIMESTAMP WITH TIME ZONE '2026-08-03 09:00:00+00', 16700, 142, 1,
     '[ 앵커멘트 ]' || CHR(10) || '가수 이찬원의 팬덤이 대구·경북 지역 아동센터 12곳에 도서 5천 권을 기부했습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '팬덤 측은 [[기부 인증|모금액과 사용처를 영수증으로 공개해 검증받는 절차]] 자료를 함께 공개했습니다.',
     '박준영 기자', 'https://placehold.co/80x80/E4741A/FFFFFF?text=PARK', NULL, NULL, FALSE, NULL),
 
  (25, 2, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '0812 이찬원 팬미팅 하이라이트',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-29 12:00:00+00', 76400, 2210, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 341, FALSE, NULL),
+    'https://i.ytimg.com/vi/yaeG5iPP414/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-07-29 12:00:00+00', 76400, 2210, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/yaeG5iPP414', 249, FALSE, NULL),
 
  (26, 2, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '데뷔 후 첫 단독 전국투어…이찬원, 8개 도시 순회',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-17 09:00:00+00', 24300, 189, 0,
+    '/artists/chanwon/news-3.png', TIMESTAMP WITH TIME ZONE '2026-07-17 09:00:00+00', 24300, 189, 0,
     '[ 앵커멘트 ]' || CHR(10) || '가수 이찬원이 데뷔 후 첫 단독 전국투어에 나섭니다. 서울을 시작으로 8개 도시를 순회합니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '제작진은 도시마다 [[세트리스트|공연에서 부를 곡의 순서 목록]]를 다르게 구성한다고 밝혔습니다.',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
  (27, 2, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '이찬원 [편지] 무대 직캠',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-13 12:00:00+00', 58900, 1720, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 265, FALSE, NULL),
+    'https://i.ytimg.com/vi/68ShTNAwrLc/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-07-13 12:00:00+00', 58900, 1720, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/68ShTNAwrLc', 232, FALSE, NULL),
 
- (28, 2, 2, 'POST', 'STAR', '이찬원', 'https://placehold.co/200x200/E4741A/FFFFFF?text=CW',
+ (28, 2, 2, 'POST', 'STAR', '이찬원', '/artists/chanwon/profile.png',
     '대구 다녀왔어요',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 08:00:00+00', 0, 14100, 1,
+    '/artists/chanwon/post-1.png', TIMESTAMP WITH TIME ZONE '2026-08-07 08:00:00+00', 0, 14100, 1,
     '대구 다녀왔어요. 시장 칼국수는 역시 최고입니다 ^^',
     NULL, NULL, NULL, NULL, FALSE, NULL),
 
- (29, 2, 2, 'POST', 'STAR', '이찬원', 'https://placehold.co/200x200/E4741A/FFFFFF?text=CW',
+ (29, 2, 2, 'POST', 'STAR', '이찬원', '/artists/chanwon/profile.png',
     '연습실에서 인사드려요',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-06 23:00:00+00', 0, 10600, 1,
+    '/artists/chanwon/post-2.png', TIMESTAMP WITH TIME ZONE '2026-08-06 23:00:00+00', 0, 10600, 1,
     '연습실에서 인사드려요. 투어 준비 열심히 하고 있습니다!',
     NULL, NULL, NULL, NULL, FALSE, NULL),
 
@@ -401,51 +401,51 @@ INSERT INTO content (id, star_id, channel_id, type, author_type, author_name, au
  -- ══════════════════ 박서진 (star 3) ══════════════════
  (41, 3, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '"바다에서 배운 노래"…박서진, 단독 콘서트 서울 공연 매진',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-06 06:00:00+00', 26100, 204, 3,
+    '/artists/seojin/news-1.png', TIMESTAMP WITH TIME ZONE '2026-08-06 06:00:00+00', 26100, 204, 3,
     '[ 앵커멘트 ]' || CHR(10) || '가수 박서진의 단독 콘서트 서울 공연이 전석 매진됐습니다. 9월 6일 잠실실내체육관에서 열립니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '소속사는 [[리허설 공개|본 공연 전 일부 관객에게 준비 과정을 여는 행사]] 회차도 함께 검토 중이라고 밝혔습니다.' || CHR(10) || CHR(10) || '- 인터뷰 : 박서진 / 가수' || CHR(10) || '"무대에 설 수 있는 게 아직도 실감이 안 납니다. 끝까지 열심히 하겠습니다."',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
  (42, 3, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '신곡 [바다에 묻다] 최초 라이브 무대',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-04 12:00:00+00', 132000, 3510, 2,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 238, FALSE, NULL),
+    'https://i.ytimg.com/vi/bbiFC7t7I_o/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-08-04 12:00:00+00', 132000, 3510, 2,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/bbiFC7t7I_o', 220, FALSE, NULL),
 
  (43, 3, 3, 'VIDEO', 'CHANNEL', 'MBN 한일톱텐쇼', 'https://placehold.co/64x64/EA580C/FFFFFF?text=T10',
     '현역가왕 특별무대 생중계',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 01:30:00+00', 9600, 502, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', NULL, TRUE, 97),
+    'https://i.ytimg.com/vi/913chFsIyX8/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-08-07 01:30:00+00', 9600, 502, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/913chFsIyX8', NULL, TRUE, 97),
 
  (44, 3, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '박서진 팬덤, 어촌 청소년 장학금 4천만원 전달',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-02 09:00:00+00', 17900, 161, 1,
+    '/artists/seojin/news-2.png', TIMESTAMP WITH TIME ZONE '2026-08-02 09:00:00+00', 17900, 161, 1,
     '[ 앵커멘트 ]' || CHR(10) || '가수 박서진의 팬덤이 남해안 어촌 지역 청소년에게 장학금 4천만원을 전달했습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '팬덤 측은 모금 내역과 전달 확인서를 전액 공개했습니다.',
     '박준영 기자', 'https://placehold.co/80x80/E4741A/FFFFFF?text=PARK', NULL, NULL, FALSE, NULL),
 
  (45, 3, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR',
     '0805 박서진 콘서트 직관 영상',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-27 12:00:00+00', 71200, 2080, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 274, FALSE, NULL),
+    'https://i.ytimg.com/vi/EANBUNR9PTI/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-07-27 12:00:00+00', 71200, 2080, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/EANBUNR9PTI', 211, FALSE, NULL),
 
  (46, 3, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN',
     '박서진, 정규 [항해] 발매…초동 판매량 자체 최고',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-16 09:00:00+00', 22800, 178, 0,
+    '/artists/seojin/news-3.png', TIMESTAMP WITH TIME ZONE '2026-07-16 09:00:00+00', 22800, 178, 0,
     '[ 앵커멘트 ]' || CHR(10) || '가수 박서진의 정규 앨범 [항해]가 발매 첫 주 [[초동|앨범 발매 후 첫 일주일 동안의 판매량]] 기준 자체 최고치를 기록했습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '수록곡 전곡이 주요 음원 차트에 진입했습니다.',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
  (47, 3, 3, 'VIDEO', 'CHANNEL', 'MBN 한일톱텐쇼', 'https://placehold.co/64x64/EA580C/FFFFFF?text=T10',
     '박서진 트로트 메들리 무대 직캠',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-07-11 12:00:00+00', 61500, 1860, 0,
-    NULL, NULL, NULL, 'https://www.youtube.com/embed/d4pWjMsd0go', 312, FALSE, NULL),
+    'https://i.ytimg.com/vi/YafJY6AoVmY/maxresdefault.jpg', TIMESTAMP WITH TIME ZONE '2026-07-11 12:00:00+00', 61500, 1860, 0,
+    NULL, NULL, NULL, 'https://www.youtube.com/embed/YafJY6AoVmY', 221, FALSE, NULL),
 
- (48, 3, 2, 'POST', 'STAR', '박서진', 'https://placehold.co/200x200/EA580C/FFFFFF?text=SJ',
+ (48, 3, 2, 'POST', 'STAR', '박서진', '/artists/seojin/profile.png',
     '여수 다녀왔습니다',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-07 05:00:00+00', 0, 13400, 1,
+    '/artists/seojin/post-1.jpg', TIMESTAMP WITH TIME ZONE '2026-08-07 05:00:00+00', 0, 13400, 1,
     '여수 다녀왔습니다. 바다 보고 오니 목소리가 트이는 것 같아요 ^^',
     NULL, NULL, NULL, NULL, FALSE, NULL),
 
- (49, 3, 2, 'POST', 'STAR', '박서진', 'https://placehold.co/200x200/EA580C/FFFFFF?text=SJ',
+ (49, 3, 2, 'POST', 'STAR', '박서진', '/artists/seojin/profile.png',
     '새 앨범 준비 중이에요',
-    '/example_thumb.png', TIMESTAMP WITH TIME ZONE '2026-08-06 21:00:00+00', 0, 9200, 1,
+    '/artists/seojin/post-2.png', TIMESTAMP WITH TIME ZONE '2026-08-06 21:00:00+00', 0, 9200, 1,
     '새 앨범 준비 중이에요. 이번엔 바다 이야기를 많이 담았습니다.',
     NULL, NULL, NULL, NULL, FALSE, NULL),
 
@@ -496,7 +496,7 @@ ALTER TABLE content_place ALTER COLUMN id RESTART WITH 24;
 INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summary, description, status, current_count, capacity, deadline, event_at, meeting_point, fee, payment_info, refund_policy, notice, official) VALUES
  -- 성리
  (1, 1, 7, '0830 대전에서 서울로 가는 버스 대절 모집', 'BUS',
-    '/example_thumb.png',
+    '/artists/sungri/gathering-1.png',
     '대전역에서 KSPO DOME 까지 가는 왕복 전세버스입니다. 08:00까지 도착하시면 됩니다.',
     '서울 KSPO DOME 공연 관람을 위한 대전 출발 왕복 전세버스입니다. 공연 종료 후 대전역으로 복귀합니다.',
     'RECRUITING', 34, 40, DATE '2026-08-25', TIMESTAMP WITH TIME ZONE '2026-08-30 23:00:00+00',
@@ -504,7 +504,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '지정 시간 08:00까지 늦지 않게 모여주세요.', TRUE),
 
  (2, 1, 7, '아동복지시설 기부금 모금', 'DONATION',
-    '/example_thumb.png',
+    '/artists/sungri/gathering-2.png',
     '팬덤 이름으로 아동복지시설에 기부합니다. 1인 1만원부터 참여 가능합니다.',
     '팬덤 이름으로 아동복지시설에 기부합니다. 모금 내역과 기부 영수증은 모임 종료 후 전체 공개됩니다.',
     'RECRUITING', 128, 200, DATE '2026-08-31', TIMESTAMP WITH TIME ZONE '2026-09-01 00:00:00+00',
@@ -512,7 +512,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '기부금 사용 내역은 종료 후 공개됩니다.', TRUE),
 
  (3, 1, 7, '0919 서울에서 부산으로 가는 버스 대절 모집', 'BUS',
-    '/example_thumb.png',
+    '/artists/sungri/gathering-3.png',
     '서울역에서 부산 벡스코까지 가는 왕복 전세버스입니다. 06:30까지 도착하시면 됩니다.',
     '부산 벡스코 공연 관람을 위한 서울 출발 왕복 전세버스입니다. 공연 종료 후 서울역으로 복귀합니다.',
     'RECRUITING', 12, 40, DATE '2026-09-14', TIMESTAMP WITH TIME ZONE '2026-09-19 23:30:00+00',
@@ -520,7 +520,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '왕복 8시간 이동이니 편한 복장으로 오세요.', TRUE),
 
  (4, 1, 7, '0814 팬미팅 버스 대절 (광주 출발)', 'BUS',
-    '/example_thumb.png',
+    '/artists/sungri/gathering-4.png',
     '광주 출발 전세버스입니다. 모집이 완료되었습니다.',
     '서울 올림픽홀 팬미팅 관람을 위한 광주 출발 왕복 전세버스. 정원이 모두 찼습니다.',
     'FULL', 45, 45, DATE '2026-08-11', TIMESTAMP WITH TIME ZONE '2026-08-14 22:00:00+00',
@@ -529,7 +529,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
 
  -- 이찬원
  (11, 2, 7, '0912 대구에서 서울로 가는 버스 대절 모집', 'BUS',
-    '/example_thumb.png',
+    '/artists/chanwon/gathering-1.png',
     '동대구역에서 올림픽홀까지 가는 왕복 전세버스입니다. 07:30까지 도착하시면 됩니다.',
     '서울 올림픽홀 공연 관람을 위한 대구 출발 왕복 전세버스입니다. 공연 종료 후 동대구역으로 복귀합니다.',
     'RECRUITING', 22, 40, DATE '2026-09-08', TIMESTAMP WITH TIME ZONE '2026-09-12 22:30:00+00',
@@ -537,7 +537,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '지정 시간 07:30까지 늦지 않게 모여주세요.', TRUE),
 
  (12, 2, 7, '지역 아동센터 도서 기부금 모금', 'DONATION',
-    '/example_thumb.png',
+    '/artists/chanwon/gathering-2.png',
     '대구·경북 아동센터에 도서를 기부합니다. 1인 5천원부터 참여 가능합니다.',
     '팬덤 이름으로 지역 아동센터에 도서를 기부합니다. 모금 내역과 전달 확인서는 종료 후 전체 공개됩니다.',
     'RECRUITING', 88, 150, DATE '2026-09-15', TIMESTAMP WITH TIME ZONE '2026-09-18 00:00:00+00',
@@ -545,7 +545,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '도서 목록은 참여자 투표로 정합니다.', TRUE),
 
  (13, 2, 7, '0926 부산에서 대구로 가는 버스 대절 모집', 'BUS',
-    '/example_thumb.png',
+    '/artists/chanwon/gathering-3.png',
     '부산역에서 대구 엑스코까지 가는 왕복 전세버스입니다. 08:30까지 도착하시면 됩니다.',
     '대구 엑스코 공연 관람을 위한 부산 출발 왕복 전세버스입니다. 공연 종료 후 부산역으로 복귀합니다.',
     'RECRUITING', 9, 40, DATE '2026-09-21', TIMESTAMP WITH TIME ZONE '2026-09-26 22:30:00+00',
@@ -553,7 +553,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '지정 시간까지 늦지 않게 모여주세요.', FALSE),
 
  (14, 2, 7, '연탄 나눔 기부금 모금', 'DONATION',
-    '/example_thumb.png',
+    '/artists/chanwon/gathering-4.png',
     '지난 겨울 연탄 나눔 모금입니다. 모집이 종료되었습니다.',
     '팬덤 이름으로 연탄 5천 장을 전달했습니다. 사용 내역은 공지사항에 공개돼 있습니다.',
     'CLOSED', 150, 150, DATE '2026-07-20', TIMESTAMP WITH TIME ZONE '2026-07-25 00:00:00+00',
@@ -562,7 +562,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
 
  -- 박서진
  (21, 3, 7, '0906 여수에서 서울로 가는 버스 대절 모집', 'BUS',
-    '/example_thumb.png',
+    '/artists/seojin/gathering-1.png',
     '여수엑스포역에서 잠실실내체육관까지 가는 왕복 전세버스입니다. 06:00까지 도착하시면 됩니다.',
     '서울 잠실실내체육관 공연 관람을 위한 여수 출발 왕복 전세버스입니다. 공연 종료 후 여수로 복귀합니다.',
     'RECRUITING', 18, 40, DATE '2026-09-01', TIMESTAMP WITH TIME ZONE '2026-09-06 23:30:00+00',
@@ -570,7 +570,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '왕복 9시간 이동입니다. 편한 복장으로 오세요.', TRUE),
 
  (22, 3, 7, '어촌 청소년 장학금 모금', 'DONATION',
-    '/example_thumb.png',
+    '/artists/seojin/gathering-2.png',
     '남해안 어촌 지역 청소년 장학금을 모읍니다. 1인 1만원부터 참여 가능합니다.',
     '팬덤 이름으로 어촌 지역 청소년에게 장학금을 전달합니다. 모금 내역과 전달 확인서는 종료 후 전체 공개됩니다.',
     'RECRUITING', 72, 120, DATE '2026-09-10', TIMESTAMP WITH TIME ZONE '2026-09-14 00:00:00+00',
@@ -578,7 +578,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '전달식은 온라인으로 중계됩니다.', TRUE),
 
  (23, 3, 7, '0927 서울에서 광주로 가는 버스 대절 모집', 'BUS',
-    '/example_thumb.png',
+    '/artists/seojin/gathering-3.png',
     '서울역에서 광주 염주체육관까지 가는 왕복 전세버스입니다. 07:00까지 도착하시면 됩니다.',
     '광주 염주체육관 공연 관람을 위한 서울 출발 왕복 전세버스입니다. 공연 종료 후 서울역으로 복귀합니다.',
     'RECRUITING', 7, 40, DATE '2026-09-22', TIMESTAMP WITH TIME ZONE '2026-09-27 23:00:00+00',
@@ -586,7 +586,7 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '지정 시간까지 늦지 않게 모여주세요.', FALSE),
 
  (24, 3, 7, '유기동물 보호소 수술비 모금', 'DONATION',
-    '/example_thumb.png',
+    '/artists/seojin/gathering-4.png',
     '유기동물 보호소 수술비를 함께 모읍니다. 1인 5천원부터 참여 가능합니다.',
     '팬덤 이름으로 유기동물 보호소에 수술비를 지원합니다. 모금 내역은 종료 후 전체 공개됩니다.',
     'RECRUITING', 64, 150, DATE '2026-09-12', TIMESTAMP WITH TIME ZONE '2026-09-16 00:00:00+00',
@@ -687,13 +687,13 @@ ALTER TABLE comment_translation ALTER COLUMN id RESTART WITH 49;
 --    모델이 지어낸 YouTube ID 는 없는 영상이거나 임베드가 차단된 영상이고,
 --    임베드 차단 영상은 오류 없이 **검은 화면 + 스피너**만 남기고 조용히 실패합니다.
 --
--- ⚠️ **embed_url 은 전부 임베드 검증이 끝난 MBN MUSIC 업로드(d4pWjMsd0go) 한 개입니다.**
---    아티스트별 실제 무대 영상으로 교체하세요. 교체할 때는 반드시 **iframe 안에서**
+-- ⚠️ **3명 모두 실제 무대 영상입니다** (iframe 안에서 재생 확인 완료).
+--    교체할 때도 반드시 iframe 에서 확인하세요. 교체할 때는 반드시 **iframe 안에서**
 --    재생을 확인해야 합니다 — 주소창에 embed URL 을 직접 여는 검증은 무의미합니다
 --    (최상위 탐색이면 정상 영상도 오류 153 이 납니다).
 INSERT INTO artist_stage (id, artist_name, title, embed_url, thumbnail_url) VALUES
- (1, '성리',   '성리 무대 - MBN 트롯 스페셜',   'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
- (2, '이찬원', '이찬원 무대 - MBN 한일톱텐쇼',  'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
- (3, '박서진', '박서진 무대 - MBN 현역가왕',    'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png');
+ (1, '성리',   '성리 무대 - MBN 트롯 스페셜',   'https://www.youtube.com/embed/BsJtZSa0MQo', 'https://i.ytimg.com/vi/BsJtZSa0MQo/maxresdefault.jpg'),
+ (2, '이찬원', '이찬원 무대 - MBN 한일톱텐쇼',  'https://www.youtube.com/embed/fJLnz27EjtA', 'https://i.ytimg.com/vi/fJLnz27EjtA/maxresdefault.jpg'),
+ (3, '박서진', '박서진 무대 - MBN 현역가왕',    'https://www.youtube.com/embed/bbiFC7t7I_o', 'https://i.ytimg.com/vi/bbiFC7t7I_o/maxresdefault.jpg');
 
 ALTER TABLE artist_stage ALTER COLUMN id RESTART WITH 4;

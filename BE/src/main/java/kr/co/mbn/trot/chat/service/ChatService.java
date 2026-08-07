@@ -77,36 +77,6 @@ public class ChatService {
         this.starRepository = starRepository;
     }
 
-    /**
-     * 근거 텍스트의 시드 스타 이름을 <b>사용자가 고른 아티스트 이름으로 치환</b>합니다.
-     *
-     * <p>⚠️ <b>데모 shim 입니다.</b> MVP 는 스타 1명(임영웅) 데이터만 있는데 랜딩에서는
-     * 13명 중 하나를 고를 수 있습니다. 치환하지 않으면 박서진을 골라도 근거에 적힌
-     * "임영웅의 팬미팅" 을 그대로 읽어 <b>다른 사람 이름으로 답합니다</b> (실제로 겪음).
-     * 프롬프트로만 지시하면 모델이 근거의 문자열을 그대로 따라가서 안 지켜집니다.
-     *
-     * <p>다중 스타가 확정되면 이 메서드를 지우고 {@code starId} 로 진짜 데이터를 조회하세요.
-     */
-    private List<Evidence> rewriteArtist(List<Evidence> evidence, Long starId, String artistName) {
-        if (artistName == null || artistName.isBlank()) {
-            return evidence;
-        }
-        String seedName = starRepository.findById(starId)
-                .map(star -> star.getName())
-                .orElse(null);
-        if (seedName == null || seedName.equals(artistName)) {
-            return evidence;
-        }
-        return evidence.stream()
-                .map(e -> new Evidence(
-                        e.type(),
-                        e.id(),
-                        e.title() == null ? null : e.title().replace(seedName, artistName),
-                        e.detail() == null ? null : e.detail().replace(seedName, artistName),
-                        e.route()))
-                .toList();
-    }
-
     @Transactional
     public ChatSessionResponse createSession(
             Long starId, Locale locale, String artistName, Long gatheringId) {
@@ -174,12 +144,11 @@ public class ChatService {
         }
         found.addAll(evidenceFinder.find(intent, session.getStarId(), question));
 
-        List<Evidence> evidence = rewriteArtist(
-                found, session.getStarId(), session.getArtistName());
-
+        // 시드 스타가 3명이 되면서 이름 치환 shim(rewriteArtist)을 걷어냈습니다.
+        // 근거는 session.starId 로 조회한 그 아티스트의 진짜 데이터입니다.
         ChatAnswer answer = aiProvider.answer(
                 new ChatQuestion(
-                        question, session.getLocale(), intent, inScope, evidence,
+                        question, session.getLocale(), intent, inScope, found,
                         session.getArtistName()));
 
         List<ChatCitation> citations = answer.citations().stream()

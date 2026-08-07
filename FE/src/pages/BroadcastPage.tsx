@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import ContentCard from "../components/content/ContentCard";
 import ShortformCard from "../components/content/ShortformCard";
 import HeaderBack from "../components/layout/HeaderBack";
@@ -25,8 +25,8 @@ export default function BroadcastPage() {
   const { t } = useTranslation();
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["home", STAR_ID],
-    queryFn: () => api.getHome(STAR_ID),
+    queryKey: ["home", getSelectedStarId()],
+    queryFn: () => api.getHome(getSelectedStarId()),
   });
 
   if (isPending)

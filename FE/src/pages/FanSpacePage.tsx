@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
 import concertImg from "../assets/category/concert.png";
 import gatheringImg from "../assets/category/gathering.png";
 import goodsImg from "../assets/category/goods.png";
@@ -12,15 +11,11 @@ import BottomNav from "../components/layout/BottomNav";
 import VoteBanner from "../components/live/VoteBanner";
 import Icon from "../components/ui/Icon";
 import { ErrorState, LoadingState } from "../components/ui/States";
-import {
-  getSelectedArtist,
-  shortArtistName,
-  withKoreanNameParticle,
-} from "../features/artist/selectedArtist";
 import { MASCOT } from "../features/voice/mascot";
 import { currentLocale } from "../i18n";
 import { formatDate } from "../lib/format";
 import styles from "./FanSpacePage.module.css";
+import { getSelectedArtist, getSelectedStarId, shortArtistName, withKoreanNameParticle } from "../features/artist/selectedArtist";
 
 /**
  * 팬공간 (Figma 27:5115).
@@ -60,8 +55,8 @@ export default function FanSpacePage({
   const locale = currentLocale();
 
   const { data: star } = useQuery({
-    queryKey: ["star", STAR_ID],
-    queryFn: () => api.getStar(STAR_ID),
+    queryKey: ["star", getSelectedStarId()],
+    queryFn: () => api.getStar(getSelectedStarId()),
     staleTime: 5 * 60 * 1000,
   });
 
@@ -122,8 +117,8 @@ export default function FanSpacePage({
 function Calendar() {
   const { t } = useTranslation();
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["schedules", STAR_ID, "calendar"],
-    queryFn: () => api.getSchedules({ starId: STAR_ID, size: 20 }),
+    queryKey: ["schedules", getSelectedStarId(), "calendar"],
+    queryFn: () => api.getSchedules({ starId: getSelectedStarId(), size: 20 }),
   });
 
   return (

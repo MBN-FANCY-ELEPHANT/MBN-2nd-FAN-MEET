@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import exampleHero from "../../assets/example/example_hero.png";
+import { goodsImage } from "../../data/goods";
 import BottomSheet from "../../components/ui/BottomSheet";
 import { useToast } from "../../components/ui/useToast";
 import type { Goods } from "../../data/goods";
@@ -46,7 +46,7 @@ export default function CheckoutSheet({
   return (
     <BottomSheet title={t("checkout.title")} onClose={onClose}>
       <div className={styles.summary}>
-        <img className={styles.thumb} src={exampleHero} alt="" />
+        <img className={styles.thumb} src={goodsImage(goods.category)} alt="" />
         <div className={styles.summaryBody}>
           <p className={styles.summaryName}>{goods.name}</p>
           <p className={styles.summaryPrice}>

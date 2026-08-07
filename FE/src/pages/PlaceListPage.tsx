@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import HeaderBack from "../components/layout/HeaderBack";
 import PlaceCard from "../components/play/PlaceCard";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/States";
@@ -21,8 +21,8 @@ export default function PlaceListPage() {
   const { t } = useTranslation();
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["places", STAR_ID],
-    queryFn: () => api.getPlaces({ starId: STAR_ID, size: 50 }),
+    queryKey: ["places", getSelectedStarId()],
+    queryFn: () => api.getPlaces({ starId: getSelectedStarId(), size: 50 }),
   });
 
   return (

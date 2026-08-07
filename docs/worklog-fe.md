@@ -497,3 +497,40 @@ cd FE && npm run lint
 ```
 
 `src/api/schema.d.ts` 는 gitignore 대상입니다. 새 환경에서는 `npm run api:types` 를 먼저 실행하세요.
+
+
+---
+
+## 0-3. 아티스트별 이미지 (2026-08-08)
+
+**파일은 FE `public/artists/<slug>/`, 경로 문자열은 BE `data.sql`.**
+화면 대부분이 이미 API 가 준 URL 을 그대로 `<img src>` 에 꽂고 있어서,
+**파일만 넣으면 컴포넌트를 안 고쳐도 그림이 바뀝니다.**
+
+```
+FE/public/artists/{sungri,chanwon,seojin,_common}/   ← 폴더별 README.md 가 체크리스트
+```
+
+**영상 썸네일은 만들지 않습니다.** `content.thumbnail_url` 이 같은 행 `media_url` 의
+`https://i.ytimg.com/vi/<ID>/maxresdefault.jpg` 를 가리켜서, **유튜브 링크만 바꾸면
+썸네일이 따라옵니다.** HD 업로드가 아니면 maxres 가 404 인데 `hqdefault` 로 자동 폴백합니다.
+
+**전역 이미지 폴백** (`src/main.tsx`) — `error` 는 버블링하지 않아 **캡처 단계**로 듣습니다.
+`<img>` 마다 `onError` 를 다는 것보다 낫습니다 (이미지 그리는 곳이 20곳 가까이 됨).
+`dataset.fallback` 단계 플래그로 무한 루프를 막습니다.
+
+**BE 에 이미지 컬럼이 없어 FE 에서 만드는 두 곳** — `artistImage(name, file)` (`data/programs.ts`)
+
+| 곳 | 경로 |
+|---|---|
+| 랜딩 프로필 (`ArtistCard`) | `/artists/<slug>/profile.png` |
+| 공연 포스터 (`FanSpaceCategoryPage` · `ConcertEntryPage`) | `/artists/<slug>/concert.jpg` |
+
+랜딩이 BE `star.profileImageUrl` 을 안 쓰는 이유: **로그인 이전 첫 화면**이라
+API 의존을 만들면 BE 가 흔들릴 때 데모가 시작부터 깨집니다.
+
+굿즈는 BE 도메인이 없어 `goodsImage(category)` (`data/goods.ts`) 가
+`/artists/_common/goods-<category>.jpg` 를 만듭니다. 항목마다 필드를 늘리지 않았습니다.
+
+⚠️ **확장자를 체크리스트와 맞춰야 합니다.** `data.sql` 경로가 `post-1.jpg` 인데 파일이
+`post-1.png` 면 조용히 폴백 이미지가 뜹니다 (에러 없음).

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import { api, type ContentSummary } from "../../api/client";
-import { STAR_ID } from "../../app/constants";
+import { getSelectedStarId } from "../../features/artist/selectedArtist";
 import { MASCOT } from "../../features/voice/mascot";
 import { isUnauthorized } from "../../features/auth/useAuth";
 import { formatCount, formatDuration, formatRelativeTime } from "../../lib/format";
@@ -36,13 +36,13 @@ export default function FeedThread() {
   const { t } = useTranslation();
 
   const { data: posts } = useQuery({
-    queryKey: ["contents", STAR_ID, "POST", "feed"],
-    queryFn: () => api.getContents({ starId: STAR_ID, type: "POST", size: 20 }),
+    queryKey: ["contents", getSelectedStarId(), "POST", "feed"],
+    queryFn: () => api.getContents({ starId: getSelectedStarId(), type: "POST", size: 20 }),
   });
 
   const { data: videos } = useQuery({
-    queryKey: ["contents", STAR_ID, "VIDEO", "feed"],
-    queryFn: () => api.getContents({ starId: STAR_ID, type: "VIDEO", size: 5 }),
+    queryKey: ["contents", getSelectedStarId(), "VIDEO", "feed"],
+    queryFn: () => api.getContents({ starId: getSelectedStarId(), type: "VIDEO", size: 5 }),
   });
 
   // 세 종류를 한 줄로 합쳐 최신순 정렬합니다 — 종류별로 묶어 보여주면 "스레드"가 아니라

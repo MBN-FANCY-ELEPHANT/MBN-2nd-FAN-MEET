@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import ContentCard from "../components/content/ContentCard";
 import GatheringCard from "../components/gathering/GatheringCard";
 import AppHeader from "../components/layout/AppHeader";
@@ -47,8 +47,8 @@ export default function SearchPage() {
   const [draft, setDraft] = useState(query);
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["search", STAR_ID, query],
-    queryFn: () => api.search({ starId: STAR_ID, q: query }),
+    queryKey: ["search", getSelectedStarId(), query],
+    queryFn: () => api.search({ starId: getSelectedStarId(), q: query }),
     enabled: query.trim().length > 0,
   });
 

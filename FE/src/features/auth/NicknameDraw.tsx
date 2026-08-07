@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
-import { STAR_ID } from "../../app/constants";
+import { getSelectedStarId } from "../../features/artist/selectedArtist";
 import { ApiError, api, setAccessToken } from "../../api/client";
 import { currentLocale } from "../../i18n";
 import { setFanIdentity } from "./fanIdentity";
@@ -77,7 +77,7 @@ export default function NicknameDraw({
   const registerGuest = useMutation({
     mutationFn: () =>
       api.registerGuest({
-        starId: STAR_ID,
+        starId: getSelectedStarId(),
         artistName: artist,
         locale: currentLocale().toUpperCase(),
       }),

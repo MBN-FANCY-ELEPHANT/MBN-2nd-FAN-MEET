@@ -25,6 +25,17 @@ export type Goods = {
   popular: boolean;
 };
 
+/**
+ * 굿즈 썸네일 — `public/artists/_common/goods-<category>.jpg`.
+ *
+ * 굿즈 이름이 아티스트를 타지 않아("공식 응원봉") 3명이 같은 그림을 씁니다.
+ * 항목마다 이미지 필드를 늘리는 대신 **카테고리에서 경로를 유도**합니다.
+ * 파일이 없으면 전역 onError 폴백이 예시 이미지로 대체합니다.
+ */
+export function goodsImage(category: GoodsCategory): string {
+  return `/artists/_common/goods-${category}.png`;
+}
+
 export const GOODS: Goods[] = [
   {
     id: 1,

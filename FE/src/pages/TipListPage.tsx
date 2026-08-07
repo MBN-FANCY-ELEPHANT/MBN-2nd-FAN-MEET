@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import HeaderBack from "../components/layout/HeaderBack";
 import TipCard from "../components/play/TipCard";
 import ChipRow from "../components/ui/ChipRow";
@@ -32,10 +32,10 @@ export default function TipListPage() {
   const [category, setCategory] = useState<Category>("ALL");
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["tips", STAR_ID, category],
+    queryKey: ["tips", getSelectedStarId(), category],
     queryFn: () =>
       api.getTips({
-        starId: STAR_ID,
+        starId: getSelectedStarId(),
         size: 50,
         category: category === "ALL" ? undefined : category,
       }),

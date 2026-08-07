@@ -1,18 +1,17 @@
-import exampleProfile from "../../assets/example/example_profile.png";
+import { artistImage } from "../../data/programs";
 import styles from "./ArtistCard.module.css";
 
 /**
  * 아티스트 아바타 카드 (랜딩 전용).
  *
- * ⚠️ **프로필 사진은 전원이 같은 예시 이미지 1장을 공유합니다.**
- *    실제 출연자 사진이 아니라 레이아웃 확인용 플레이스홀더입니다
- *    (`src/assets/example/example_profile.png`). 실제 사진이 확보되면
- *    `Program` 데이터에 출연자별 `imageUrl` 을 추가하고 여기 `src` 만 바꾸세요.
- *    **외부 공개 전에는 반드시 교체해야 합니다** — 실존 인물 사진이 다른 사람 이름으로
- *    표시되는 상태입니다.
+ * ⚠️ **프로필은 `public/artists/<slug>/profile.png` 에서 옵니다.**
+ *    BE 의 `star.profileImageUrl` 을 쓰지 않는 이유: 랜딩은 로그인 이전 첫 화면이라
+ *    API 의존을 만들면 BE 가 흔들릴 때 **데모가 시작부터 깨집니다.**
+ *
+ * ⚠️ 파일이 아직 없으면 `onError` 로 예시 이미지에 폴백합니다.
+ *    **외부 공개 전에는 반드시 실제 이미지로 채워야 합니다** — 지금은 세 사람이
+ *    같은 그림으로 보일 수 있습니다.
  */
-
-const PLACEHOLDER_PROFILE = exampleProfile;
 
 type Props = {
   name: string;
@@ -36,7 +35,7 @@ export default function ArtistCard({
       {/* ⚠️ 랜딩이 274명을 한 화면에 뿌립니다. 지연 로딩·비동기 디코딩이 없으면
           초기 렌더에서 브라우저가 눈에 띄게 버벅입니다 (실제로 겪음). */}
       <img
-        src={PLACEHOLDER_PROFILE}
+        src={artistImage(name, "profile.png")}
         alt=""
         aria-hidden
         loading="lazy"

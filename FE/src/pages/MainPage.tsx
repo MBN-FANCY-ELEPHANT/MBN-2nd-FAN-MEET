@@ -3,20 +3,15 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
 import FeedThread from "../components/feed/FeedThread";
 import AppHeader from "../components/layout/AppHeader";
 import BottomNav from "../components/layout/BottomNav";
 import LiveBanner from "../components/live/LiveBanner";
 import Icon from "../components/ui/Icon";
-import {
-  getSelectedArtist,
-  shortArtistName,
-  withKoreanNameParticle,
-} from "../features/artist/selectedArtist";
 import { MASCOT } from "../features/voice/mascot";
 import { currentLocale } from "../i18n";
 import styles from "./MainPage.module.css";
+import { getSelectedArtist, getSelectedStarId, shortArtistName, withKoreanNameParticle } from "../features/artist/selectedArtist";
 
 /**
  * 메인 = 소식 탭 (Figma 27:6018 / 소식섹션 27:6288).
@@ -32,8 +27,8 @@ export default function MainPage({ onOpenVoice }: { onOpenVoice: () => void }) {
   const locale = currentLocale();
 
   const { data: star } = useQuery({
-    queryKey: ["star", STAR_ID],
-    queryFn: () => api.getStar(STAR_ID),
+    queryKey: ["star", getSelectedStarId()],
+    queryFn: () => api.getStar(getSelectedStarId()),
     staleTime: 5 * 60 * 1000,
   });
 

@@ -1,14 +1,11 @@
 /**
- * 랜딩페이지에서 고른 아티스트 — **임시 연결 표시용**입니다.
+ * 랜딩페이지에서 고른 아티스트.
  *
- * ⚠️ 지금은 이름 문자열만 들고 있습니다. 실제 팬덤 공간은 아직 `STAR_ID = 1` 하나뿐이라
- *    선택한 아티스트가 어느 스타 데이터에 매핑되는지가 정해져 있지 않습니다
- *    (다중 스타는 `docs/mvp-scope.md` 컷 목록에 있습니다).
- *
- *    기능 개편 방향이 확정되면(2단계) `Star` 엔티티에 프로그램·출연자를 연결하고
- *    이 모듈을 `starId` 기반으로 승격하세요. 그때까지는 메인 화면 상단에
- *    "선택됨" 배지만 띄워 흐름이 이어진다는 것을 보여줍니다.
+ * 저장하는 값은 **이름 문자열**이고, 조회에 쓰는 `starId` 는 `ARTISTS` 에서 찾습니다
+ * (`data.sql` 의 star 와 1:1). 이름을 저장하는 이유는 로고·인사말이 이름을 쓰기 때문입니다.
  */
+import { ARTISTS } from "../../data/programs";
+
 
 const STORAGE_KEY = "trot.selectedArtist";
 
@@ -55,50 +52,21 @@ export function shortArtistName(name: string): string {
  * 디자인 문구가 "오늘도 **서진이**와 즐거운 하루 보내세요!" 인데, 받침을 따지지 않으면
  * `나츠코이와` 처럼 어색해집니다. 한국어 로케일에서만 씁니다.
  */
-/**
- * 시드 데이터(`BE/.../data.sql`)의 스타 이름. 스타가 아직 하나뿐이라 모든 일정·모임·
- * 콘텐츠 제목에 이 이름이 박혀 있습니다.
- */
-const SEED_STAR_NAME = "임영웅";
-
-/**
- * 시드 제목에 박힌 스타 이름을 **선택한 아티스트 이름으로 바꿉니다.**
- *
- * ⚠️ **데모용 임시 조치입니다.** 다중 스타가 컷된 상태라(`docs/mvp-scope.md`) 팬공간
- *    캘린더에 `이찬원` 을 고른 사용자에게 "임영웅의 팬미팅" 이 뜨는 문제를 가립니다.
- *    BE 도 AI 답변에서 같은 치환을 합니다(`ChatService.rewriteArtist`).
- *    `Star` 가 여러 개가 되는 순간 양쪽 다 걷어내세요.
- */
-export function personalizeArtistNames<T>(data: T): T {
-  const artist = getSelectedArtist();
-  if (!artist || artist === SEED_STAR_NAME) return data;
-
-  const short = shortArtistName(artist);
-  const rewrite = (s: string) =>
-    s
-      .split(SEED_STAR_NAME)
-      .join(artist)
-      .split(shortArtistName(SEED_STAR_NAME))
-      .join(short);
-
-  const walk = (value: unknown): unknown => {
-    if (typeof value === "string") return rewrite(value);
-    if (Array.isArray(value)) return value.map(walk);
-    if (value && typeof value === "object") {
-      return Object.fromEntries(
-        Object.entries(value).map(([k, v]) => [k, walk(v)]),
-      );
-    }
-    return value;
-  };
-
-  return walk(data) as T;
-}
-
 export function withKoreanNameParticle(name: string): string {
   const last = Array.from(name).at(-1);
   if (!last || !/[가-힣]/.test(last)) return name;
   // 한글 음절 = 0xAC00 + (초성*21 + 중성)*28 + 종성. 종성이 0 이면 받침 없음.
   const hasFinalConsonant = (last.charCodeAt(0) - 0xac00) % 28 !== 0;
   return hasFinalConsonant ? `${name}이` : name;
+}
+
+/**
+ * 선택한 아티스트의 `starId`. 모든 조회가 이 값을 씁니다.
+ *
+ * 아직 아무도 고르지 않았거나 명단에 없는 이름이면 **첫 아티스트**로 떨어집니다 —
+ * 랜딩을 건너뛰고 딥링크로 들어온 경우에도 화면이 비지 않게 하려는 것입니다.
+ */
+export function getSelectedStarId(): number {
+  const name = getSelectedArtist();
+  return ARTISTS.find((a) => a.name === name)?.starId ?? ARTISTS[0].starId;
 }

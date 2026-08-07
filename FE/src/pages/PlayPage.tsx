@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import PlaceCard from "../components/play/PlaceCard";
 import TipCard from "../components/play/TipCard";
 import Section from "../components/ui/Section";
@@ -18,8 +18,8 @@ export default function PlayPage() {
   const { t } = useTranslation();
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["play", STAR_ID],
-    queryFn: () => api.getPlay(STAR_ID),
+    queryKey: ["play", getSelectedStarId()],
+    queryFn: () => api.getPlay(getSelectedStarId()),
   });
 
   if (isPending) return <LoadingState />;

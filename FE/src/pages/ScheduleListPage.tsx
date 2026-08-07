@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import HeaderBack from "../components/layout/HeaderBack";
 import ChipRow from "../components/ui/ChipRow";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/States";
@@ -25,10 +25,10 @@ export default function ScheduleListPage() {
   const [filter, setFilter] = useState<Filter>("UPCOMING");
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["schedules", STAR_ID, filter],
+    queryKey: ["schedules", getSelectedStarId(), filter],
     queryFn: () =>
       api.getSchedules({
-        starId: STAR_ID,
+        starId: getSelectedStarId(),
         upcoming: filter === "UPCOMING",
         size: 50,
       }),

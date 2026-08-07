@@ -3,8 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 import { api } from "../../api/client";
-import { STAR_ID } from "../../app/constants";
-import exampleHero from "../../assets/example/example_hero.png";
+import { concertPosterImage } from "../../data/programs";
 import GatheringCard from "../../components/gathering/GatheringCard";
 import HeaderBack from "../../components/layout/HeaderBack";
 import Icon from "../../components/ui/Icon";
@@ -13,10 +12,11 @@ import {
   ErrorState,
   LoadingState,
 } from "../../components/ui/States";
-import { GOODS, goodsByCategory } from "../../data/goods";
+import { GOODS, goodsByCategory, goodsImage } from "../../data/goods";
 import type { Goods } from "../../data/goods";
 import { formatDeadline } from "../../lib/format";
 import styles from "./FanSpaceCategory.module.css";
+import { getSelectedArtist, getSelectedStarId } from "../../features/artist/selectedArtist";
 
 /**
  * 팬공간 카테고리 (Figma 22:4264 공연 · 22:4214 투표 · 23:4956 굿즈 · 23:4710 모집).
@@ -34,6 +34,15 @@ type Category = (typeof TABS)[number];
 
 function isCategory(value: string | undefined): value is Category {
   return TABS.includes(value as Category);
+}
+
+/**
+ * 공연 포스터. **`schedule` 에는 이미지 컬럼이 없어서** 응답에서 가져올 수 없고,
+ * 선택한 아티스트의 폴더에서 한 장을 씁니다 (`public/artists/<slug>/concert.jpg`).
+ * 일정별로 다른 포스터가 필요해지면 그때 BE 에 컬럼을 추가하세요.
+ */
+function concertPoster(): string {
+  return concertPosterImage(getSelectedArtist());
 }
 
 export default function FanSpaceCategoryPage() {
@@ -68,13 +77,13 @@ export default function FanSpaceCategoryPage() {
 function ConcertView() {
   const { t } = useTranslation();
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["schedules", STAR_ID, "concert"],
-    queryFn: () => api.getSchedules({ starId: STAR_ID, size: 20 }),
+    queryKey: ["schedules", getSelectedStarId(), "concert"],
+    queryFn: () => api.getSchedules({ starId: getSelectedStarId(), size: 20 }),
   });
 
   const { data: entries } = useQuery({
-    queryKey: ["myEntries", STAR_ID],
-    queryFn: () => api.getMyEntries(STAR_ID),
+    queryKey: ["myEntries", getSelectedStarId()],
+    queryFn: () => api.getMyEntries(getSelectedStarId()),
   });
 
   if (isPending) return <LoadingState />;
@@ -99,7 +108,7 @@ function ConcertView() {
                 to={`/fanspace/concert/${schedule.id}`}
                 className={styles.miniCard}
               >
-                <img className={styles.miniThumb} src={exampleHero} alt="" />
+                <img className={styles.miniThumb} src={concertPoster()} alt="" />
                 <div className={styles.miniBody}>
                   <p className={styles.miniTitle}>{schedule.title}</p>
                   <div className={styles.miniMeta}>
@@ -127,7 +136,7 @@ function ConcertView() {
               to={`/fanspace/concert/${schedule.id}`}
               className={styles.concertCard}
             >
-              <img className={styles.concertPoster} src={exampleHero} alt="" />
+              <img className={styles.concertPoster} src={concertPoster()} alt="" />
               <div className={styles.concertBody}>
                 <div className={styles.concertTop}>
                   <span
@@ -207,7 +216,7 @@ function GoodsCard({ goods }: { goods: Goods }) {
   const { t } = useTranslation();
   return (
     <Link to={`/fanspace/goods/${goods.id}`} className={styles.goodsCard}>
-      <img className={styles.goodsThumb} src={exampleHero} alt="" />
+      <img className={styles.goodsThumb} src={goodsImage(goods.category)} alt="" />
       <div className={styles.goodsBody}>
         <p className={styles.goodsName}>{goods.name}</p>
         <p className={styles.goodsPrice}>
@@ -224,13 +233,13 @@ function GoodsCard({ goods }: { goods: Goods }) {
 function GatheringView() {
   const { t } = useTranslation();
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["gatherings", STAR_ID],
-    queryFn: () => api.getGatherings({ starId: STAR_ID, size: 20 }),
+    queryKey: ["gatherings", getSelectedStarId()],
+    queryFn: () => api.getGatherings({ starId: getSelectedStarId(), size: 20 }),
   });
 
   const { data: myApplied } = useQuery({
-    queryKey: ["myGatherings", STAR_ID],
-    queryFn: () => api.getMyGatherings(STAR_ID),
+    queryKey: ["myGatherings", getSelectedStarId()],
+    queryFn: () => api.getMyGatherings(getSelectedStarId()),
   });
 
   if (isPending) return <LoadingState />;

@@ -39,6 +39,16 @@ BE/logs/
 BE/*.log
 BE/data/
 
+# ---------- Terraform ----------
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.*
+infra/terraform/*.tfplan
+infra/terraform/crash.log
+infra/terraform/crash.*.log
+infra/terraform/terraform.tfvars
+# Provider 버전 재현성을 위해 .terraform.lock.hcl은 커밋합니다.
+
 # ---------- Claude Code ----------
 .claude/settings.local.json
 .claude/sessions/

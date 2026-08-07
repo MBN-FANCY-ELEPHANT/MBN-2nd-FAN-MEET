@@ -6,50 +6,6 @@
   padding-bottom: var(--space-10);
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  padding: 10px var(--page-padding-x);
-}
-
-.logo {
-  font-size: var(--text-logo-size);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--color-primary);
-  white-space: nowrap;
-}
-
-.headerActions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.langButton {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  height: 25px;
-  padding: 0 var(--space-3);
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-sm);
-  background: var(--color-background);
-  font-size: var(--text-caption-size);
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-.iconButton {
-  display: grid;
-  place-items: center;
-  border: none;
-  background: none;
-  padding: 0;
-}
-
 /* ── 검색바 (Active) ── */
 .searchBar {
   display: flex;

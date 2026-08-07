@@ -130,6 +130,10 @@ function Calendar() {
     <div className={styles.calendar}>
       <div className={styles.calendarHead}>
         <h2 className={styles.calendarTitle}>{t("fanspace.calendar")}</h2>
+        <Link to="/schedules" className={styles.calendarMore}>
+          {t("fanspace.calendarDetail")}
+          <Icon name="arrowRight" size={20} className={styles.moreIcon} />
+        </Link>
       </div>
 
       {isPending && <LoadingState />}
@@ -138,11 +142,7 @@ function Calendar() {
       {/* 행마다 구분선을 긋지 않고, 점들을 잇는 세로선 하나로 묶습니다 (Figma 27:5115) */}
       <div className={styles.timeline}>
         {data?.content?.map((schedule) => (
-          <Link
-            key={schedule.id}
-            to="/schedules"
-            className={styles.calendarRow}
-          >
+          <div key={schedule.id} className={styles.calendarRow}>
             <span className={styles.dot} aria-hidden />
             <span className={styles.calendarText}>
               <span className={styles.calendarDate}>
@@ -150,11 +150,7 @@ function Calendar() {
               </span>
               <span className={styles.calendarLabel}>{schedule.title}</span>
             </span>
-            <span className={styles.calendarMore}>
-              {t("fanspace.calendarDetail")}
-              <Icon name="arrowRight" size={20} className={styles.moreIcon} />
-            </span>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

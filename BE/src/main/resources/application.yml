@@ -93,8 +93,10 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      # MVP 배포는 EC2 내부 PostgreSQL을 사용합니다. 첫 배포는 create, 이후에는 update를 주입합니다.
+      ddl-auto: ${DB_DDL_AUTO:update}
     show-sql: false
   sql:
     init:
-      mode: never
+      # 배포 스크립트가 빈 DB에서만 always를 주입해 데모 시드를 한 번 생성합니다.
+      mode: ${DB_INIT_MODE:never}

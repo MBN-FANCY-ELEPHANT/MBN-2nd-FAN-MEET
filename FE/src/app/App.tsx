@@ -84,9 +84,10 @@ export default function App() {
         />
         <Route path="/articles/:id" element={<ArticleDetailPage />} />
         <Route path="/videos/:id" element={<VideoDetailPage />} />
-        {/* 댓글 화면은 기사·영상이 공유합니다 (서버 조회는 /contents/{id}/comments 하나) */}
+        {/* 댓글 화면은 기사·영상·아티스트 글이 공유합니다 (/contents/{id}/comments) */}
         <Route path="/articles/:id/comments" element={<CommentPage />} />
         <Route path="/videos/:id/comments" element={<CommentPage />} />
+        <Route path="/posts/:id/comments" element={<CommentPage />} />
 
         {/* `전체보기` 목적지 — 디자인에 없는 화면이라 기존 카드를 재사용해 채웠습니다 */}
         <Route path="/contents" element={<ContentListPage />} />

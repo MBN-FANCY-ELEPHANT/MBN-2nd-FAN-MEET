@@ -13,6 +13,7 @@ import kr.co.mbn.trot.content.domain.ContentType;
  *   <li>{@code ARTICLE} → 좌 {@code channelName}, 우 {@code publishedAt} 상대 시각</li>
  *   <li>{@code VIDEO} → 좌 {@code durationSec}, 우 {@code viewCount}</li>
  *   <li>{@code VIDEO} + {@code live} → 좌 LIVE 배지, 우 {@code viewerCount}</li>
+ *   <li>{@code POST} → {@code author}와 {@code postBody}를 사용한 아티스트 피드 카드</li>
  * </ul>
  */
 public record ContentSummaryResponse(
@@ -22,6 +23,8 @@ public record ContentSummaryResponse(
         String thumbnailUrl,
         Instant publishedAt,
         String channelName,
+        ContentAuthorResponse author,
+        String postBody,
         int viewCount,
         int likeCount,
         int commentCount,
@@ -38,6 +41,8 @@ public record ContentSummaryResponse(
                 c.getThumbnailUrl(),
                 c.getPublishedAt(),
                 c.getChannel().getName(),
+                ContentAuthorResponse.from(c),
+                c.getType() == ContentType.POST ? c.getBody() : null,
                 c.getViewCount(),
                 c.getLikeCount(),
                 c.getCommentCount(),

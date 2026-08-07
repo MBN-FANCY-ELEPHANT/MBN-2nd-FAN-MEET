@@ -2,8 +2,8 @@
 .header {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  height: var(--header-height);
+  gap: 10px;
+  height: 52px;
   padding: 10px var(--page-padding-x);
   background: var(--color-white);
   border-bottom: 1px solid var(--color-divider);
@@ -16,8 +16,10 @@
   height: 24px;
   border: 0;
   background: none;
+  padding: 0;
   font-size: 20px;
   color: var(--color-text-primary);
+  flex-shrink: 0;
 }
 
 .title {
@@ -27,31 +29,29 @@
   color: var(--color-text-primary);
 }
 
-/* 브랜드 모드 — 제목 자리에 `매일{아티스트}` 를 primary 로 (Figma 22:4265).
-   이 화면들은 헤더가 페이지 배경 위에 그대로 얹히고 아래 구분선도 없습니다. */
-.headerBrand {
-  background: transparent;
-  border-bottom: none;
-}
-
+/* 브랜드 모드 — Figma 317:9144 */
 .titleBrand {
   flex: 1;
-  font-size: var(--text-logo-size);
+  min-width: 0;
+  font-family: "Yeongdo OTF Heavy", sans-serif;
+  font-size: 23px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -2.76px;
   color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .langButton {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
+  display: grid;
+  place-items: center;
+  width: 35px;
   height: 25px;
-  padding: 0 var(--space-3);
-  border: 1px solid var(--color-divider);
+  padding: 0;
+  border: 0;
   border-radius: var(--radius-sm);
-  background: var(--color-background);
-  color: var(--color-text-primary);
-  font-size: var(--text-caption-size);
-  font-weight: 500;
+  background: none;
+  overflow: hidden;
+  flex-shrink: 0;
 }

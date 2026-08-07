@@ -29,6 +29,10 @@
   font-family: "Yeongdo OTF Heavy", sans-serif;
   flex: 1;
   min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
   font-size: 23px;
   font-weight: 800;
   letter-spacing: -0.09em;

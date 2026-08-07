@@ -111,7 +111,7 @@
 .calendarTitle {
   font-size: var(--text-section-size);
   font-weight: 700;
-  color: var(--color-primary);
+  color: var(--color-ai-border);
 }
 
 /* 점 중심(왼쪽 4px + 반지름)을 지나는 세로선 */

@@ -51,7 +51,8 @@ jobs:
           path: BE/build/reports/tests/test
 
   deploy:
-    if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+    # workflow_dispatch는 검증된 긴급 배포 브랜치에서도 production 승인을 거쳐 실행합니다.
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
     needs: build-test
     runs-on: ubuntu-latest
     environment: production

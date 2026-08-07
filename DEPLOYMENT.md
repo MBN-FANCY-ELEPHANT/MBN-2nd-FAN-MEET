@@ -115,6 +115,9 @@ aws ssm put-parameter --region "$REGION" --name "$PREFIX/AI_PROVIDER" \
   --type String --value "stub" --overwrite
 ```
 
+공연 응모 완료 이메일·문자 알림을 사용할 때는 SMTP와 SOLAPI 값을 같은 prefix 아래에
+추가합니다. 비밀번호와 API Key/Secret은 `SecureString`으로 저장합니다.
+
 OpenAI를 사용할 때만 추가합니다.
 
 ```bash
@@ -142,6 +145,12 @@ aws ssm put-parameter --region "$REGION" --name "$PREFIX/AI_PROVIDER" \
 | `OPENAI_CHAT_MODEL` | 선택 | 기본 `gpt-4o-mini` |
 | `OPENAI_MAX_OUTPUT_TOKENS` | 선택 | 기본 `400` |
 | `OPENAI_DAILY_CALL_LIMIT` | 선택 | 기본 `800` |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME` | 알림 사용 시 | SMTP 서버 연결 정보 |
+| `SMTP_PASSWORD` | 알림 사용 시 | SMTP 앱 비밀번호, SecureString |
+| `SMTP_AUTH`, `SMTP_STARTTLS_ENABLE`, `SMTP_STARTTLS_REQUIRED` | 선택 | 기본 `true` |
+| `NOTIFICATION_SENDER_NAME`, `NOTIFICATION_EMAIL_FROM`, `NOTIFICATION_EMAIL_TO` | 이메일 사용 시 | 고정 발신자명·발신·수신 주소 |
+| `SOLAPI_API_KEY`, `SOLAPI_API_SECRET` | 문자 사용 시 | SOLAPI 인증정보, SecureString |
+| `NOTIFICATION_SMS_FROM`, `NOTIFICATION_SMS_TO` | 문자 사용 시 | 등록된 고정 발신번호·수신번호 |
 
 DB 컨테이너가 생성된 뒤 `DB_PASSWORD` parameter만 바꾸면 기존 PostgreSQL 비밀번호가 자동으로
 바뀌지 않습니다. 비밀번호 회전은 DB의 `ALTER ROLE`과 parameter 변경을 함께 수행해야 합니다.

@@ -6,20 +6,18 @@ import {
   getSelectedArtist,
   shortArtistName,
 } from "../../features/artist/selectedArtist";
-import { LOCALE_LABEL, currentLocale } from "../../i18n";
 import Icon from "../ui/Icon";
 import styles from "./HeaderBack.module.css";
 import LanguageSheet from "./LanguageSheet";
 
 /**
- * 뒤로가기 헤더 (Figma `2:1209` / 신규 `22:4265`).
+ * 뒤로가기 헤더 (Figma `317:9144`).
  *
  * 두 가지 모드가 있습니다:
  *  - `title` 을 주면 그 문구를 검정 볼드로 (기존 상세 화면들)
- *  - `title` 없이 쓰면 **`매일{아티스트}` 브랜드**를 primary 로 (디자인 2차본 신규 화면들).
- *    이때 헤더는 배경·구분선 없이 페이지 위에 얹힙니다.
+ *  - `title` 없이 쓰면 **`매일{아티스트}` 브랜드**를 primary 로 표시합니다.
  *
- * 언어 칩은 항상 유지합니다 — 어느 화면에서든 언어를 바꿀 수 있어야 하니까요.
+ * 언어 선택은 Figma처럼 지구본 아이콘만 표시하고 `aria-label`을 유지합니다.
  */
 export default function HeaderBack({ title }: { title?: string }) {
   const { t } = useTranslation();
@@ -28,14 +26,17 @@ export default function HeaderBack({ title }: { title?: string }) {
 
   const brand = title === undefined;
   const artist = getSelectedArtist();
-  const brandLabel = artist
-    ? t("app.artistLogo", { name: shortArtistName(artist) })
-    : t("app.logo");
+  const brandLabel = (
+    artist
+      ? t("app.artistLogo", { name: shortArtistName(artist) })
+      : t("app.logo")
+  ).normalize("NFC");
 
   return (
     <>
-      <header className={`${styles.header} ${brand ? styles.headerBrand : ""}`}>
+      <header className={styles.header}>
         <button
+          type="button"
           className={styles.back}
           onClick={() => navigate(-1)}
           aria-label={t("app.back")}
@@ -46,12 +47,12 @@ export default function HeaderBack({ title }: { title?: string }) {
           {brand ? brandLabel : title}
         </span>
         <button
+          type="button"
           className={styles.langButton}
           onClick={() => setLanguageOpen(true)}
           aria-label={t("language.title")}
         >
-          <Icon name="earth" size={16} />
-          <span>{LOCALE_LABEL[currentLocale()]}</span>
+          <Icon name="earth" size={24} />
         </button>
       </header>
 

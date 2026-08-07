@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { api } from "../../api/client";
 import { STAR_ID } from "../../app/constants";
@@ -12,7 +12,6 @@ import {
   ErrorState,
   LoadingState,
 } from "../../components/ui/States";
-import TabBar from "../../components/ui/TabBar";
 import { GOODS, goodsByCategory } from "../../data/goods";
 import type { Goods } from "../../data/goods";
 import { listEntries } from "../../features/concert/concertEntry";
@@ -22,8 +21,9 @@ import styles from "./FanSpaceCategory.module.css";
 /**
  * 팬공간 카테고리 (Figma 22:4264 공연 · 22:4214 투표 · 23:4956 굿즈 · 23:4710 모집).
  *
- * ⚠️ **4개가 별도 화면이 아니라 상단 밑줄 탭 하나로 묶입니다.** 이전 구현은 라우트를
- *    4개로 쪼갰는데, 디자인을 보니 헤더·탭바를 공유하고 본문만 갈아끼우는 구조였습니다.
+ * ⚠️ **4개가 별도 화면이 아니라 라우트 파라미터로 본문만 갈아끼우는 구조입니다.**
+ *    상단 밑줄 탭바는 제거했습니다 — 각 카테고리 진입은 `FanSpacePage`의 메뉴 타일에서
+ *    바로 라우팅됩니다.
  *
  * ⚠️ 공연·투표·굿즈는 BE 도메인이 없습니다. 화면 구조만 디자인대로 세우고 데이터는
  *    임시입니다 (모집만 실제 `Gathering` 연동).
@@ -37,8 +37,6 @@ function isCategory(value: string | undefined): value is Category {
 }
 
 export default function FanSpaceCategoryPage() {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
   const { category } = useParams();
   const active: Category = isCategory(category) ? category : "concert";
 
@@ -46,15 +44,6 @@ export default function FanSpaceCategoryPage() {
     <div className={styles.page}>
       <HeaderBack />
       <div className={styles.body}>
-        <TabBar
-          options={TABS.map((value) => ({
-            value,
-            label: t(`fanspace.category.${value}`),
-          }))}
-          value={active}
-          onChange={(next) => navigate(`/fanspace/${next}`, { replace: true })}
-        />
-
         {active === "concert" && <ConcertView />}
         {active === "vote" && <VoteView />}
         {active === "goods" && <GoodsView />}

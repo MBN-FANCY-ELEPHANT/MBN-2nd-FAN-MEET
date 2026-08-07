@@ -96,6 +96,16 @@
   opacity: 0.55;
 }
 
+/* 후보 소진·예약 실패 안내 */
+.error {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  color: var(--landing-text-muted);
+}
+
 /* 움직임에 민감한 사용자는 흔들림을 끕니다 */
 @media (prefers-reduced-motion: reduce) {
   .spinning {

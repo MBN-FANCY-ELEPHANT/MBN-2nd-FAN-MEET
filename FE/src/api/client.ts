@@ -146,6 +146,9 @@ export type ChatCitation = {
 export type AuthResponse = Json<
   paths["/api/v1/auth/login"]["post"]["responses"]["200"]
 >;
+export type GuestAuthResponse = Json<
+  paths["/api/v1/auth/guest"]["post"]["responses"]["201"]
+>;
 export type PlacePage = Json<
   paths["/api/v1/places"]["get"]["responses"]["200"]
 >;
@@ -267,6 +270,25 @@ export const api = {
     }),
 
   getMe: () => request<User>("/api/v1/users/me"),
+
+  /** 랜딩의 스타 선택 → 게스트 계정 발급. 닉네임은 서버가 중복 없이 배정합니다. */
+  registerGuest: (params: {
+    starId: number;
+    artistName: string;
+    locale?: string;
+    country?: string;
+  }) =>
+    request<GuestAuthResponse>("/api/v1/auth/guest", {
+      method: "POST",
+      body: JSON.stringify(params),
+    }),
+
+  /** 게스트 닉네임을 사용자가 원하는 값으로 변경. 중복이면 409. */
+  updateNickname: (nickname: string) =>
+    request<User>("/api/v1/users/me/nickname", {
+      method: "PATCH",
+      body: JSON.stringify({ nickname }),
+    }),
 
   // ── AI 도우미 "비엔이" ──
   /** `artistName` 은 랜딩에서 고른 응원 아티스트 — AI 가 그 사람 기준으로 답합니다. */

@@ -7,6 +7,11 @@ import org.junit.jupiter.api.Test;
 class SolapiEntryNotificationSenderTests {
 
     @Test
+    void providesSubjectRequiredWhenAutoDetectionChoosesLms() {
+        assertThat(SolapiEntryNotificationSender.LMS_SUBJECT).isNotBlank();
+    }
+
+    @Test
     void createsHmacSha256AuthorizationHeader() {
         String authorization = SolapiEntryNotificationSender.createAuthorization(
                 "test-api-key", "Jefe", "what do ya want ", "for nothing?");

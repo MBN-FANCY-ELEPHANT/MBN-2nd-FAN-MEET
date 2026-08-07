@@ -14,8 +14,8 @@ import styles from "./CommentPage.module.css";
 /**
  * 댓글 화면 (Figma 6:473).
  *
- * 기사·영상이 공유합니다 — 라우트는 `/articles/:id/comments` 와 `/videos/:id/comments`
- * 둘 다 여기로 옵니다. 서버 조회는 `/contents/{id}/comments` 하나입니다.
+ * 기사·영상·아티스트 글이 공유합니다. 서버 조회는 `/contents/{id}/comments` 하나이며
+ * 대댓글 없이 1단계 댓글만 표시합니다.
  *
  * 비로그인이면 입력창을 비활성화합니다. 조회는 누구나 가능해야 하니까요.
  */

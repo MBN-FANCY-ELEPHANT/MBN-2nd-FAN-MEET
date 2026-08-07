@@ -106,76 +106,86 @@ INSERT INTO tip (id, star_id, title, category, thumbnail_url, content, external_
 ALTER TABLE tip ALTER COLUMN id RESTART WITH 7;
 
 -- ────────────────────────────── Content ─────────────────────────────
--- 기사(ARTICLE)와 영상(VIDEO)이 한 테이블에 섞여 있습니다. HOME 캐러셀이 둘을 섞어서 보여주기 때문입니다.
+-- 기사(ARTICLE), 영상(VIDEO), 아티스트 글(POST)이 한 테이블에 섞여 있습니다.
 -- ⚠️ live=TRUE 는 LIVE 배지 표시용 플래그일 뿐 실시간 스트리밍 연동이 아닙니다.
 -- ⚠️ 기사 본문의 [[용어|설명]] 은 FE 가 파싱해 툴팁으로 렌더합니다 (별도 API 없음).
-INSERT INTO content (id, star_id, channel_id, type, title, thumbnail_url, published_at, view_count, like_count, comment_count, body, reporter_name, reporter_avatar_url, media_url, duration_sec, live, viewer_count) VALUES
- (1, 1, 1, 'ARTICLE', '"오래 전부터 오고 싶었어요"…임영웅, 전국투어 서울 공연 매진',
+INSERT INTO content (id, star_id, channel_id, type, author_type, author_name, author_profile_image_url, title, thumbnail_url, published_at, view_count, like_count, comment_count, body, reporter_name, reporter_avatar_url, media_url, duration_sec, live, viewer_count) VALUES
+ (1, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN', '"오래 전부터 오고 싶었어요"…임영웅, 전국투어 서울 공연 매진',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-08-06 10:00:00+00', 27400, 212, 3,
     '[ 앵커멘트 ]' || CHR(10) || '가수 임영웅의 2026 전국투어 서울 공연이 예매 시작 8분 만에 전석 매진됐습니다. 이번 공연은 [[스탠딩석|무대 앞 입석 구역으로, 좌석 없이 관람하는 자리]]을 포함해 총 1만 5천석 규모로 진행됩니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '소속사는 추가 회차 편성을 검토 중이라고 밝혔습니다. 지방 공연은 부산과 대구에서 이어집니다.' || CHR(10) || CHR(10) || '- 인터뷰 : 임영웅 / 가수' || CHR(10) || '"오래 전부터 팬 여러분을 직접 만나고 싶었습니다. 좋은 무대로 보답하겠습니다."',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
- (2, 1, 2, 'VIDEO', '신곡 [별빛] 최초 라이브 무대',
+ (2, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '신곡 [별빛] 최초 라이브 무대',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-08-05 12:00:00+00', 121000, 3102, 2, NULL, NULL, NULL,
     'https://www.youtube.com/embed/Xv8DFvPMat0', 207, FALSE, NULL),
 
- (3, 1, 2, 'VIDEO', '트롯가왕 본선 2차 생중계',
+ (3, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '트롯가왕 본선 2차 생중계',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-08-07 02:00:00+00', 8200, 431, 0, NULL, NULL, NULL,
     'https://www.youtube.com/embed/Xv8DFvPMat0', NULL, TRUE, 82),
 
- (4, 1, 1, 'ARTICLE', '임영웅 팬덤, 생일 맞아 아동복지시설에 5천만원 기부',
+ (4, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN', '임영웅 팬덤, 생일 맞아 아동복지시설에 5천만원 기부',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-08-04 09:00:00+00', 18300, 154, 1,
     '[ 앵커멘트 ]' || CHR(10) || '가수 임영웅의 팬덤이 생일을 기념해 아동복지시설에 5천만원을 기부했습니다. 이번 기부는 [[팬덤 모금|팬들이 자발적으로 모금해 스타의 이름으로 기부하는 문화]]의 대표 사례로 꼽힙니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '팬덤 측은 모금 내역과 기부 영수증을 전액 공개했습니다.',
     '박준영 기자', 'https://placehold.co/80x80/E4741A/FFFFFF?text=PARK', NULL, NULL, FALSE, NULL),
 
- (5, 1, 2, 'VIDEO', '0721 무대 콘서트 직관 영상',
+ (5, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '0721 무대 콘서트 직관 영상',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-07-21 12:00:00+00', 88120, 2431, 0, NULL, NULL, NULL,
     'https://www.youtube.com/embed/Xv8DFvPMat0', 251, FALSE, NULL),
 
- (6, 1, 1, 'ARTICLE', '데뷔 10주년 임영웅, 다큐멘터리로 돌아본 발자취',
+ (6, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN', '데뷔 10주년 임영웅, 다큐멘터리로 돌아본 발자취',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-07-18 09:00:00+00', 15600, 118, 0,
     '[ 앵커멘트 ]' || CHR(10) || '데뷔 10주년을 맞은 가수 임영웅의 다큐멘터리가 공개됐습니다. 대구 방천시장 [[버스킹|길거리에서 하는 즉흥 공연]] 시절부터 현재까지를 담았습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '제작진은 미공개 영상 30여 분을 새로 담았다고 밝혔습니다.',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
- (7, 1, 2, 'VIDEO', '트롯가왕 준결승 무대 직캠',
+ (7, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '트롯가왕 준결승 무대 직캠',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-07-15 12:00:00+00', 64300, 1980, 0, NULL, NULL, NULL,
     'https://www.youtube.com/embed/Xv8DFvPMat0', 312, FALSE, NULL),
 
- (8, 1, 1, 'ARTICLE', '해외 팬 유입 급증…트롯 한류 본격화',
+ (8, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN', '해외 팬 유입 급증…트롯 한류 본격화',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-07-10 09:00:00+00', 22100, 176, 0,
     '[ 앵커멘트 ]' || CHR(10) || '트롯 콘텐츠의 해외 시청 비중이 1년 새 3배로 늘었습니다. 일본과 미국을 중심으로 [[K-트롯|해외에서 소비되는 한국 트로트 장르를 가리키는 표현]] 팬덤이 형성되고 있습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '플랫폼 측은 다국어 자막 지원을 확대하겠다고 밝혔습니다.',
     '박준영 기자', 'https://placehold.co/80x80/E4741A/FFFFFF?text=PARK', NULL, NULL, FALSE, NULL),
 
- (9, 1, 2, 'VIDEO', '예능 [트롯신이 떴다] 하이라이트',
+ (9, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '예능 [트롯신이 떴다] 하이라이트',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-06-30 12:00:00+00', 35800, 1201, 0, NULL, NULL, NULL,
     'https://www.youtube.com/embed/Xv8DFvPMat0', 428, FALSE, NULL),
 
- (10, 1, 2, 'VIDEO', '팬미팅 비하인드 Vlog',
+ (10, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '팬미팅 비하인드 Vlog',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-06-22 12:00:00+00', 22400, 990, 0, NULL, NULL, NULL,
     'https://www.youtube.com/embed/Xv8DFvPMat0', 536, FALSE, NULL),
 
- (11, 1, 1, 'ARTICLE', '임영웅 신곡 [별빛], 발매 첫 주 음원 차트 1위',
+ (11, 1, 1, 'ARTICLE', 'CHANNEL', 'MBN NEWS', 'https://placehold.co/64x64/F58220/FFFFFF?text=MBN', '임영웅 신곡 [별빛], 발매 첫 주 음원 차트 1위',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-06-15 09:00:00+00', 31200, 245, 0,
     '[ 앵커멘트 ]' || CHR(10) || '임영웅의 신곡 [별빛]이 발매 첫 주 주요 음원 차트에서 1위를 기록했습니다. [[퍼펙트 올킬|국내 모든 주요 음원 차트에서 동시에 1위를 차지하는 것]]도 함께 달성했습니다.' || CHR(10) || CHR(10) || '[ 기자 ]' || CHR(10) || '음반 판매량도 초동 기준 역대 최고치를 경신했습니다.',
     '심가현 기자', 'https://placehold.co/80x80/F58220/FFFFFF?text=SIM', NULL, NULL, FALSE, NULL),
 
- (12, 1, 2, 'VIDEO', '대기실 비하인드 — 공연 당일의 하루',
+ (12, 1, 2, 'VIDEO', 'CHANNEL', 'MBN 트롯', 'https://placehold.co/64x64/E4741A/FFFFFF?text=TR', '대기실 비하인드 — 공연 당일의 하루',
     '/example_thumb.png',
     TIMESTAMP WITH TIME ZONE '2026-06-02 12:00:00+00', 15600, 754, 0, NULL, NULL, NULL,
-    'https://www.youtube.com/embed/Xv8DFvPMat0', 389, FALSE, NULL);
+    'https://www.youtube.com/embed/Xv8DFvPMat0', 389, FALSE, NULL),
 
-ALTER TABLE content ALTER COLUMN id RESTART WITH 13;
+ (13, 1, 2, 'POST', 'STAR', '임영웅', '/example_thumb.png', '오늘 훠궈 먹었어요 ^^',
+    '/example_thumb.png',
+    TIMESTAMP WITH TIME ZONE '2026-08-08 03:00:00+00', 0, 12300, 1,
+    '오늘 훠궈 먹었어요 ^^', NULL, NULL, NULL, NULL, FALSE, NULL),
+
+ (14, 1, 2, 'POST', 'STAR', '임영웅', '/example_thumb.png', '무대 준비 중입니다',
+    '/example_thumb.png',
+    TIMESTAMP WITH TIME ZONE '2026-08-08 00:00:00+00', 0, 9800, 1,
+    '무대 준비 중입니다. 곧 만나요!', NULL, NULL, NULL, NULL, FALSE, NULL);
+
+ALTER TABLE content ALTER COLUMN id RESTART WITH 15;
 
 -- ─────────────────────────── ContentPlace ───────────────────────────
 -- 뉴스 상세 하단 "기사에 나온 그 곳" 캐러셀.
@@ -241,9 +251,11 @@ INSERT INTO comment (id, content_id, author_id, body, like_count, created_at, de
  (3, 1, 5, '日本からも応援しています。ソウル公演、絶対に行きます！', 143, TIMESTAMP WITH TIME ZONE '2026-08-06 15:02:00+00', NULL),
  (4, 2, 6, 'Sa voix est incroyable. Je découvre le trot grâce à lui.', 98, TIMESTAMP WITH TIME ZONE '2026-08-05 14:10:00+00', NULL),
  (5, 2, 3, '노래 왜 이리 잘함? 라이브가 음원이랑 똑같아요.', 254, TIMESTAMP WITH TIME ZONE '2026-08-05 16:33:00+00', NULL),
- (6, 4, 2, '기부 내역까지 공개하는 팬덤이라 더 자랑스럽습니다.', 176, TIMESTAMP WITH TIME ZONE '2026-08-04 10:15:00+00', NULL);
+ (6, 4, 2, '기부 내역까지 공개하는 팬덤이라 더 자랑스럽습니다.', 176, TIMESTAMP WITH TIME ZONE '2026-08-04 10:15:00+00', NULL),
+ (7, 13, 4, '맛있게 드셨나요? 다음 공연도 기대하고 있어요!', 91, TIMESTAMP WITH TIME ZONE '2026-08-08 03:12:00+00', NULL),
+ (8, 14, 5, '日本から応援しています。新しい舞台を楽しみにしています！', 73, TIMESTAMP WITH TIME ZONE '2026-08-08 00:20:00+00', NULL);
 
-ALTER TABLE comment ALTER COLUMN id RESTART WITH 7;
+ALTER TABLE comment ALTER COLUMN id RESTART WITH 9;
 
 -- ──────────────────────── CommentTranslation ────────────────────────
 -- ⚠️ 스텁 AI provider 는 번역을 흉내 내지 않고 503 을 던집니다 (가짜 번역이 더 위험).

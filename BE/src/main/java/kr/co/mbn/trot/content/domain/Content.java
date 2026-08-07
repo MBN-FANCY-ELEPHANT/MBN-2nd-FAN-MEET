@@ -44,6 +44,16 @@ public class Content {
     @Column(nullable = false, length = 20)
     private ContentType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "author_type", nullable = false, length = 20)
+    private ContentAuthorType authorType;
+
+    @Column(name = "author_name", nullable = false, length = 100)
+    private String authorName;
+
+    @Column(name = "author_profile_image_url", length = 500)
+    private String authorProfileImageUrl;
+
     @Column(nullable = false, length = 200)
     private String title;
 
@@ -111,6 +121,18 @@ public class Content {
 
     public ContentType getType() {
         return type;
+    }
+
+    public ContentAuthorType getAuthorType() {
+        return authorType;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public String getAuthorProfileImageUrl() {
+        return authorProfileImageUrl;
     }
 
     public String getTitle() {

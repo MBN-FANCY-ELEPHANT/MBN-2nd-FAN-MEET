@@ -1,5 +1,7 @@
 package kr.co.mbn.trot;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -24,6 +26,28 @@ class GuestFanFlowIntegrationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    @DisplayName("게스트 닉네임은 숫자 없는 한글 동물 이름이며 이미 배정된 이름을 제외한다")
+    void guestNicknameUsesUniqueKoreanAnimalName() throws Exception {
+        String firstRegistration = registerGuest("김용빈");
+        String secondRegistration = registerGuest("김용빈");
+
+        String firstNickname = JsonPath.read(firstRegistration, "$.user.nickname");
+        String secondNickname = JsonPath.read(secondRegistration, "$.user.nickname");
+
+        assertTrue(firstNickname.matches("^[가-힣]+$"));
+        assertTrue(secondNickname.matches("^[가-힣]+$"));
+        assertNotEquals(firstNickname, secondNickname);
+    }
+
+    private String registerGuest(String artistName) throws Exception {
+        return mockMvc.perform(post("/api/v1/auth/guest")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"starId\":1,\"artistName\":\"" + artistName + "\"}"))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+    }
 
     @Test
     @DisplayName("스타 선택 게스트가 닉네임 변경, 모임, 채팅, 좋아요와 댓글을 모두 사용한다")

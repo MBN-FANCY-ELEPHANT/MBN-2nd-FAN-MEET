@@ -8,6 +8,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +17,10 @@ import kr.co.mbn.trot.common.error.ErrorCode;
 import kr.co.mbn.trot.entry.domain.ConcertEntry;
 import kr.co.mbn.trot.entry.dto.ConcertEntryResponse;
 import kr.co.mbn.trot.entry.repository.ConcertEntryRepository;
+import kr.co.mbn.trot.notification.ConcertEntryCompletedEvent;
 import kr.co.mbn.trot.schedule.domain.Schedule;
 import kr.co.mbn.trot.schedule.repository.ScheduleRepository;
+import kr.co.mbn.trot.user.repository.UserRepository;
 
 /**
  * 공연 응모 (추첨 신청).
@@ -35,11 +38,18 @@ public class ConcertEntryService {
 
     private final ConcertEntryRepository entryRepository;
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public ConcertEntryService(
-            ConcertEntryRepository entryRepository, ScheduleRepository scheduleRepository) {
+            ConcertEntryRepository entryRepository,
+            ScheduleRepository scheduleRepository,
+            UserRepository userRepository,
+            ApplicationEventPublisher eventPublisher) {
         this.entryRepository = entryRepository;
         this.scheduleRepository = scheduleRepository;
+        this.userRepository = userRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     /** 특정 공연의 내 응모 상태. 비로그인이면 {@code entered=false} 입니다 (401 아님). */
@@ -99,6 +109,17 @@ public class ConcertEntryService {
 
         try {
             ConcertEntry saved = entryRepository.saveAndFlush(ConcertEntry.of(scheduleId, userId));
+            String nickname = userRepository.findById(userId)
+                    .map(user -> user.getNickname())
+                    .orElse("사용자 #" + userId);
+            eventPublisher.publishEvent(new ConcertEntryCompletedEvent(
+                    saved.getId(),
+                    userId,
+                    nickname,
+                    schedule.getTitle(),
+                    schedule.getStartAt(),
+                    schedule.getVenue(),
+                    saved.getCreatedAt()));
             return ConcertEntryResponse.of(saved, schedule);
         } catch (DataIntegrityViolationException e) {
             throw new ApiException(ErrorCode.ENTRY_ALREADY_EXISTS);

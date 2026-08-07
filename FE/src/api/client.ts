@@ -162,12 +162,6 @@ export type SearchResponse = Json<
 >;
 export type Place = NonNullable<PlayResponse["places"]>[number];
 export type TipSummary = NonNullable<PlayResponse["tips"]>[number];
-export type NicknameList = Json<
-  paths["/api/v1/nicknames/available"]["get"]["responses"]["200"]
->;
-export type NicknameReservation = Json<
-  paths["/api/v1/nicknames/reserve"]["post"]["responses"]["200"]
->;
 
 // ─────────────────────────────── 엔드포인트 ───────────────────────────────
 export const api = {
@@ -273,20 +267,6 @@ export const api = {
     }),
 
   getMe: () => request<User>("/api/v1/users/me"),
-
-  // ── 닉네임 룰렛 (로그인 대체) ──
-  nicknames: {
-    /** 룰렛에 돌릴 후보 목록. 예약되지 않은 값만 서버가 무작위로 골라 내려줍니다. */
-    available: (count = 20) =>
-      request<NicknameList>(`/api/v1/nicknames/available${qs({ count })}`),
-
-    /** 룰렛이 멈춘 값을 확정 예약. 경합으로 이미 예약됐으면 409. */
-    reserve: (nickname: string) =>
-      request<NicknameReservation>("/api/v1/nicknames/reserve", {
-        method: "POST",
-        body: JSON.stringify({ nickname }),
-      }),
-  },
 
   // ── AI 도우미 "비엔이" ──
   /** `artistName` 은 랜딩에서 고른 응원 아티스트 — AI 가 그 사람 기준으로 답합니다. */

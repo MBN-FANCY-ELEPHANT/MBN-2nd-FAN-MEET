@@ -1,0 +1,11 @@
+.gradle
+build
+out
+bin
+logs
+*.log
+.env
+.env.*
+!.env.example
+Dockerfile*
+README*

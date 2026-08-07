@@ -187,6 +187,7 @@ BE/src/main/resources/
 
 | 파일 | 내용 |
 |---|---|
+| [**`DEPLOYMENT.md`**](DEPLOYMENT.md) | **Backend 전용 AWS/Terraform/Docker/CI-CD 배포 가이드** |
 | [**`docs/HANDOFF.md`**](docs/HANDOFF.md) | **작업 재개 지점 — 새 환경에서 시작한다면 여기부터** |
 | [`docs/design-spec.md`](docs/design-spec.md) | 화면 13개의 기능 명세 (Figma 확정본) |
 | [`docs/component-map.md`](docs/component-map.md) | 컴포넌트 ↔ Figma 노드 ID 매핑 |

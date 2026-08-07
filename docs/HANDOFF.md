@@ -100,6 +100,7 @@ H2 콘솔: http://localhost:8080/h2-console (JDBC `jdbc:h2:mem:trot`, user `sa`,
 | `docs/api-spec.yaml` | API 를 건드리기 전 **항상**. 단일 진실 공급원 |
 | **`docs/api-changes-guest-identity.md`** | **게스트 인증 계약** (`POST /auth/guest`, 닉네임 변경). 인증 관련 작업 전 |
 | `docs/design-tokens.md` | Figma 실측 토큰 (추정치 아님) |
+| `docs/디자인.md` | **발표 장표용** 디자인 시스템 정리 — 팔레트·타이포·원칙·결정 근거 |
 | `docs/domain-model.md` | 엔티티/공통 규약 |
 | `docs/mvp-scope.md` | 우선순위와 **하지 않기로 한 것** + 골든 패스 대본 |
 | `docs/worklog-be.md` / `worklog-fe.md` | 해당 영역 작업 시 |

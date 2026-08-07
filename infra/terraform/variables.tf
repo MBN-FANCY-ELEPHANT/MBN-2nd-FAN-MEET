@@ -21,6 +21,18 @@ variable "github_repository" {
   type        = string
 }
 
+variable "github_environment" {
+  description = "GitHub Environment whose deployment jobs may assume the AWS deploy role."
+  type        = string
+  default     = "production"
+}
+
+variable "github_oidc_repository_subject" {
+  description = "Repository segment used in the GitHub OIDC subject. Set the immutable owner/repository IDs when the organization customizes subject claims."
+  type        = string
+  default     = ""
+}
+
 variable "instance_type" {
   description = "EC2 size. t3.micro is sufficient for the MVP when traffic is light."
   type        = string
@@ -42,6 +54,11 @@ variable "http_allowed_cidr" {
   description = "CIDR allowed to call the public Backend HTTP endpoint."
   type        = string
   default     = "0.0.0.0/0"
+}
+
+variable "backend_domain" {
+  description = "Public DNS name used by Caddy to issue and renew the Backend HTTPS certificate."
+  type        = string
 }
 
 variable "create_github_oidc_provider" {

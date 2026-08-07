@@ -13,10 +13,11 @@ GitHub main (BE 변경)
        ├─ GitHub OIDC로 AWS 임시 자격 증명 획득
        ├─ ECR에 commit SHA 이미지 push
        └─ SSM Run Command로 EC2 배포
-             ├─ Spring Boot 컨테이너 (:80 → :8080)
+             ├─ Caddy 컨테이너 (:80/:443, TLS 자동 발급·갱신)
+             ├─ Spring Boot 컨테이너 (:8080, Docker 내부 전용)
              └─ PostgreSQL 16 컨테이너 (외부 포트 미노출, Docker volume)
 
-Internet → Elastic IP → Security Group :80 → EC2 → Docker → Spring Boot
+Internet → api.dgu-fallfesta.site → Elastic IP → Caddy HTTPS → Spring Boot
 ```
 
 해커톤/MVP 비용과 운영 복잡도를 낮추기 위해 ECS, EKS, ALB, NAT Gateway, RDS는 사용하지
@@ -26,8 +27,8 @@ DB 장애가 분리되지 않는 구조이므로 트래픽이나 데이터 중�
 ECR은 이미지 전달, SHA 단위 이력, 최근 10개 이미지 rollback을 작은 비용으로 제공하므로 사용합니다.
 SSH 22번 포트는 열지 않고 AWS Systems Manager Session Manager와 Run Command를 사용합니다.
 
-> 현재 구성은 HTTP MVP입니다. 실제 개인정보나 결제를 처리하기 전에는 ACM 인증서와 HTTPS
-> 종단점(ALB 또는 CloudFront)을 추가하세요.
+도메인의 A 레코드는 Terraform의 `backend_public_ip` 출력값을 가리켜야 합니다. Caddy가 ACME를
+통해 인증서를 자동 발급하고 갱신하므로 ALB 고정비 없이 HTTPS를 제공합니다.
 
 ## 2. Terraform 구조
 
@@ -39,10 +40,10 @@ infra/terraform/
 ├─ terraform.tfvars.example
 ├─ main.tf                 공통 이름과 포트
 ├─ network.tf              VPC, public subnet, IGW, route
-├─ security_group.tf       HTTP 80 ingress, outbound
+├─ security_group.tf       HTTP 80/HTTPS 443 ingress, outbound
 ├─ ecr.tf                  ECR와 최근 이미지 10개 보존 정책
 ├─ iam.tf                  EC2/SSM/ECR/GitHub OIDC 역할
-├─ ec2.tf                  Amazon Linux 2023 EC2와 Elastic IP
+├─ ec2.tf                  Amazon Linux 2023 EC2, Elastic IP, HTTPS 설정
 ├─ outputs.tf              CI 설정에 필요한 출력
 └─ templates/user-data.sh.tftpl
                             Docker 설치와 안전 배포/rollback 스크립트
@@ -69,7 +70,8 @@ cd infra/terraform
 cp terraform.tfvars.example terraform.tfvars
 ```
 
-`github_repository`를 실제 중앙 repository의 `owner/name`으로 설정합니다. AWS 계정에 GitHub OIDC
+`github_repository`와 `backend_domain`을 실제 값으로 설정합니다. Backend 도메인의 A 레코드는
+`terraform output -raw backend_public_ip`을 가리켜야 합니다. AWS 계정에 GitHub OIDC
 provider가 이미 있으면 `create_github_oidc_provider=false`와 기존 ARN을 지정합니다.
 
 ### 3.3 init, plan, apply
@@ -148,6 +150,10 @@ DB 컨테이너가 생성된 뒤 `DB_PASSWORD` parameter만 바꾸면 기존 Pos
 
 GitHub repository의 **Settings → Environments → production**을 만들고 required reviewer를
 지정합니다. Terraform apply와 Backend deploy는 이 환경 승인 뒤에만 실행됩니다.
+AWS 역할의 OIDC subject도 `environment:production`으로 제한되어 이 Environment를 통과한 job만
+배포 역할을 맡을 수 있습니다.
+조직이 OIDC subject customization을 사용하면 CloudTrail의 `AssumeRoleWithWebIdentity` 이벤트에서
+immutable ID 형식을 확인해 `github_oidc_repository_subject`에 설정합니다.
 
 ### GitHub Secrets
 
@@ -166,7 +172,7 @@ AWS Access Key와 Secret Key는 등록하지 않습니다. GitHub OIDC가 실행
 | `ECR_REPOSITORY_NAME` | `terraform output -raw ecr_repository_name` |
 | `EC2_INSTANCE_ID` | `terraform output -raw ec2_instance_id` |
 | `SSM_PARAMETER_PREFIX` | `terraform output -raw ssm_parameter_prefix` |
-| `BACKEND_HEALTH_URL` | `terraform output -raw backend_health_url` |
+| `BACKEND_HEALTH_URL` | `terraform output -raw backend_health_url` (`https://` 주소) |
 
 ## 6. Docker와 로컬 Backend 실행
 

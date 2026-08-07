@@ -45,16 +45,23 @@
   color: var(--landing-text-muted);
 }
 
-/* 추첨되는 닉네임 — 이 화면의 주인공 */
+/* 추첨되는 닉네임 — 이 화면의 주인공. 긴 조합("다정한햄스터9649")도 줄바꿈 없이
+   "님" 바로 앞까지 붙어 보이도록 카드 폭(320px)에 맞춰 글자 크기를 고정 축소합니다.
+   ⚠️ vw 는 안 씁니다 — #root 가 430px 로 캡핑된 모바일 캔버스라, 데스크톱 브라우저의
+   실제 뷰포트 폭 기준으로 계산되면 캔버스보다 훨씬 커져버립니다. */
 .nickname {
   display: flex;
   align-items: baseline;
-  gap: 2px;
+  justify-content: center;
+  gap: 0;
   min-height: 56px;
-  font-size: 40px;
+  max-width: 100%;
+  font-size: 30px;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--color-primary);
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* 돌아가는 동안 살짝 흔들리고 흐려집니다 */
@@ -96,22 +103,23 @@
   opacity: 0.55;
 }
 
-/* 다시 돌리기 — 확인 버튼과 같은 모양이되 부수 동작이라 투명도를 낮춰 덜 강조합니다 */
+/* 다시 돌리기 — 확인 버튼과 같은 모양이되 부수 동작이라 배경만 옅게 덜 강조합니다.
+   ⚠️ 버튼 전체에 opacity 를 걸면 글자도 함께 흐려집니다 — 글자는 확인 버튼과 같은
+   순백색을 유지하고, 배경색 자체를 옅게 섞습니다. */
 .reroll {
   margin-top: var(--space-2);
   width: 100%;
   padding: var(--space-4);
   border: none;
   border-radius: var(--radius-pill);
-  background: var(--color-primary);
-  opacity: 0.5;
+  background: color-mix(in srgb, var(--color-primary) 55%, white);
   font-size: var(--text-card-title-size);
   font-weight: 700;
   color: var(--color-white);
 }
 
 .reroll:disabled {
-  opacity: 0.25;
+  background: color-mix(in srgb, var(--color-primary) 30%, white);
 }
 
 /* 닉네임 수기 수정 진입 — 텍스트만, 가장 덜 강조 */

@@ -164,7 +164,6 @@
     "deadline": "by {{date}}",
     "participants": "Participants",
     "progress": "{{current}}/{{capacity}}",
-    "paymentWarning": "This platform does not process payments. Verify the organizer before transferring any money.",
     "free": "Free"
   },
   "chat": {
@@ -283,6 +282,7 @@
     "confirm": "Get started"
   },
   "concert": {
+    "entryOpen": "Entries open",
     "when": "Date & time",
     "where": "Venue",
     "seats": "Tickets",

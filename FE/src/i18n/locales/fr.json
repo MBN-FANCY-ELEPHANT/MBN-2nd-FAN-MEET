@@ -164,7 +164,6 @@
     "deadline": "jusqu'au {{date}}",
     "participants": "Participants",
     "progress": "{{current}}/{{capacity}}",
-    "paymentWarning": "Cette plateforme ne gère aucun paiement. Vérifiez l'organisateur avant tout virement.",
     "free": "Gratuit"
   },
   "chat": {
@@ -283,6 +282,7 @@
     "confirm": "Commencer"
   },
   "concert": {
+    "entryOpen": "Inscriptions ouvertes",
     "when": "Date et heure",
     "where": "Lieu",
     "seats": "Billets",

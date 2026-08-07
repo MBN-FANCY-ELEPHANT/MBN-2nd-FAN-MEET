@@ -164,7 +164,6 @@
     "deadline": "至 {{date}}",
     "participants": "参与人数",
     "progress": "{{current}}/{{capacity}}",
-    "paymentWarning": "本平台不代收任何款项。转账前请务必核实主办方信息。",
     "free": "免费"
   },
   "chat": {
@@ -283,6 +282,7 @@
     "confirm": "开始"
   },
   "concert": {
+    "entryOpen": "报名中",
     "when": "演出时间",
     "where": "场馆",
     "seats": "申请张数",

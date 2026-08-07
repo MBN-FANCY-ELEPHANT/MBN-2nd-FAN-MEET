@@ -17,6 +17,7 @@ import MainPage from "../pages/MainPage";
 import PlaceListPage from "../pages/PlaceListPage";
 import ScheduleListPage from "../pages/ScheduleListPage";
 import ShortformPage from "../pages/ShortformPage";
+import SplashPage from "../pages/SplashPage";
 import FanSpaceCategoryPage from "../pages/fanspace/FanSpaceCategoryPage";
 import ConcertEntryPage from "../pages/fanspace/ConcertEntryPage";
 import GoodsDetailPage from "../pages/fanspace/GoodsDetailPage";
@@ -32,9 +33,12 @@ export default function App() {
   // 현재 화면 위에 시트로 뜨고, 닫으면 원래 화면으로 돌아옵니다 (디자인과 동일).
   const [voiceOpen, setVoiceOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [splashOpen, setSplashOpen] = useState(true);
 
   return (
     <>
+      {splashOpen && <SplashPage onFinish={() => setSplashOpen(false)} />}
+
       <Routes>
         {/* 진입점은 랜딩페이지입니다 — 방송 프로그램에서 아티스트를 고른 뒤 팬덤 공간으로
             들어갑니다. */}

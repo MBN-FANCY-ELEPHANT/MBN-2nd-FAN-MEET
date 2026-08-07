@@ -26,8 +26,8 @@ spring:
 
 app:
   cors:
-    # Vite dev server
-    allowed-origins: http://localhost:5173,http://127.0.0.1:5173
+    # Vite가 5173이 사용 중이면 다음 포트를 선택하므로 로컬 주소의 포트만 패턴으로 허용합니다.
+    allowed-origins: http://localhost:*,http://127.0.0.1:*
 
   auth:
     # 간이 인증 토큰 서명 키. 만료·리프레시가 없는 데모용입니다 (docs/design-spec.md §3).

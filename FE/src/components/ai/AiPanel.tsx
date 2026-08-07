@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { api } from "../../api/client";
 import { currentLocale } from "../../i18n";
 import { formatRelativeTime } from "../../lib/format";
-import Icon from "../ui/Icon";
+import AiSummaryCard from "./AiSummaryCard";
 import styles from "./AiPanel.module.css";
 
 /**
@@ -32,30 +32,14 @@ export default function AiPanel({ contentId }: { contentId: number }) {
     return <p className={styles.pending}>{t("ai.unavailable")}</p>;
   }
 
+  // 생김새는 AiSummaryCard 가 담당합니다 — 모집 대화방 상단 패널과 같은 컴포넌트라
+  // 여기서만 스타일을 손대면 두 화면이 서로 달라집니다.
   return (
-    <section className={styles.panel}>
-      <div className={styles.head}>
-        <span className={styles.label}>
-          <Icon name="aiSquare" size={24} />
-          {t("ai.panelTitle")}
-        </span>
-        <span className={styles.time}>
-          {formatRelativeTime(data.generatedAt)}
-        </span>
-      </div>
-
-      <div className={styles.divider} />
-
-      <p className={styles.summary}>{data.summary}</p>
-
-      <div className={styles.items}>
-        {data.items?.map((item, index) => (
-          <div key={`${item.title}-${index}`} className={styles.item}>
-            <p className={styles.itemTitle}>{item.title}</p>
-            <p className={styles.itemBody}>{item.body}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+    <AiSummaryCard
+      title={t("ai.panelTitle")}
+      time={formatRelativeTime(data.generatedAt)}
+      summary={data.summary}
+      items={data.items ?? []}
+    />
   );
 }

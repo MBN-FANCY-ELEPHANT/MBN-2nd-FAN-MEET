@@ -28,7 +28,8 @@
     "digestTitle": "이번 주 소식 한눈에",
     "digestSources": "요약에 쓰인 소식",
     "digestNotice": "MBN 공식 AI 도우미가 MBN 콘텐츠만 보고 정리했습니다.",
-    "longform": "무대 롱폼"
+    "longform": "무대 롱폼",
+    "managerNotice": "팬매니저 공지는 MBN AI 도우미 비엔이가 작성합니다. 아티스트 본인의 글이 아닙니다."
   },
   "fanspace": {
     "title": "활동 기록",
@@ -355,9 +356,24 @@
   "gatheringChat": {
     "aiBadge": "AI 도우미 비엔이",
     "me": "나",
-    "placeholder": "{{nickname}}님, 궁금한 점을 물어보세요",
-    "sampleNotice": "참여자 대화는 예시로 보여 드리는 것이며, 실제로 답변하는 것은 MBN AI 도우미 비엔이입니다.",
+    "placeholder": "댓글을 남겨주세요.",
     "notApplied": "참여 신청을 한 분만 들어올 수 있는 대화방이에요.",
-    "goApply": "모집 상세 보기"
+    "goApply": "모집 상세 보기",
+    "aiSummaryTitle": "AI 분석",
+    "aiSummaryLead": "AI가 톡방을 분석한 내용입니다.",
+    "topic": {
+      "route": "이동",
+      "meet": "집결",
+      "join": "참가",
+      "cause": "기부처",
+      "scale": "모금 규모",
+      "disclosure": "공개"
+    },
+    "value": {
+      "meet": "{{place}} · {{when}}",
+      "join": "{{people}} · 참가비 {{fee}}",
+      "scale": "1인 {{fee}}부터 · {{people}} 참여",
+      "disclosureDefault": "모금 내역은 종료 후 공개됩니다."
+    }
   }
 }

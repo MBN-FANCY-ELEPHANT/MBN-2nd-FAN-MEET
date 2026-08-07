@@ -1,0 +1,214 @@
+/**
+ * 아티스트 소식 스레드 카드 (Figma 27:6288).
+ * 메인페이지와 소식 탭이 **같은 컴포넌트**를 쓰므로 카드 스타일도 여기 한 곳에 있습니다.
+ * 값은 기존 `FeedPage.module.css` 실측값을 그대로 옮긴 것입니다.
+ */
+
+.list {
+  display: grid;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.postHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--color-surface-muted);
+}
+
+/* 마스코트 에셋이 없을 때의 자리 유지 (코드가 이모지로 폴백하던 자리) */
+.avatarFallback {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-avatar-surface);
+}
+
+.authorText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.authorName {
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.authorTime {
+  font-size: var(--text-card-title-size);
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: -0.5px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.photo {
+  width: 100%;
+  height: 193px;
+  border-radius: var(--radius-lg);
+  object-fit: cover;
+  background: var(--color-surface-muted);
+}
+
+.body {
+  font-size: var(--text-section-size);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
+}
+
+/* 팬매니저 공지 — 연한 오렌지 말풍선 (Figma 27:6288) */
+.noticeBubble {
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-notice-surface);
+  font-size: var(--text-section-size);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
+}
+
+/* ── 좋아요 · 댓글 ── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ⚠️ 터치 타깃 44px — 아이콘은 24px 이라 세로 패딩으로 히트 영역을 넓힙니다
+   (docs/design-tokens.md §6 접근성). */
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-2);
+  border: none;
+  background: none;
+  font-size: var(--text-caption-size);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.action:first-child {
+  padding-left: 0;
+}
+
+.action:disabled {
+  opacity: 0.6;
+}
+
+/* 내가 누른 좋아요 — 하트가 채워지고 숫자도 브랜드 색이 됩니다.
+   색만으로 구분하지 않도록 **아이콘 모양 자체가** 빈 하트 ↔ 채운 하트로 바뀝니다. */
+.actionOn {
+  color: var(--color-primary);
+}
+
+/* ⚠️ 정책 고지 — 공지 작성 주체가 AI 도우미라는 표기 (기획서 5-2). 빼지 마세요. */
+.threadNotice {
+  padding: var(--space-4) 0 0;
+  font-size: var(--text-caption-size);
+  line-height: 1.5;
+  color: var(--color-text-faint);
+}
+
+/* ── 무대 롱폼 ── */
+.longformMark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+}
+
+.longformLink {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  color: inherit;
+}
+
+.longformThumb {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 193px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-surface-muted);
+}
+
+.longformThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.longformPlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.longformDuration {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-xs);
+  background: rgba(0, 0, 0, 0.7);
+  font-size: var(--text-caption-size);
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.longformTitle {
+  font-size: var(--text-section-size);
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: -0.5px;
+}

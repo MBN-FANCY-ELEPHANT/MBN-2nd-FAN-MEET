@@ -1,5 +1,8 @@
-/* ⚠️ 고정하지 않습니다 — 하단 네비가 고정이라 상하 모두 붙이면 본문이 좁아집니다. */
+/* 문서 흐름의 높이는 유지하면서 스크롤 시 화면 상단에 고정합니다. */
 .header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   gap: 10px;

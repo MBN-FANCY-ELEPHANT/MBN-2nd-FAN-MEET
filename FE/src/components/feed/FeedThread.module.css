@@ -76,11 +76,22 @@
   text-overflow: ellipsis;
 }
 
+/*
+ * 아티스트가 올린 게시물 사진.
+ *
+ * ⚠️ **높이를 고정하지 않습니다.** 폭만 카드에 맞추고 높이는 원본 비율을 따라갑니다.
+ *    이전에는 `height: 193px` + `object-fit: cover` 였는데, 세로로 긴 사진이 위아래로
+ *    잘려서 **인물 얼굴이 날아가는** 경우가 있었습니다. 사진은 아티스트가 올린 것이라
+ *    비율을 임의로 자르지 않는 편이 맞습니다.
+ *
+ * `object-fit` 은 지정하지 않습니다 — `height:auto` 면 원본 비율 그대로 그려집니다.
+ * 무대 롱폼 썸네일(`.longformThumb`)은 16:9 로 잘라도 되는 영상 캡처라 `cover` 를 유지합니다.
+ */
 .photo {
+  display: block;
   width: 100%;
-  height: 193px;
+  height: auto;
   border-radius: var(--radius-lg);
-  object-fit: cover;
   background: var(--color-surface-muted);
 }
 

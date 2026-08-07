@@ -7,17 +7,12 @@ import { api } from "../api/client";
 import { STAR_ID } from "../app/constants";
 import ContentCard from "../components/content/ContentCard";
 import GatheringCard from "../components/gathering/GatheringCard";
-import LanguageSheet from "../components/layout/LanguageSheet";
+import AppHeader from "../components/layout/AppHeader";
 import PlaceCard from "../components/play/PlaceCard";
 import TipCard from "../components/play/TipCard";
 import Icon from "../components/ui/Icon";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/States";
-import {
-  getSelectedArtist,
-  shortArtistName,
-} from "../features/artist/selectedArtist";
 import { useSpeechRecognition } from "../features/voice/useSpeechRecognition";
-import { LOCALE_LABEL, currentLocale } from "../i18n";
 import { formatDate } from "../lib/format";
 import styles from "./SearchPage.module.css";
 
@@ -34,7 +29,7 @@ import styles from "./SearchPage.module.css";
 /** ⚠️ 임시 — 실제 집계가 아닙니다 (Figma 22:3900 의 예시 문구). */
 const TRENDING = [
   "티켓팅",
-  "박서진 한일가왕전",
+  "한일가왕전",
   "대절",
   "컴백",
   "훠궈",
@@ -48,14 +43,8 @@ const TRENDING = [
 export default function SearchPage() {
   const { t } = useTranslation();
   const [params, setParams] = useSearchParams();
-  const [languageOpen, setLanguageOpen] = useState(false);
   const query = params.get("q") ?? "";
   const [draft, setDraft] = useState(query);
-
-  const artist = getSelectedArtist();
-  const brand = artist
-    ? t("app.artistLogo", { name: shortArtistName(artist) })
-    : t("app.logo");
 
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["search", STAR_ID, query],
@@ -97,25 +86,7 @@ export default function SearchPage() {
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <span className={styles.logo}>{brand}</span>
-        <div className={styles.headerActions}>
-          <button
-            className={styles.langButton}
-            onClick={() => setLanguageOpen(true)}
-            aria-label={t("language.title")}
-          >
-            <Icon name="earth" size={16} />
-            <span>{LOCALE_LABEL[currentLocale()]}</span>
-          </button>
-          <button
-            className={styles.iconButton}
-            aria-label={t("notification.title")}
-          >
-            <Icon name="notificationBell" size={24} />
-          </button>
-        </div>
-      </header>
+      <AppHeader />
 
       <form
         className={styles.searchBar}
@@ -249,8 +220,6 @@ export default function SearchPage() {
           )}
         </div>
       )}
-
-      {languageOpen && <LanguageSheet onClose={() => setLanguageOpen(false)} />}
     </div>
   );
 }

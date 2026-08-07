@@ -54,7 +54,14 @@ const label = (
           </button>
         )}
 
-        <span className={styles.logo}>{label}</span>
+        <button
+          type="button"
+          className={styles.logo}
+          onClick={() => navigate("/home")}
+          aria-label={`${label} · ${t("app.home")}`}
+        >
+          {label}
+        </button>
 
         <div className={styles.actions}>
           <button

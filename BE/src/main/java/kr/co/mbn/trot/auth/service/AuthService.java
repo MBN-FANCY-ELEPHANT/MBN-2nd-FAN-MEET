@@ -96,6 +96,22 @@ public class AuthService {
         return UserResponse.from(user);
     }
 
+    /**
+     * 룰렛 회전 연출용 샘플. 실제 배정과 같은 접두사+명사+숫자 조합을 쓰지만,
+     * DB 중복 검사도 저장도 하지 않는 **장식용**입니다 — 회전 중에는 어차피 값이
+     * 계속 바뀌므로 유일성이 필요 없고, 매 프레임 쿼리를 날릴 이유도 없습니다.
+     */
+    public List<String> generateNicknameSamples(int count) {
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int size = Math.max(1, Math.min(count, 50));
+        return java.util.stream.Stream.generate(() ->
+                        NICKNAME_PREFIXES.get(random.nextInt(NICKNAME_PREFIXES.size()))
+                                + NICKNAME_NOUNS.get(random.nextInt(NICKNAME_NOUNS.size()))
+                                + random.nextInt(1000, 10000))
+                .limit(size)
+                .toList();
+    }
+
     /** 짧고 읽기 쉬운 팬 닉네임을 만들고 시드·게스트 계정과 겹치지 않는 값만 반환합니다. */
     private String generateUniqueNickname() {
         ThreadLocalRandom random = ThreadLocalRandom.current();

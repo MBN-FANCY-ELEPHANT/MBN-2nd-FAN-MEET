@@ -149,5 +149,23 @@
       "FANMEETING": "见面会",
       "EVENT": "活动"
     }
+  },
+  "landing": {
+    "titleLine1": "选择你的",
+    "titleLine2": "艺人",
+    "subtitle": "进入你在 MBN 节目中认识的艺人的粉丝空间。",
+    "eyebrow": "MBN TROT 粉丝空间",
+    "stat": "{{programs}} 个节目 · {{artists}} 位艺人",
+    "searchPlaceholder": "按艺人姓名搜索",
+    "clearSearch": "清除搜索",
+    "resultCount": "找到 {{count}} 位",
+    "confirmLabel": "已选艺人",
+    "castCount": "出演 {{count}} 位",
+    "expand": "查看全部出演者",
+    "collapse": "收起",
+    "noCast": "出演者名单准备中。",
+    "enter": "进入粉丝空间",
+    "linkedSuffix": " 已选择 · 临时链接",
+    "change": "更换"
   }
 }

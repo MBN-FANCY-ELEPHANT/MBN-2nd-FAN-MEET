@@ -30,6 +30,24 @@
   /* Bottom Sheet 뒤 DIM — Figma 7:1465 실측. 생각보다 훨씬 진합니다 */
   --color-dim: rgba(17, 24, 39, 0.85);
   --color-skeleton: #e2e8f0;
+  /* 아티스트 아바타·출연자 수 배지 배경 — primary 틴트 (랜딩페이지, 디자인 미확정) */
+  --color-avatar-surface: #fff1e5;
+
+  /* ── 랜딩(아티스트 선택) 전용 다크 테마 ──
+     ⚠️ 이 화면만 의도적으로 앱 본편과 반대 명도로 갑니다. 진입 → 팬덤 공간 전환을
+     하나의 연출로 쓰기 위해서입니다. 값은 primary / text-primary 에서 파생했습니다.
+     디자인 확정본이 나오면 이 블록만 교체하면 됩니다. */
+  --landing-bg: #0d1117;
+  --landing-bg-warm: #241505;
+  --landing-glow: rgba(245, 130, 32, 0.28);
+  --landing-surface: rgba(255, 255, 255, 0.055);
+  --landing-surface-strong: rgba(255, 255, 255, 0.1);
+  --landing-border: rgba(255, 255, 255, 0.12);
+  --landing-text: #ffffff;
+  --landing-text-muted: rgba(255, 255, 255, 0.62);
+  --landing-text-faint: rgba(255, 255, 255, 0.38);
+  --landing-avatar-from: rgba(245, 130, 32, 0.9);
+  --landing-avatar-to: rgba(245, 130, 32, 0.45);
 
   /* AI 계열은 인디고로 통일 — AI 분석 패널, 음성 답변 카드 */
   --color-ai-border: #6366f1;

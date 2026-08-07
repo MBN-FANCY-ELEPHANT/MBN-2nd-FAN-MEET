@@ -1,0 +1,168 @@
+/**
+ * 아티스트 아바타 카드 — 랜딩(다크) 전용.
+ *
+ * preview: 대표 3인 (큰 아바타) · grid: 펼친 전체 명단 (중간) · row: 검색 결과 (작은, 가로)
+ */
+
+.card {
+  display: flex;
+  border: none;
+  background: none;
+  padding: 0;
+  color: inherit;
+  text-align: center;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
+}
+
+.preview,
+.grid {
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.row {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-3);
+  /* width + min-width:0 이 둘 다 있어야 아래 .rowMeta 의 ellipsis 가 걸립니다.
+     하나만 두면 버튼이 내용 폭으로 늘어나 화면 밖으로 넘칩니다 (실제로 겪음) */
+  width: 100%;
+  min-width: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.row.selected {
+  background: var(--landing-surface-strong);
+}
+
+/* ── 아바타 ── */
+.avatar {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  /* 이미지 로드 전/실패 시에도 원형 실루엣이 유지되도록 배경을 깔아둡니다 */
+  background: linear-gradient(
+    145deg,
+    var(--landing-avatar-from) 0%,
+    var(--landing-avatar-to) 100%
+  );
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  /* 정사각형이 아닌 원본도 얼굴이 잘리지 않도록 cover + 상단 정렬 */
+  object-fit: cover;
+  object-position: center top;
+}
+
+.preview .avatar {
+  width: 84px;
+  height: 84px;
+}
+
+.grid .avatar {
+  width: 56px;
+  height: 56px;
+}
+
+.row .avatar {
+  width: 44px;
+  height: 44px;
+}
+
+/* ── 이름 ── */
+.name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.35;
+  color: var(--landing-text-muted);
+}
+
+.preview .name {
+  font-size: var(--text-small-size);
+  font-weight: 500;
+}
+
+.grid .name {
+  font-size: var(--text-caption-size);
+  font-weight: 500;
+}
+
+/* row 변형 — 이름 + 출연 프로그램 두 줄 */
+.resultText {
+  flex: 1;
+  min-width: 0;
+}
+
+.rowName {
+  display: block;
+  font-size: var(--text-card-title-size);
+  font-weight: 600;
+  color: var(--landing-text);
+}
+
+.rowMeta {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--text-caption-size);
+  color: var(--landing-text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── 선택 상태 ── */
+.selected .avatar {
+  transform: scale(1.04);
+  box-shadow:
+    0 0 0 3px var(--landing-bg),
+    0 0 0 5px var(--color-primary),
+    0 8px 24px var(--landing-glow);
+}
+
+.selected .name {
+  color: var(--landing-text);
+  font-weight: 700;
+}
+
+/* 선택 체크 — 아바타 우하단 */
+.check {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: 700;
+  border: 2px solid var(--landing-bg);
+}
+
+.row .check,
+.grid .check {
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+}

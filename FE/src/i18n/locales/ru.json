@@ -149,5 +149,23 @@
       "FANMEETING": "Фан-митинг",
       "EVENT": "Событие"
     }
+  },
+  "landing": {
+    "titleLine1": "Выберите своего",
+    "titleLine2": "артиста",
+    "subtitle": "Войдите в фан-пространство артиста, которого вы увидели на MBN.",
+    "eyebrow": "MBN TROT ФАНДОМ",
+    "stat": "{{programs}} шоу · {{artists}} артистов",
+    "searchPlaceholder": "Поиск по имени артиста",
+    "clearSearch": "Очистить поиск",
+    "resultCount": "Найдено: {{count}}",
+    "confirmLabel": "Выбранный артист",
+    "castCount": "{{count}} артистов",
+    "expand": "Показать всех",
+    "collapse": "Свернуть",
+    "noCast": "Список артистов готовится.",
+    "enter": "Войти в фан-пространство",
+    "linkedSuffix": " выбран · временная ссылка",
+    "change": "Изменить"
   }
 }

@@ -12,6 +12,7 @@ import CommunityPage from "../pages/CommunityPage";
 import ContentListPage from "../pages/ContentListPage";
 import GatheringDetailPage from "../pages/GatheringDetailPage";
 import HomePage from "../pages/HomePage";
+import LandingPage from "../pages/LandingPage";
 import PlaceListPage from "../pages/PlaceListPage";
 import PlayPage from "../pages/PlayPage";
 import ScheduleListPage from "../pages/ScheduleListPage";
@@ -39,6 +40,10 @@ export default function App() {
   return (
     <>
       <Routes>
+        {/* 진입점은 랜딩페이지입니다 — 방송 프로그램에서 아티스트를 고른 뒤 팬덤 공간으로
+            들어갑니다. 그래서 기존 3탭 셸이 `/` 에서 `/home` 으로 내려왔습니다. */}
+        <Route path="/" element={<LandingPage />} />
+
         <Route
           element={
             <AppShell
@@ -49,7 +54,7 @@ export default function App() {
             />
           }
         >
-          <Route index element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/community" element={<CommunityPage />} />
           <Route path="/play" element={<PlayPage />} />
         </Route>

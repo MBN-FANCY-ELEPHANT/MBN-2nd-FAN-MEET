@@ -149,5 +149,23 @@
       "FANMEETING": "팬미팅",
       "EVENT": "행사"
     }
+  },
+  "landing": {
+    "titleLine1": "당신의 아티스트를",
+    "titleLine2": "선택하세요",
+    "subtitle": "MBN 방송에서 만난 그 사람의 팬덤 공간으로 들어가세요.",
+    "eyebrow": "MBN 트롯 팬덤",
+    "stat": "{{programs}}개 프로그램 · 아티스트 {{artists}}명",
+    "searchPlaceholder": "아티스트 이름으로 찾기",
+    "clearSearch": "검색어 지우기",
+    "resultCount": "검색 결과 {{count}}명",
+    "confirmLabel": "선택한 아티스트",
+    "castCount": "출연 {{count}}명",
+    "expand": "전체 출연자 보기",
+    "collapse": "접기",
+    "noCast": "출연자 명단이 준비 중입니다.",
+    "enter": "팬덤 공간 들어가기",
+    "linkedSuffix": " 님을 선택했습니다 · 임시 연결",
+    "change": "변경"
   }
 }

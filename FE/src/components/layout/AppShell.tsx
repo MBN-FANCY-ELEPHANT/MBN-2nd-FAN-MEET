@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 
+import { getSelectedArtist } from "../../features/artist/selectedArtist";
 import { useAuth } from "../../features/auth/useAuth";
 import { MASCOT } from "../../features/voice/mascot";
 import { LOCALE_LABEL, currentLocale } from "../../i18n";
@@ -20,7 +21,7 @@ import LanguageSheet from "./LanguageSheet";
  */
 
 const TABS = [
-  { to: "/", key: "home" },
+  { to: "/home", key: "home" },
   { to: "/community", key: "community" },
   { to: "/play", key: "play" },
 ] as const;
@@ -55,6 +56,8 @@ export default function AppShell({
   const { user, isAuthenticated, logout } = useAuth();
   const tab = activeTabKey(pathname);
   const locale = currentLocale();
+  // 랜딩에서 고른 아티스트. 렌더 중 한 번만 읽으면 되는 값이라 상태로 들지 않습니다.
+  const selectedArtist = getSelectedArtist();
 
   return (
     <div className={styles.shell}>
@@ -91,7 +94,6 @@ export default function AppShell({
           <NavLink
             key={key}
             to={to}
-            end={to === "/"}
             className={() =>
               `${styles.tab} ${tab === key ? styles.tabActive : ""}`
             }
@@ -115,6 +117,23 @@ export default function AppShell({
           {t("star.fandomSpace", { name: starName })}
         </h1>
         <p className={styles.greetingSub}>{greeting}</p>
+
+        {/* ⚠️ 임시 연결 표시 — 랜딩에서 고른 아티스트가 이 화면으로 이어진다는 것만
+            보여줍니다. 팬덤 공간 데이터는 아직 STAR_ID=1 고정입니다. */}
+        {selectedArtist && (
+          <div className={styles.artistNotice}>
+            <span className={styles.artistNoticeText}>
+              <strong>{selectedArtist}</strong>
+              {t("landing.linkedSuffix")}
+            </span>
+            <button
+              className={styles.artistNoticeButton}
+              onClick={() => navigate("/")}
+            >
+              {t("landing.change")}
+            </button>
+          </div>
+        )}
 
         <button className={styles.banner} onClick={onOpenVoice}>
           {/* 마스코트는 COMMUNITY 탭에만 있습니다 (Figma 6:772) */}

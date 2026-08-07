@@ -149,5 +149,23 @@
       "FANMEETING": "Fan meeting",
       "EVENT": "Event"
     }
+  },
+  "landing": {
+    "titleLine1": "Choose Your",
+    "titleLine2": "Artist",
+    "subtitle": "Step into the fandom space of the artist you met on MBN.",
+    "eyebrow": "MBN TROT FANDOM",
+    "stat": "{{programs}} shows · {{artists}} artists",
+    "searchPlaceholder": "Search by artist name",
+    "clearSearch": "Clear search",
+    "resultCount": "{{count}} results",
+    "confirmLabel": "Selected artist",
+    "castCount": "{{count}} artists",
+    "expand": "See all artists",
+    "collapse": "Collapse",
+    "noCast": "The cast list is being prepared.",
+    "enter": "Enter fandom space",
+    "linkedSuffix": " selected · placeholder link",
+    "change": "Change"
   }
 }

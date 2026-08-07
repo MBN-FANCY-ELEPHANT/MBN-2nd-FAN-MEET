@@ -149,5 +149,23 @@
       "FANMEETING": "ファンミーティング",
       "EVENT": "イベント"
     }
+  },
+  "landing": {
+    "titleLine1": "あなたのアーティストを",
+    "titleLine2": "選んでください",
+    "subtitle": "MBNの番組で出会ったあの人のファンダム空間へ。",
+    "eyebrow": "MBN トロット ファンダム",
+    "stat": "{{programs}}番組 · アーティスト{{artists}}名",
+    "searchPlaceholder": "アーティスト名で検索",
+    "clearSearch": "検索をクリア",
+    "resultCount": "検索結果 {{count}}名",
+    "confirmLabel": "選択したアーティスト",
+    "castCount": "出演 {{count}}名",
+    "expand": "全出演者を見る",
+    "collapse": "閉じる",
+    "noCast": "出演者リストは準備中です。",
+    "enter": "ファンダム空間へ",
+    "linkedSuffix": " さんを選択しました · 仮リンク",
+    "change": "変更"
   }
 }

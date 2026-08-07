@@ -1,0 +1,201 @@
+/* 모집 참여자 단체 대화방.
+   디자인 확정본에 없는 화면이라 **새 시각 언어를 만들지 않고** 기존 카드·토큰만 씁니다. */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background: var(--color-background);
+}
+
+/* ── 모임 요약 (상단 고정 정보) ── */
+.summary {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0 var(--page-padding-x);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-meta-size);
+  color: var(--color-text-primary);
+}
+
+/* ⚠️ 정책 고지 — 예시 대화이고 답하는 것은 AI 라는 표기. 빼지 마세요. */
+.notice {
+  margin: var(--space-4) var(--page-padding-x) 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--color-ai-surface);
+  font-size: var(--text-small-size);
+  line-height: 1.5;
+  color: var(--color-ai-text);
+}
+
+/* ── 대화 ── */
+.thread {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--page-padding-x) var(--space-6);
+}
+
+.otherRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+/* 아바타 이미지가 없어 닉네임 첫 글자로 대신합니다 (예시 대화라 실제 사람이 아닙니다) */
+.avatar {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+  font-size: var(--text-meta-size);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.otherName {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: 4px;
+  font-size: var(--text-small-size);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.time {
+  font-weight: 400;
+  color: var(--color-text-faint);
+}
+
+.otherBubble {
+  display: inline-block;
+  max-width: 240px;
+  padding: var(--space-3);
+  border-radius: 4px var(--radius-md) var(--radius-md) var(--radius-md);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+  font-size: var(--text-card-title-size);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+.meRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.meBubble {
+  max-width: 240px;
+  padding: var(--space-3);
+  border-radius: var(--radius-md) 4px var(--radius-md) var(--radius-md);
+  background: var(--color-primary);
+  font-size: var(--text-card-title-size);
+  line-height: 1.5;
+  color: var(--color-white);
+  text-align: left;
+}
+
+/* AI 답변은 인디고 — 앱 전체에서 AI 계열은 인디고로 통일돼 있습니다 */
+.aiRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.aiBadge {
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-xs);
+  background: var(--color-ai-surface);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  color: var(--color-ai-text);
+}
+
+.aiBubble {
+  max-width: 280px;
+  padding: var(--space-3);
+  border: 1px solid var(--color-ai-border);
+  border-radius: 4px var(--radius-md) var(--radius-md) var(--radius-md);
+  background: var(--color-ai-surface);
+  font-size: var(--text-card-title-size);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  text-align: left;
+}
+
+/* ── 입력 ── */
+.composer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--page-padding-x)
+    calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--color-white);
+  border-top: 1px solid var(--color-divider);
+}
+
+.composer input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-body-size);
+  outline: none;
+}
+
+.composer button {
+  flex-shrink: 0;
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  font-weight: 700;
+  color: var(--color-white);
+}
+
+.composer button:disabled {
+  background: var(--color-text-secondary);
+}
+
+/* ── 신청하지 않은 사람이 주소로 직접 들어온 경우 ── */
+.locked {
+  display: grid;
+  gap: var(--space-4);
+  place-items: center;
+  padding: var(--space-10) var(--page-padding-x);
+  text-align: center;
+}
+
+.lockedText {
+  font-size: var(--text-card-title-size);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.lockedLink {
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  font-weight: 700;
+  color: var(--color-white);
+}

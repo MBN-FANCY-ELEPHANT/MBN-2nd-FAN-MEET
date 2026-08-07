@@ -114,6 +114,35 @@ public class EvidenceFinder {
         this.tipRepository = tipRepository;
     }
 
+    /**
+     * 명백히 범위 밖인 주제인지. <b>모집 대화방 세션</b>은 스코프 판정을 여기까지만 합니다 —
+     * 그 방 안의 질문은 대부분 그 모임 이야기라 도메인 키워드가 없어도 받아야 합니다
+     * ("몇 시까지 가면 되나요?" 에는 도메인 단어가 하나도 없습니다).
+     */
+    public boolean isBlocked(String question) {
+        return containsAny(question.toLowerCase(Locale.ROOT), BLOCKED);
+    }
+
+    /**
+     * 특정 모임 하나를 근거로. <b>대화방 세션에서 모든 질문에 항상 붙습니다.</b>
+     *
+     * <p>목록용 {@link #gatherings} 보다 <b>자세합니다</b> — 집결지·행사일·참가비·공지까지
+     * 넣어야 "집결지 어디예요?", "참가비 얼마예요?" 에 답할 수 있습니다.
+     */
+    public java.util.Optional<Evidence> gatheringEvidence(Long gatheringId) {
+        return gatheringRepository.findById(gatheringId).map(g -> Evidence.of(
+                CitationType.GATHERING,
+                g.getId(),
+                g.getTitle(),
+                "집결지 %s · 행사일 %s · 참가비 %s · %d/%d명 · %s 마감%s".formatted(
+                        g.getMeetingPoint() == null ? "미정" : g.getMeetingPoint(),
+                        DATE.format(g.getEventAt().atZone(KST)),
+                        g.getFee() == 0 ? "무료" : "%,d원".formatted(g.getFee()),
+                        g.getCurrentCount(), g.getCapacity(),
+                        g.getDeadline(),
+                        g.getNotice() == null ? "" : " · 공지: " + g.getNotice())));
+    }
+
     public Intent classify(String question) {
         String q = question.toLowerCase(Locale.ROOT);
 

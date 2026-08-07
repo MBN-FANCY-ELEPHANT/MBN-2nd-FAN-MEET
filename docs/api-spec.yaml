@@ -21,6 +21,8 @@ tags:
   - name: Star
   - name: Home
   - name: Schedule
+  - name: ConcertEntry
+    description: 공연 응모(추첨 신청). 1인 1공연 1매 · 결제 아님
   - name: Content
     description: MBN 콘텐츠(기사·영상) — 구 Archive
   - name: Comment
@@ -190,6 +192,88 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/Schedule' }
         '404': { $ref: '#/components/responses/NotFound' }
+
+  # ────────────────────── Concert Entry ───────────────────────
+  # 공연 응모(추첨 신청). **결제가 아닙니다** — 당첨 후 실제 예매는 공식 예매처에서
+  # 이뤄지고 플랫폼은 금전 거래를 중개하지 않습니다 (기획서 정책).
+  #
+  # ⚠️ **1인 1공연 1매**입니다. 매수 선택이 없고 `POST` 한 번이 곧 1매 응모입니다.
+  #    (매수 선택 UI 는 디자인 확정 과정에서 제거됐습니다.)
+  /api/v1/schedules/{id}/entry:
+    get:
+      tags: [ConcertEntry]
+      summary: 내 응모 상태
+      description: "비로그인이면 `entered: false` 를 반환합니다 (401 이 아닙니다)."
+      security:
+        - {}
+        - bearerAuth: []
+      parameters: [{ $ref: '#/components/parameters/IdPath' }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConcertEntry' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    post:
+      tags: [ConcertEntry]
+      summary: 응모 (1매)
+      description: |
+        요청 본문이 없습니다. 응모는 **1회 1매**로 고정입니다.
+
+        음성 도우미의 `CONCERT_ENTRY` 액션도 서버에서 이 서비스를 그대로 호출합니다
+        (`docs/HANDOFF.md` §1 음성 액션).
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/IdPath' }]
+      responses:
+        '201':
+          description: 응모 완료
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ConcertEntry' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409':
+          description: 이미 응모함 (`ENTRY_ALREADY_EXISTS`)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '422':
+          description: 응모 기간이 끝난 일정 (`ENTRY_CLOSED`)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+    delete:
+      tags: [ConcertEntry]
+      summary: 응모 취소
+      security: [{ bearerAuth: [] }]
+      parameters: [{ $ref: '#/components/parameters/IdPath' }]
+      responses:
+        '204': { description: 취소됨 }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: 응모 내역 없음 (`ENTRY_NOT_FOUND`)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /api/v1/entries:
+    get:
+      tags: [ConcertEntry]
+      summary: 내 응모 목록
+      description: 비로그인이면 빈 배열입니다.
+      security:
+        - {}
+        - bearerAuth: []
+      parameters: [{ $ref: '#/components/parameters/StarIdQuery' }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/ConcertEntry' }
 
   # ───────────────────────── Content ──────────────────────────
   /api/v1/contents:
@@ -518,6 +602,29 @@ paths:
                         type: array
                         items: { $ref: '#/components/schemas/GatheringSummary' }
 
+  /api/v1/gatherings/mine:
+    get:
+      tags: [Gathering]
+      summary: 내가 신청 중인 모집
+      description: |
+        비로그인이면 빈 배열입니다 (401 이 아닙니다).
+        취소한 신청은 제외됩니다.
+
+        ⚠️ 스펙·라우팅 모두 `/gatherings/{id}` **앞에** 와야 합니다.
+        뒤에 두면 `mine` 이 `id` 로 해석됩니다.
+      security:
+        - {}
+        - bearerAuth: []
+      parameters: [{ $ref: '#/components/parameters/StarIdQuery' }]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/GatheringSummary' }
+
   /api/v1/gatherings/{id}:
     get:
       tags: [Gathering]
@@ -725,6 +832,19 @@ paths:
               properties:
                 starId: { type: integer, format: int64 }
                 locale: { $ref: '#/components/schemas/Locale' }
+                gatheringId:
+                  type: integer
+                  format: int64
+                  nullable: true
+                  description: |
+                    **모집 단체 대화방**에서 연 세션이면 그 모임 id.
+
+                    주면 그 모임의 집결지·행사일·참가비·공지가 **모든 질문의 근거로 항상**
+                    들어갑니다. 없으면 대화방 안에서 "집결지 어디예요?" 를 물어도
+                    "정보를 제공할 수 없습니다" 가 나갑니다 (실제로 겪음).
+
+                    이 세션에서는 스코프 판정도 느슨해집니다 — 명백한 금지 주제가 아니면
+                    모임 질문으로 받습니다.
                 artistName:
                   type: string
                   nullable: true
@@ -766,10 +886,21 @@ paths:
         |---|---|
         | `delta` | `{"text": "부분 문자열"}` |
         | `citations` | `{"citations": [Citation]}` — 답변 근거, 딥링크용 |
+        | `action` | `{"action": ChatAction}` — **서버가 이미 실행한 기능**의 결과 |
         | `done` | `{"messageId": 123}` |
         | `error` | `{"code": "...", "message": "..."}` |
 
         `Accept: application/json` 이면 완성된 `ChatMessage` 하나를 반환합니다.
+
+        **행동 요청(action)** — "가장 가까운 공연에 응모해줘" 처럼 **기능 완료까지**를
+        요구하는 발화는 답변 생성 전에 서버가 대상을 찾아 **실제로 실행**합니다
+        (응모 API·모임 신청 API 호출). 이때:
+
+        - `action` 이벤트가 먼저 나가고 `delta` 는 **비어 있습니다.**
+          확인 문구는 FE 가 `action.type` + `action.status` 로 7개 언어에서 만듭니다
+          (서버에 번역 문안을 중복시키지 않기 위한 결정 — `docs/HANDOFF.md` §7).
+        - 실행이 끝난 뒤이므로 FE 는 **화면을 이동시키지 않고** 토스트 + 후속 버튼만
+          보여줍니다. 사용자가 마이크로 대화를 이어갈 수 있어야 합니다.
 
         **음성 입력은 별도 엔드포인트가 없습니다.** STT는 브라우저(Web Speech API)에서
         처리하고, 확정된 텍스트를 이 엔드포인트로 보냅니다 (`docs/ai-stack.md` §2).
@@ -1263,7 +1394,10 @@ components:
 
     GatheringType:
       type: string
-      enum: [BUS, DONATION, AD, GROUP_VIEWING, ETC]
+      description: |
+        모집 종류는 **버스 대절 · 기부금 모금 둘뿐입니다.**
+        응원 광고 공동구매(`AD`) · 단체 관람(`GROUP_VIEWING`) · 기타(`ETC`) 는 제거됐습니다.
+      enum: [BUS, DONATION]
 
     GatheringSummary:
       type: object
@@ -1397,6 +1531,63 @@ components:
             FE 라우트 경로 (예: `/fanspace/concert`). 주어지면 FE 는 `type`/`id` 로
             경로를 유추하지 않고 이 값으로 바로 이동합니다.
 
+    ChatAction:
+      type: object
+      required: [type, status]
+      description: |
+        음성 발화가 **기능 완료 요청**이었을 때, 서버가 실행한 결과입니다.
+
+        ⚠️ **이미 실행된 뒤에 내려옵니다.** FE 는 다시 실행하지 말고 결과만 표시하세요.
+        `status` 가 `DONE` 이 아니어도 (이미 신청함·마감·미로그인) 그대로 안내합니다.
+      properties:
+        type:
+          type: string
+          enum:
+            - CONCERT_ENTRY
+            - CONCERT_ENTRY_CANCEL
+            - GATHERING_JOIN
+            - GATHERING_CANCEL
+            - STAGE_VIDEO
+          description: |
+            - `CONCERT_ENTRY` — 공연 응모. `targetId` 는 `Schedule.id`
+            - `CONCERT_ENTRY_CANCEL` — 응모 취소. 대상은 **이미 응모한** 공연 중에서 고릅니다
+            - `GATHERING_JOIN` — 모집 참여 신청. `targetId` 는 `Gathering.id`
+            - `GATHERING_CANCEL` — 신청 취소. 대상은 **이미 신청한** 모집 중에서 고릅니다
+            - `STAGE_VIDEO` — 아티스트 무대 영상 조회 (쓰기 없음)
+
+            ⚠️ 취소 판정이 신청 판정보다 먼저입니다. 없으면 "모집 신청 취소해줘" 가
+            **다시 신청**이 됩니다.
+        status:
+          type: string
+          enum: [DONE, ALREADY, FULL, CLOSED, NOT_FOUND, LOGIN_REQUIRED, FOUND]
+          description: |
+            `DONE` 실행 성공 · `ALREADY` 이미 신청함 · `FULL` 정원 마감 ·
+            `CLOSED` 마감된 대상 · `NOT_FOUND` 조건에 맞는 대상 없음 ·
+            `LOGIN_REQUIRED` 미로그인 · `FOUND` 조회형 액션 성공(STAGE_VIDEO)
+        targetId:
+          type: integer
+          format: int64
+          nullable: true
+        targetTitle:
+          type: string
+          nullable: true
+          description: 확인 문구에 그대로 넣는 대상 이름 (예 "전국투어 콘서트 [서울]")
+        route:
+          type: string
+          nullable: true
+          description: '"신청한 페이지로 이동" 버튼의 목적지 (예 `/fanspace/concert/3`)'
+        videoUrl:
+          type: string
+          nullable: true
+          description: |
+            `STAGE_VIDEO` 전용. YouTube **임베드** URL 입니다.
+
+            ⚠️ 이 값은 **DB(`artist_stage`)에서 옵니다.** LLM 이 생성하지 않습니다 —
+            생성시키면 없는 영상·임베드 차단 영상이 나와 검은 화면이 됩니다 (실제로 겪음).
+        videoTitle:
+          type: string
+          nullable: true
+
     ChatMessage:
       type: object
       required: [id, role, content, outOfScope, createdAt]
@@ -1412,4 +1603,32 @@ components:
         citations:
           type: array
           items: { $ref: '#/components/schemas/Citation' }
+        action:
+          allOf: [{ $ref: '#/components/schemas/ChatAction' }]
+          nullable: true
+          description: 행동 요청이 아니었으면 null 입니다.
         createdAt: { type: string, format: date-time }
+
+    # ── ConcertEntry ──
+    ConcertEntry:
+      type: object
+      required: [scheduleId, entered]
+      description: |
+        공연 응모 상태. **1인 1공연 1매**이므로 매수 필드가 없습니다.
+
+        ⚠️ 응모는 추첨 신청일 뿐 결제가 아닙니다. 화면에 그 고지를 반드시 남기세요.
+      properties:
+        scheduleId: { type: integer, format: int64 }
+        entered: { type: boolean }
+        enteredAt:
+          type: string
+          format: date-time
+          nullable: true
+        scheduleTitle:
+          type: string
+          nullable: true
+          description: 목록(`GET /entries`)에서 일정을 다시 조회하지 않도록 함께 내려줍니다.
+        startAt:
+          type: string
+          format: date-time
+          nullable: true

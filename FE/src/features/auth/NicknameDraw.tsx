@@ -61,6 +61,18 @@ export default function NicknameDraw({
   const [display, setDisplay] = useState(SPIN_DISPLAY_POOL[0]);
   const startedRef = useRef(false);
 
+  /**
+   * 발급된 닉네임 — **뮤테이션 상태가 아니라 여기서 읽습니다.**
+   *
+   * ⚠️ `registerGuest.isSuccess` 를 쓰면 **StrictMode 개발 모드에서 영원히 `pending`** 입니다.
+   *    `useEffect` 안에서 `mutate()` 를 부르는데, StrictMode 가 효과를 두 번 돌리는 사이
+   *    뮤테이션 옵저버가 결과 통지를 놓칩니다. 요청 자체는 201 로 정상 완료되고
+   *    `onSuccess` 도 실행돼서 **토큰·닉네임은 저장되는데 화면만 "추첨 중..." 에 멈춥니다.**
+   *    (실제로 겪음 — 랜딩에서 앱에 아예 못 들어갔습니다.)
+   */
+  const [issued, setIssued] = useState<{ nickname: string } | null>(null);
+  const [failed, setFailed] = useState(false);
+
   const registerGuest = useMutation({
     mutationFn: () =>
       api.registerGuest({
@@ -75,9 +87,12 @@ export default function NicknameDraw({
         nickname: res.user.nickname,
         issuedAt: new Date().toISOString(),
       });
+      setIssued({ nickname: res.user.nickname });
+      setFailed(false);
       // 좋아요·구독·신청 상태 등이 이제 이 계정 기준으로 바뀌므로 다시 받아옵니다.
       void queryClient.invalidateQueries();
     },
+    onError: () => setFailed(true),
   });
 
   // StrictMode 이중 호출로 게스트 계정이 두 번 생성되지 않도록 막습니다.
@@ -117,26 +132,27 @@ export default function NicknameDraw({
     };
   }, []);
 
-  const ready = minTimeElapsed && registerGuest.isSuccess;
+  const ready = minTimeElapsed && issued !== null;
 
   useEffect(() => {
-    if (ready) {
-      setDisplay(registerGuest.data.user.nickname);
+    if (ready && issued) {
+      setDisplay(issued.nickname);
       setSpinning(false);
     }
-  }, [ready, registerGuest.data]);
+  }, [ready, issued]);
 
   function confirm() {
-    if (!ready) return;
-    onDone(registerGuest.data.user.nickname);
+    if (!ready || !issued) return;
+    onDone(issued.nickname);
   }
 
   function retry() {
     startedRef.current = true;
+    setFailed(false);
     registerGuest.mutate();
   }
 
-  const showError = registerGuest.isError;
+  const showError = failed;
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true">

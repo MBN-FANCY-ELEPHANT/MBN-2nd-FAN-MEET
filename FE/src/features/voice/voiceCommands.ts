@@ -89,6 +89,49 @@ const TARGETS: { route: string; labelKey: string; words: string[] }[] = [
 export type VoiceCommand = { route: string; labelKey: string };
 
 /**
+ * **기능 완료 요청**인지. 맞으면 화면 이동으로 가로채지 않고 서버로 보냅니다.
+ *
+ * ⚠️ 이 가드가 없으면 `"이찬원 무대 영상 보여줘"` 가 `"영상"` + `"보여"` 에 걸려
+ *    **방송 화면으로 튀고**, 정작 무대 영상은 나오지 않습니다.
+ *    `"버스 대절 신청해줘"` 도 `"버스"` 때문에 모집 목록으로 튑니다 — 신청은 안 되고요.
+ *
+ * ⚠️ 판정 어휘는 BE `VoiceActionResolver` 와 **같은 편**이어야 합니다. 한쪽만 넓히면
+ *    여기서 가로채지 않았는데 서버도 액션으로 안 보는 사각지대가 생깁니다.
+ */
+const ACTION_HINTS = [
+  // 요청형 — 이게 없으면 질문입니다 ("응모는 어떻게 해?" 로 응모가 걸리면 안 됩니다)
+  "해줘",
+  "해 줘",
+  "해주세요",
+  "해 주세요",
+  "하고 싶",
+  "하고싶",
+  "신청해",
+  "응모해",
+  "참여해",
+  "참가해",
+  "넣어줘",
+  "sign me up",
+  "for me",
+  // 취소도 기능 완료 요청입니다 — "공연 응모 취소해줘" 가 공연 목록으로 튀면 안 됩니다
+  "취소해",
+  "취소 해",
+  "취소할",
+  "취소하고 싶",
+  "취소하고싶",
+  "cancel",
+];
+
+/** 무대 영상은 "보여줘" 계열이 요청형이라 별도로 봅니다. */
+const STAGE_HINTS = ["무대", "직캠", "스테이지", "stage", "performance"];
+
+export function isActionRequest(text: string): boolean {
+  const said = text.toLowerCase();
+  if (STAGE_HINTS.some((word) => said.includes(word))) return true;
+  return ACTION_HINTS.some((hint) => said.includes(hint));
+}
+
+/**
  * 이동 명령이면 대상을, 아니면 null (=AI 에게 질문).
  *
  * @param afterFeatureAnswer 직전 답변이 **기능 안내**였는지. true 면 이동 동사를
@@ -100,6 +143,9 @@ export function matchVoiceCommand(
   text: string,
   afterFeatureAnswer = false,
 ): VoiceCommand | null {
+  // 기능 완료 요청은 화면 이동이 아닙니다 — 서버가 실행해야 합니다 (isActionRequest 주석).
+  if (isActionRequest(text)) return null;
+
   const said = text.toLowerCase();
   const hasVerb = NAVIGATION_VERBS.some((verb) => said.includes(verb));
   if (!hasVerb && !afterFeatureAnswer) return null;

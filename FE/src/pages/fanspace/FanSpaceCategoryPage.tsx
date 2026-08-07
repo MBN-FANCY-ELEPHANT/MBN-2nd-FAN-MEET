@@ -7,6 +7,7 @@ import { STAR_ID } from "../../app/constants";
 import exampleHero from "../../assets/example/example_hero.png";
 import GatheringCard from "../../components/gathering/GatheringCard";
 import HeaderBack from "../../components/layout/HeaderBack";
+import Icon from "../../components/ui/Icon";
 import {
   EmptyMascotState,
   ErrorState,
@@ -14,7 +15,6 @@ import {
 } from "../../components/ui/States";
 import { GOODS, goodsByCategory } from "../../data/goods";
 import type { Goods } from "../../data/goods";
-import { listEntries } from "../../features/concert/concertEntry";
 import { formatDeadline } from "../../lib/format";
 import styles from "./FanSpaceCategory.module.css";
 
@@ -25,8 +25,8 @@ import styles from "./FanSpaceCategory.module.css";
  *    상단 밑줄 탭바는 제거했습니다 — 각 카테고리 진입은 `FanSpacePage`의 메뉴 타일에서
  *    바로 라우팅됩니다.
  *
- * ⚠️ 공연·투표·굿즈는 BE 도메인이 없습니다. 화면 구조만 디자인대로 세우고 데이터는
- *    임시입니다 (모집만 실제 `Gathering` 연동).
+ * ⚠️ 투표·굿즈는 BE 도메인이 없습니다. 화면 구조만 디자인대로 세우고 데이터는 임시입니다.
+ *    모집(`Gathering`)과 **공연 응모(`ConcertEntry`)** 는 실제 API 입니다.
  */
 
 const TABS = ["concert", "vote", "goods", "gathering"] as const;
@@ -56,17 +56,25 @@ export default function FanSpaceCategoryPage() {
 /* ── 공연 ─────────────────────────────────────────────────────────── */
 
 /**
- * ⚠️ 응모 도메인이 없어 일정(Schedule)을 응모 카드 형태로 세웠습니다.
+ * 공연 목록 — 일정(Schedule)을 응모 카드 형태로 세웠습니다.
  *
  * 카드를 탭하면 `/fanspace/concert/{id}` 응모 화면으로 갑니다.
  * 이미 응모한 공연은 위쪽 **응모 내역** 에 따로 모아 둡니다 — 중장년 사용자가
  * "내가 신청했나?"를 목록에서 뒤지지 않아도 되도록.
+ *
+ * 응모 상태는 서버(`GET /entries`)에서 옵니다. 비로그인이면 빈 배열이라 응모 내역
+ * 섹션이 통째로 접힙니다.
  */
 function ConcertView() {
   const { t } = useTranslation();
   const { data, isPending, isError, refetch } = useQuery({
     queryKey: ["schedules", STAR_ID, "concert"],
     queryFn: () => api.getSchedules({ starId: STAR_ID, size: 20 }),
+  });
+
+  const { data: entries } = useQuery({
+    queryKey: ["myEntries", STAR_ID],
+    queryFn: () => api.getMyEntries(STAR_ID),
   });
 
   if (isPending) return <LoadingState />;
@@ -76,8 +84,7 @@ function ConcertView() {
   if (items.length === 0)
     return <EmptyMascotState message={t("fanspace.empty.concert")} />;
 
-  const entered = listEntries();
-  const enteredIds = new Set(entered.map((e) => e.scheduleId));
+  const enteredIds = new Set((entries ?? []).map((e) => e.scheduleId));
   const myEntries = items.filter((s) => enteredIds.has(s.id));
 
   return (
@@ -106,7 +113,10 @@ function ConcertView() {
         </>
       )}
 
-      <div className={styles.list}>
+      {/* 위에 응모 내역 캐러셀이 있으면 붙어 보여서 간격을 벌립니다 (CSS 주석 참고) */}
+      <div
+        className={`${styles.list} ${myEntries.length > 0 ? styles.listAfterCarousel : ""}`}
+      >
         {items.map((schedule) => {
           // 지난 일정은 `응모 종료`, 예정은 `응모 중` — 실제 응모 상태가 아니라 임시 매핑입니다
           const open = new Date(schedule.startAt).getTime() > Date.now();
@@ -218,6 +228,11 @@ function GatheringView() {
     queryFn: () => api.getGatherings({ starId: STAR_ID, size: 20 }),
   });
 
+  const { data: myApplied } = useQuery({
+    queryKey: ["myGatherings", STAR_ID],
+    queryFn: () => api.getMyGatherings(STAR_ID),
+  });
+
   if (isPending) return <LoadingState />;
   if (isError) return <ErrorState onRetry={() => void refetch()} />;
 
@@ -225,36 +240,47 @@ function GatheringView() {
   if (items.length === 0)
     return <EmptyMascotState message={t("fanspace.empty.gathering")} />;
 
-  // ⚠️ "신청한 모집"은 로그인 사용자의 신청 목록이어야 하는데 목록 API 가 없습니다.
-  //    지금은 모집 중인 앞 3건을 대신 보여줍니다 (개편 3단계에서 계약 추가).
-  const applied = items.slice(0, 3);
+  // 실제 내 신청 목록입니다. 예전에는 "모집 중인 앞 3건" 을 대신 보여줬는데,
+  // 신청하지도 않은 모임이 「신청한 모집」으로 떠서 자기 신청 상태를 오해하게 됩니다.
+  const applied = myApplied ?? [];
 
   return (
     <>
-      <h2 className={styles.sectionTitle}>{t("fanspace.appliedGatherings")}</h2>
-      <div className="scroll-x">
-        {applied.map((gathering) => (
-          <Link
-            key={gathering.id}
-            to={`/community/gatherings/${gathering.id}`}
-            className={styles.miniCard}
-          >
-            <img
-              className={styles.miniThumb}
-              src={gathering.coverImageUrl}
-              alt=""
-            />
-            <div className={styles.miniBody}>
-              <p className={styles.miniTitle}>{gathering.title}</p>
-              {/* 목록 응답에는 집결지·행사일이 없어 주최자와 마감일로 대신합니다 */}
-              <div className={styles.miniMeta}>
-                <span>{gathering.hostNickname}</span>
-                <span>{formatDeadline(gathering.deadline)}</span>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {/* 신청한 모집은 **대화방**으로 연결합니다 — 상세는 이미 본 화면이고,
+          신청 뒤에 필요한 건 집결지·준비물을 묻는 자리입니다. */}
+      {applied.length > 0 && (
+        <>
+          <h2 className={styles.sectionTitle}>
+            {t("fanspace.appliedGatherings")}
+          </h2>
+          <div className="scroll-x">
+            {applied.map((gathering) => (
+              <Link
+                key={gathering.id}
+                to={`/community/gatherings/${gathering.id}/chat`}
+                className={styles.miniCard}
+              >
+                <img
+                  className={styles.miniThumb}
+                  src={gathering.coverImageUrl}
+                  alt=""
+                />
+                <div className={styles.miniBody}>
+                  <p className={styles.miniTitle}>{gathering.title}</p>
+                  {/* 목록 응답에는 집결지·행사일이 없어 주최자와 마감일로 대신합니다 */}
+                  <div className={styles.miniMeta}>
+                    <span className={styles.chatMark}>
+                      <Icon name="chatBubble" size={14} />
+                      {t("fanspace.openChatRoom")}
+                    </span>
+                    <span>{formatDeadline(gathering.deadline)}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
 
       <h2 className={styles.sectionTitle}>
         {t("community.offlineGatherings")}

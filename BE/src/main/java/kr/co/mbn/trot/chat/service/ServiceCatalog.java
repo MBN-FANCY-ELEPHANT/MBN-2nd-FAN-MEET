@@ -25,13 +25,18 @@ final class ServiceCatalog {
      * 그중 질문에 맞는 2~3개만 골라 말하도록 시스템 프롬프트가 지시합니다.
      */
     private static final List<Evidence> FEATURES = List.of(
+            // ⚠️ **말로 바로 실행되는 기능은 그 사실을 근거에 적어 둡니다.**
+            //    안 적으면 모델이 "이 앱에서는 직접 할 수 없어요" 라고 단정합니다 (실제로 겪음 —
+            //    응모 취소가 이미 되는데도 못 한다고 답했습니다).
             Evidence.feature(
                     "공연",
-                    "다가오는 공연의 응모 현황을 보고 응모합니다. 당첨 여부도 여기서 확인합니다.",
+                    "다가오는 공연에 응모하고 응모를 취소합니다. 1인 1매이며 당첨 여부도 여기서 확인합니다. "
+                            + "\"○○ 공연 응모해줘\", \"응모 취소해줘\" 라고 말하면 바로 처리해 드립니다.",
                     "/fanspace/concert"),
             Evidence.feature(
                     "모집",
-                    "버스 대절 같은 팬 모임에 참여 신청합니다. 남은 자리와 마감일을 볼 수 있습니다.",
+                    "버스 대절과 기부금 모금에 참여 신청하고 신청을 취소합니다. 남은 자리와 마감일을 볼 수 있습니다. "
+                            + "\"버스 대절 신청해줘\", \"모집 신청 취소해줘\" 라고 말하면 바로 처리해 드립니다.",
                     "/fanspace/gathering"),
             Evidence.feature(
                     "소식",
@@ -66,8 +71,9 @@ final class ServiceCatalog {
 
     /** 기능명 매칭용 키워드. 질문에 이게 있으면 그 기능을 맨 앞으로 올립니다. */
     private static final Map<String, List<String>> KEYWORDS = Map.ofEntries(
-            Map.entry("공연", List.of("공연", "콘서트", "예매", "응모", "티켓", "concert", "ticket")),
-            Map.entry("모집", List.of("모집", "모임", "버스", "대절", "동행", "gathering", "meetup")),
+            Map.entry("공연", List.of("공연", "콘서트", "예매", "응모", "티켓", "취소", "concert", "ticket")),
+            Map.entry("모집", List.of("모집", "모임", "버스", "대절", "동행", "기부", "모금",
+                    "gathering", "meetup")),
             Map.entry("소식", List.of("소식", "피드", "활동", "news", "feed")),
             Map.entry("방송", List.of("방송", "영상", "기사", "숏폼", "롱폼", "broadcast", "video")),
             Map.entry("굿즈", List.of("굿즈", "상품", "응원봉", "슬로건", "구매", "사고", "goods", "merch")),

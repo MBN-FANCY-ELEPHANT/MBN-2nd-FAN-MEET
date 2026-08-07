@@ -50,6 +50,7 @@ export default function GatheringDetailPage() {
       queryKey: ["gathering", gatheringId],
     });
     void queryClient.invalidateQueries({ queryKey: ["gatherings"] });
+    void queryClient.invalidateQueries({ queryKey: ["myGatherings"] });
     void queryClient.invalidateQueries({ queryKey: ["home"] });
   };
 

@@ -1,73 +1,8 @@
-/* 음성 도우미 5단계 표시 + 주황 물감 이펙트 */
-
-.rail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-2);
-  width: 100%;
-}
-
-.dots {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 240px;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* 점들을 잇는 가는 선 — 팬공간 캘린더 타임라인과 같은 어법입니다 */
-.dots::before {
-  content: "";
-  position: absolute;
-  left: 6px;
-  right: 6px;
-  top: 50%;
-  height: 2px;
-  transform: translateY(-50%);
-  background: var(--color-divider);
-}
-
-.dot {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: 12px;
-  height: 12px;
-}
-
-.dotMark {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-pill);
-  background: var(--color-divider);
-  transition:
-    background 0.25s ease,
-    transform 0.25s ease;
-}
-
-.dotDone .dotMark {
-  background: var(--color-primary);
-}
-
-/* 현재 단계만 크게 + 링. 색만으로 구분하면 중장년 사용자가 놓칩니다 */
-.dotCurrent .dotMark {
-  width: 12px;
-  height: 12px;
-  background: var(--color-primary);
-  transform: scale(1);
-  box-shadow: 0 0 0 4px rgba(245, 130, 32, 0.22);
-}
-
-.stepLabel {
-  font-size: var(--text-meta-size);
-  font-weight: 700;
-  color: var(--color-primary);
-}
+/* 음성 도우미 주황 물감 이펙트
+ *
+ * ⚠️ 상단 5단계 레일의 클래스(rail · dots · dot · dotMark · dotDone · dotCurrent ·
+ *    stepLabel)는 걷어냈습니다. 되살리려면 `VoiceStages.tsx` 의 주석을 보세요.
+ *    아래 이펙트가 지금은 **유일한 진행 신호**입니다. */
 
 /**
  * 주황 물감 번짐 / 폭죽.

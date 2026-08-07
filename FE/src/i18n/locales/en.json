@@ -47,7 +47,7 @@
     "entryWon": "Won",
     "goodsTop4": "Top 4",
     "goodsLightstick": "Lightsticks",
-    "appliedGatherings": "My applications",
+    "appliedGatherings": "Chat rooms you've joined",
     "empty": {
       "concert": "No upcoming shows",
       "vote": "No votes in progress",
@@ -62,7 +62,8 @@
       "apparel": "Apparel",
       "photo": "Photo & slogans",
       "living": "Living"
-    }
+    },
+    "openChatRoom": "Open chat"
   },
   "broadcast": {
     "articlesAndLongform": "Articles & Long-form",
@@ -114,7 +115,7 @@
     "noSchedule": "No upcoming schedule."
   },
   "community": {
-    "offlineGatherings": "Offline gatherings"
+    "offlineGatherings": "Open for sign-ups"
   },
   "play": {
     "pilgrimage": "Fan pilgrimage",
@@ -261,7 +262,47 @@
       "next": "Next step"
     },
     "stepStatus": "Step {{step}} · {{label}}",
-    "followUpReady": "Go ahead — say where you want to go and I'll take you there."
+    "followUpReady": "Go ahead and speak. I'll take care of it for you.",
+    "action": {
+      "concertEntry": {
+        "done": "Your entry for '{{title}}' is complete.",
+        "already": "You already entered this concert. ({{title}})",
+        "closed": "Entries have closed for this concert. ({{title}})",
+        "notFound": "I couldn't find a concert you can enter.",
+        "loginRequired": "You need to sign in to enter."
+      },
+      "gatheringJoin": {
+        "done": "You're signed up for '{{title}}'.",
+        "already": "You already applied to this gathering. ({{title}})",
+        "full": "This gathering is full. ({{title}})",
+        "closed": "This gathering has closed. ({{title}})",
+        "notFound": "I couldn't find a gathering that matches.",
+        "loginRequired": "You need to sign in to apply."
+      },
+      "stageVideo": {
+        "found": "Here is a stage performance by {{title}}. You can watch it below.",
+        "notFound": "I couldn't find a saved stage video."
+      },
+      "goto": {
+        "concertEntry": "Go to the concert page",
+        "gatheringJoin": "Go to the gathering page",
+        "stageVideo": "Go to the video screen",
+        "concertEntryCancel": "Go to the concert page",
+        "gatheringCancel": "Go to the gathering page"
+      },
+      "goHome": "Go to the main page",
+      "videoLabel": "Stage video",
+      "concertEntryCancel": {
+        "done": "Your entry for '{{title}}' has been canceled.",
+        "notFound": "You have no entry to cancel.",
+        "loginRequired": "You need to sign in to cancel an entry."
+      },
+      "gatheringCancel": {
+        "done": "Your application for '{{title}}' has been canceled.",
+        "notFound": "You have no gathering application to cancel.",
+        "loginRequired": "You need to sign in to cancel an application."
+      }
+    }
   },
   "live": {
     "badge": "LIVE",
@@ -288,9 +329,6 @@
     "when": "Date & time",
     "where": "Venue",
     "seats": "Tickets",
-    "seatsLimit": "Up to {{max}} per person",
-    "seatPick": "How many tickets?",
-    "seatCount": "{{count}} ticket(s)",
     "apply": "Enter the draw",
     "cancel": "Withdraw entry",
     "backToList": "Back to concerts",
@@ -298,7 +336,12 @@
     "entryDoneTitle": "Entered",
     "entryDone": "Your entry has been received.",
     "entryCanceled": "Your entry was withdrawn.",
-    "paymentNotice": "Entering the draw is not a purchase. If you win, booking happens on the official ticketing site — this platform does not handle payments."
+    "paymentNotice": "Entering the draw is not a purchase. If you win, booking happens on the official ticketing site — this platform does not handle payments.",
+    "oneSeatOnly": "1 ticket per person",
+    "loginRequired": "Sign in to enter the draw.",
+    "alreadyEntered": "You have already entered this concert.",
+    "entryClosedError": "Entries for this concert have closed.",
+    "entryNotFound": "No entry found."
   },
   "country": {
     "KR": "Korea",
@@ -308,5 +351,13 @@
     "ES": "Spain",
     "CN": "China",
     "RU": "Russia"
+  },
+  "gatheringChat": {
+    "aiBadge": "Bienie, MBN AI assistant",
+    "me": "You",
+    "placeholder": "{{nickname}}, ask anything",
+    "sampleNotice": "Participant messages are shown as examples. Replies come from Bienie, MBN's AI assistant.",
+    "notApplied": "This chat room is only for people who signed up.",
+    "goApply": "View gathering details"
   }
 }

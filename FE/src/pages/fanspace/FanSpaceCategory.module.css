@@ -16,6 +16,25 @@
   gap: var(--space-4);
 }
 
+/**
+ * 「내가 응모한 공연」 캐러셀 **바로 아래** 오는 공연 목록.
+ *
+ * 이 목록에는 섹션 제목이 없어서(응모중/응모종료 카드가 곧바로 옵니다) 위쪽 캐러셀과
+ * 붙어 보였습니다. 제목이 없는 자리라 `.sectionTitle` 의 여백을 못 받습니다.
+ */
+.listAfterCarousel {
+  margin-top: var(--space-6);
+}
+
+/* 「참여 중인 모집 채팅방」 카드의 대화방 표시 */
+.chatMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
 .sectionTitle {
   margin: var(--space-5) 0 var(--space-4);
   font-size: var(--text-section-size);

@@ -47,7 +47,7 @@
     "entryWon": "中签",
     "goodsTop4": "人气 TOP 4",
     "goodsLightstick": "应援棒",
-    "appliedGatherings": "已报名的招募",
+    "appliedGatherings": "已参加的招募聊天室",
     "empty": {
       "concert": "暂无即将开始的演出",
       "vote": "暂无进行中的投票",
@@ -62,7 +62,8 @@
       "apparel": "服饰",
       "photo": "照片与横幅",
       "living": "生活用品"
-    }
+    },
+    "openChatRoom": "打开聊天室"
   },
   "broadcast": {
     "articlesAndLongform": "报道＆长视频",
@@ -114,7 +115,7 @@
     "noSchedule": "暂无安排。"
   },
   "community": {
-    "offlineGatherings": "线下聚会"
+    "offlineGatherings": "招募中的活动"
   },
   "play": {
     "pilgrimage": "圣地巡礼",
@@ -261,7 +262,47 @@
       "next": "下一步"
     },
     "stepStatus": "第 {{step}} 步 · {{label}}",
-    "followUpReady": "请说话，告诉我想去哪个页面，我带您过去。"
+    "followUpReady": "请说吧。我会为您完成所需的操作。",
+    "action": {
+      "concertEntry": {
+        "done": "已完成《{{title}}》的报名。",
+        "already": "您已报名该演出。({{title}})",
+        "closed": "该演出的报名已结束。({{title}})",
+        "notFound": "没有找到可以报名的演出。",
+        "loginRequired": "报名需要先登录。"
+      },
+      "gatheringJoin": {
+        "done": "已完成《{{title}}》的参加申请。",
+        "already": "您已申请该招募。({{title}})",
+        "full": "招募人数已满。({{title}})",
+        "closed": "该招募已结束。({{title}})",
+        "notFound": "没有找到符合条件的招募。",
+        "loginRequired": "申请需要先登录。"
+      },
+      "stageVideo": {
+        "found": "找到了{{title}}的舞台视频，可以在下方观看。",
+        "notFound": "没有找到已保存的舞台视频。"
+      },
+      "goto": {
+        "concertEntry": "前往报名的演出页面",
+        "gatheringJoin": "前往申请的招募页面",
+        "stageVideo": "前往视频页面",
+        "concertEntryCancel": "前往演出页面",
+        "gatheringCancel": "前往招募页面"
+      },
+      "goHome": "前往主页面",
+      "videoLabel": "舞台视频",
+      "concertEntryCancel": {
+        "done": "已取消《{{title}}》的报名。",
+        "notFound": "没有可取消的报名记录。",
+        "loginRequired": "取消报名需要先登录。"
+      },
+      "gatheringCancel": {
+        "done": "已取消《{{title}}》的参加申请。",
+        "notFound": "没有可取消的招募申请记录。",
+        "loginRequired": "取消申请需要先登录。"
+      }
+    }
   },
   "live": {
     "badge": "LIVE",
@@ -288,9 +329,6 @@
     "when": "演出时间",
     "where": "场馆",
     "seats": "申请张数",
-    "seatsLimit": "每人最多 {{max}} 张",
-    "seatPick": "要申请几张？",
-    "seatCount": "{{count}} 张",
     "apply": "参加抽选",
     "cancel": "取消申请",
     "backToList": "返回演出列表",
@@ -298,7 +336,12 @@
     "entryDoneTitle": "申请完成",
     "entryDone": "已收到您的申请。",
     "entryCanceled": "已取消您的申请。",
-    "paymentNotice": "参加抽选并非购票。中选后请在官方售票渠道购票，本平台不代收任何款项。"
+    "paymentNotice": "参加抽选并非购票。中选后请在官方售票渠道购票，本平台不代收任何款项。",
+    "oneSeatOnly": "每人限1张",
+    "loginRequired": "登录后才能参与抽选。",
+    "alreadyEntered": "您已参与该演出的抽选。",
+    "entryClosedError": "该演出的报名已结束。",
+    "entryNotFound": "没有找到报名记录。"
   },
   "country": {
     "KR": "韩国",
@@ -308,5 +351,13 @@
     "ES": "西班牙",
     "CN": "中国",
     "RU": "俄罗斯"
+  },
+  "gatheringChat": {
+    "aiBadge": "MBN AI 助手 比妮",
+    "me": "我",
+    "placeholder": "{{nickname}}，有什么想问的吗",
+    "sampleNotice": "参与者的对话为示例展示，实际回复的是 MBN AI 助手比妮。",
+    "notApplied": "这是仅限已报名参加者进入的聊天室。",
+    "goApply": "查看招募详情"
   }
 }

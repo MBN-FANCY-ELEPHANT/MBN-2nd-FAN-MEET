@@ -199,29 +199,29 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '대전역 동광장', 30000, '모임 확정 후 운영자 개별 안내', '출발 3일 전까지 전액 환불',
     '환불은 불가하며, 지정 시간 14시까지 늦지 않게 모여주세요.', TRUE),
 
- (2, 1, 7, '생일 기념 기부금 모집', 'DONATION',
+ (2, 1, 7, '아동복지시설 기부금 모금', 'DONATION',
     '/example_thumb.png',
-    '생일을 맞아 아동복지시설에 기부합니다. 1인 1만원부터 참여 가능합니다.',
+    '팬덤 이름으로 아동복지시설에 기부합니다. 1인 1만원부터 참여 가능합니다.',
     '팬덤 이름으로 아동복지시설에 기부합니다. 모금 내역과 기부 영수증은 모임 종료 후 전체 공개됩니다.',
     'RECRUITING', 128, 200, DATE '2026-08-31', TIMESTAMP WITH TIME ZONE '2026-09-01 00:00:00+00',
     '온라인', 10000, '모금 계좌는 공지사항 참조', '기부 특성상 환불 불가',
     '기부금 사용 내역은 종료 후 공개됩니다.', TRUE),
 
- (3, 1, 7, '지하철 응원 광고 공동 구매', 'AD',
+ (3, 1, 7, '0905 광주 출발 버스 대절 모집', 'BUS',
     '/example_thumb.png',
-    '2호선 홍대입구역 스크린도어 광고를 함께 진행합니다.',
-    '데뷔 10주년 기념 지하철 응원 광고입니다. 2주간 게재되며 참여자 닉네임이 함께 표기됩니다.',
-    'RECRUITING', 45, 60, DATE '2026-08-24', TIMESTAMP WITH TIME ZONE '2026-09-01 00:00:00+00',
-    '온라인', 20000, '모임 확정 후 운영자 개별 안내', '광고 발주 전까지 전액 환불',
-    '광고 시안은 참여자 투표로 결정합니다.', FALSE),
+    '광주에서 서울 블루스퀘어까지 가는 버스입니다. 07:30까지 도착하시면 됩니다.',
+    '서울 블루스퀘어 쇼케이스 관람을 위한 광주 출발 왕복 전세버스입니다. 행사 종료 후 광주로 복귀합니다.',
+    'RECRUITING', 12, 40, DATE '2026-09-01', TIMESTAMP WITH TIME ZONE '2026-09-05 08:00:00+00',
+    '광주송정역 광장', 35000, '모임 확정 후 운영자 개별 안내', '출발 3일 전까지 전액 환불',
+    '지정 시간까지 늦지 않게 모여주세요.', TRUE),
 
- (4, 1, 4, '서울 콘서트 단체 관람', 'GROUP_VIEWING',
+ (4, 1, 7, '수술비 지원 기부금 모금', 'DONATION',
     '/example_thumb.png',
-    'Group seating for the Seoul concert. English-speaking fans welcome.',
-    '해외 팬을 포함한 단체 관람 모임입니다. 공연 전 사전 모임과 통역 지원이 있습니다.',
-    'RECRUITING', 18, 30, DATE '2026-08-26', TIMESTAMP WITH TIME ZONE '2026-08-29 09:00:00+00',
-    'KSPO DOME 1번 게이트', 0, NULL, NULL,
-    '티켓은 각자 예매하셔야 합니다.', FALSE),
+    '유기동물 보호소 수술비를 함께 모읍니다. 1인 5천원부터 참여 가능합니다.',
+    '팬덤 이름으로 유기동물 보호소에 수술비를 지원합니다. 모금 내역은 종료 후 전체 공개됩니다.',
+    'RECRUITING', 64, 150, DATE '2026-09-10', TIMESTAMP WITH TIME ZONE '2026-09-12 00:00:00+00',
+    '온라인', 5000, '모금 계좌는 공지사항 참조', '기부 특성상 환불 불가',
+    '모금 내역은 종료 후 공개됩니다.', FALSE),
 
  (5, 1, 7, '0810 부산 버스 대절', 'BUS',
     '/example_thumb.png',
@@ -229,16 +229,9 @@ INSERT INTO gathering (id, star_id, host_id, title, type, cover_image_url, summa
     '부산 출발 왕복 전세버스. 정원이 모두 찼습니다.',
     'FULL', 45, 45, DATE '2026-08-08', TIMESTAMP WITH TIME ZONE '2026-08-10 22:00:00+00',
     '부산역 광장', 45000, '모임 확정 후 운영자 개별 안내', '출발 3일 전까지 전액 환불',
-    NULL, TRUE),
+    NULL, TRUE);
 
- (6, 1, 7, '7월 팬클럽 정기 모임', 'ETC',
-    '/example_thumb.png',
-    '7월 정기 모임입니다. 종료되었습니다.',
-    '월례 정기 모임. 다음 모임은 8월 말 공지 예정입니다.',
-    'CLOSED', 22, 25, DATE '2026-07-30', TIMESTAMP WITH TIME ZONE '2026-07-31 09:00:00+00',
-    '강남역 인근', 0, NULL, NULL, NULL, FALSE);
-
-ALTER TABLE gathering ALTER COLUMN id RESTART WITH 7;
+ALTER TABLE gathering ALTER COLUMN id RESTART WITH 6;
 
 -- ────────────────────────────── Comment ─────────────────────────────
 -- ⚠️ 작성자 국가를 섞어둡니다. 댓글 화면에서 국기가 섞여 보이는 것이 데모의 핵심 장면입니다.
@@ -267,3 +260,32 @@ INSERT INTO comment_translation (id, comment_id, locale, translated_body, create
  (8, 6, 'EN', 'A fandom that publishes its donation records — I am so proud.', TIMESTAMP WITH TIME ZONE '2026-08-04 10:16:00+00');
 
 ALTER TABLE comment_translation ALTER COLUMN id RESTART WITH 9;
+
+-- ────────────────────────── ArtistStage ─────────────────────────────
+-- "이찬원 무대 보여줘" 의 답. 랜딩에서 고를 수 있는 13명과 1:1 입니다
+-- (FE/src/data/programs.ts 의 ARTISTS — 이름이 한 글자라도 다르면 매칭이 안 됩니다).
+--
+-- ⚠️ **주소를 LLM 에게 만들게 하지 않는 이유**가 이 표의 존재 이유입니다.
+--    모델이 지어낸 YouTube ID 는 없는 영상이거나 임베드가 차단된 영상이고,
+--    임베드 차단 영상은 오류 없이 **검은 화면 + 스피너**만 남기고 조용히 실패합니다.
+--
+-- ⚠️ **embed_url 은 전부 임베드 검증이 끝난 MBN MUSIC 업로드(d4pWjMsd0go) 한 개입니다.**
+--    아티스트별 실제 무대 영상으로 교체하세요. 교체할 때는 반드시 **iframe 안에서**
+--    재생을 확인해야 합니다 — 주소창에 embed URL 을 직접 여는 검증은 무의미합니다
+--    (최상위 탐색이면 정상 영상도 오류 153 이 납니다).
+INSERT INTO artist_stage (id, artist_name, title, embed_url, thumbnail_url) VALUES
+ (1,  '임영웅', '임영웅 무대 - MBN 트롯 스페셜', 'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (2,  '이찬원', '이찬원 무대 - MBN 트롯 스페셜', 'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (3,  '박군',   '박군 무대 - MBN 트롯 스페셜',   'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (4,  '영탁',   '영탁 무대 - MBN 트롯 스페셜',   'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (5,  '송가인', '송가인 무대 - MBN 트롯 스페셜', 'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (6,  '박서진', '박서진 무대 - 한일톱텐쇼',      'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (7,  '김용빈', '김용빈 무대 - MBN 트롯 스페셜', 'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (8,  '린',     '린 무대 - 한일톱텐쇼',          'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (9,  '장민호', '장민호 무대 - 우리들의 트로트', 'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (10, '김다현', '김다현 무대 - 한일가왕전',      'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (11, '김태연', '김태연 무대 - 보이스트롯',      'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (12, '홍진영', '홍진영 무대 - 불타는 트롯맨',   'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png'),
+ (13, '허찬미', '허찬미 무대 - 우리들의 트로트', 'https://www.youtube.com/embed/d4pWjMsd0go', '/example_thumb.png');
+
+ALTER TABLE artist_stage ALTER COLUMN id RESTART WITH 14;

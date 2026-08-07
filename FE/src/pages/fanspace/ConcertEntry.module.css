@@ -81,40 +81,8 @@
   color: var(--color-text-primary);
 }
 
-.seatPicker {
-  display: flex;
-  flex-direction: column;
-}
-
-.seatLabel {
-  margin-bottom: var(--space-2);
-  font-size: var(--text-meta-size);
-  font-weight: 700;
-  color: var(--color-text-secondary);
-}
-
-.seatOptions {
-  display: flex;
-  gap: var(--space-2);
-}
-
-/* 매수 선택은 손가락으로 눌러야 하므로 44px 이상으로 잡습니다 */
-.seatOption {
-  flex: 1;
-  height: 48px;
-  border: 1px solid var(--color-divider);
-  border-radius: var(--radius-md);
-  background: var(--color-white);
-  font-size: var(--text-card-title-size);
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.seatOptionOn {
-  border-color: var(--color-primary);
-  background: var(--color-notice-surface);
-  color: var(--color-primary);
-}
+/* ⚠️ 매수 선택기(.seatPicker/.seatOption…)를 걷어냈습니다 — 응모는 1인 1매 고정이라
+   고를 것이 없습니다. 되살리려면 API 계약(POST /schedules/{id}/entry)부터 고치세요. */
 
 .doneCard {
   padding: var(--space-4);

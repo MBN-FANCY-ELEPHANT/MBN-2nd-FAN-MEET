@@ -49,6 +49,21 @@ public class GatheringController {
     }
 
     /**
+     * 내가 <b>지금 신청 중인</b> 모집.
+     *
+     * <p>⚠️ {@code /{id}} 보다 <b>위에</b> 선언해야 합니다. 아래에 두면 {@code "mine"} 이
+     * {@code id} 로 해석돼 400 이 납니다.
+     *
+     * <p>비로그인이면 빈 배열입니다 — 401 이 아닙니다. 팬공간 「신청한 모집」 섹션이
+     * 그냥 접히면 되고, 로그인 여부로 화면이 깨지면 안 됩니다.
+     */
+    @GetMapping("/mine")
+    public java.util.List<GatheringSummaryResponse> getMyGatherings(@RequestParam Long starId) {
+        return gatheringService.findMyApplied(
+                starId, currentUserProvider.findUserId().orElse(null));
+    }
+
+    /**
      * 모임 상세.
      *
      * <p>조회는 비로그인도 허용합니다. 로그인 상태에서만 {@code myApplication} 이 채워집니다

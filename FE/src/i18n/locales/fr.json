@@ -47,7 +47,7 @@
     "entryWon": "Gagné",
     "goodsTop4": "Top 4",
     "goodsLightstick": "Lightsticks",
-    "appliedGatherings": "Mes inscriptions",
+    "appliedGatherings": "Salons des rassemblements rejoints",
     "empty": {
       "concert": "Aucun concert à venir",
       "vote": "Aucun vote en cours",
@@ -62,7 +62,8 @@
       "apparel": "Vêtements",
       "photo": "Photos & slogans",
       "living": "Maison"
-    }
+    },
+    "openChatRoom": "Ouvrir le salon"
   },
   "broadcast": {
     "articlesAndLongform": "Articles & vidéos",
@@ -114,7 +115,7 @@
     "noSchedule": "Aucun événement prévu."
   },
   "community": {
-    "offlineGatherings": "Rencontres en personne"
+    "offlineGatherings": "Inscriptions ouvertes"
   },
   "play": {
     "pilgrimage": "Pèlerinage des fans",
@@ -261,7 +262,47 @@
       "next": "Suite"
     },
     "stepStatus": "Étape {{step}} · {{label}}",
-    "followUpReady": "Parlez maintenant — dites où aller et je vous y emmène."
+    "followUpReady": "Parlez maintenant. Je m'occupe de ce que vous demandez.",
+    "action": {
+      "concertEntry": {
+        "done": "Votre inscription à « {{title}} » est terminée.",
+        "already": "Vous avez déjà participé à ce concert. ({{title}})",
+        "closed": "Les inscriptions sont closes pour ce concert. ({{title}})",
+        "notFound": "Je n'ai trouvé aucun concert auquel vous inscrire.",
+        "loginRequired": "Vous devez vous connecter pour participer."
+      },
+      "gatheringJoin": {
+        "done": "Votre inscription à « {{title}} » est confirmée.",
+        "already": "Vous avez déjà postulé à ce rassemblement. ({{title}})",
+        "full": "Ce rassemblement est complet. ({{title}})",
+        "closed": "Ce rassemblement est clôturé. ({{title}})",
+        "notFound": "Je n'ai trouvé aucun rassemblement correspondant.",
+        "loginRequired": "Vous devez vous connecter pour postuler."
+      },
+      "stageVideo": {
+        "found": "Voici une performance de {{title}}. Vous pouvez la regarder ci-dessous.",
+        "notFound": "Je n'ai trouvé aucune vidéo de scène enregistrée."
+      },
+      "goto": {
+        "concertEntry": "Aller à la page du concert",
+        "gatheringJoin": "Aller à la page du rassemblement",
+        "stageVideo": "Aller à l'écran vidéo",
+        "concertEntryCancel": "Aller à la page du concert",
+        "gatheringCancel": "Aller à la page du rassemblement"
+      },
+      "goHome": "Aller à la page principale",
+      "videoLabel": "Vidéo de scène",
+      "concertEntryCancel": {
+        "done": "Votre inscription à « {{title}} » a été annulée.",
+        "notFound": "Vous n'avez aucune inscription à annuler.",
+        "loginRequired": "Vous devez vous connecter pour annuler une inscription."
+      },
+      "gatheringCancel": {
+        "done": "Votre inscription à « {{title}} » a été annulée.",
+        "notFound": "Vous n'avez aucune inscription à un rassemblement à annuler.",
+        "loginRequired": "Vous devez vous connecter pour annuler une inscription."
+      }
+    }
   },
   "live": {
     "badge": "LIVE",
@@ -288,9 +329,6 @@
     "when": "Date et heure",
     "where": "Lieu",
     "seats": "Billets",
-    "seatsLimit": "{{max}} maximum par personne",
-    "seatPick": "Combien de billets ?",
-    "seatCount": "{{count}} billet(s)",
     "apply": "Participer au tirage",
     "cancel": "Retirer ma participation",
     "backToList": "Retour aux concerts",
@@ -298,7 +336,12 @@
     "entryDoneTitle": "Participation enregistrée",
     "entryDone": "Votre participation a été enregistrée.",
     "entryCanceled": "Votre participation a été retirée.",
-    "paymentNotice": "Participer au tirage n'est pas un achat. En cas de gain, la réservation se fait sur la billetterie officielle — cette plateforme ne gère aucun paiement."
+    "paymentNotice": "Participer au tirage n'est pas un achat. En cas de gain, la réservation se fait sur la billetterie officielle — cette plateforme ne gère aucun paiement.",
+    "oneSeatOnly": "1 billet par personne",
+    "loginRequired": "Connectez-vous pour participer au tirage.",
+    "alreadyEntered": "Vous avez déjà participé à ce concert.",
+    "entryClosedError": "Les inscriptions pour ce concert sont closes.",
+    "entryNotFound": "Aucune inscription trouvée."
   },
   "country": {
     "KR": "Corée",
@@ -308,5 +351,13 @@
     "ES": "Espagne",
     "CN": "Chine",
     "RU": "Russie"
+  },
+  "gatheringChat": {
+    "aiBadge": "Bienie, l'assistant IA de MBN",
+    "me": "Moi",
+    "placeholder": "{{nickname}}, posez votre question",
+    "sampleNotice": "Les messages des participants sont des exemples. Les réponses viennent de Bienie, l'assistant IA de MBN.",
+    "notApplied": "Ce salon est réservé aux personnes inscrites.",
+    "goApply": "Voir le rassemblement"
   }
 }

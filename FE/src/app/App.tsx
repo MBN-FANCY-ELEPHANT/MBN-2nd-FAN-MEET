@@ -8,6 +8,7 @@ import BroadcastPage from "../pages/BroadcastPage";
 import CommentPage from "../pages/CommentPage";
 import ContentListPage from "../pages/ContentListPage";
 import FeedPage from "../pages/FeedPage";
+import GatheringChatPage from "../pages/GatheringChatPage";
 import GatheringDetailPage from "../pages/GatheringDetailPage";
 import LandingPage from "../pages/LandingPage";
 import FanSpacePage from "../pages/FanSpacePage";
@@ -70,6 +71,13 @@ export default function App() {
         <Route path="/shorts/:id" element={<ShortformPage />} />
 
         {/* 상세 화면들은 셸 밖에 둡니다 — 탭바·검색바 없이 Header(Back) 만 씁니다 */}
+        {/* 참여 중인 모집의 단체 대화방. ⚠️ 실시간 채팅이 아닙니다 —
+            참여자 말풍선은 정적 예시이고 답하는 것은 AI 도우미입니다
+            (`GatheringChatPage` 주석). `:id` 보다 먼저 선언합니다. */}
+        <Route
+          path="/community/gatherings/:id/chat"
+          element={<GatheringChatPage />}
+        />
         <Route
           path="/community/gatherings/:id"
           element={<GatheringDetailPage />}

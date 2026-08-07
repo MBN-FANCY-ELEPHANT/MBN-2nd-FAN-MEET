@@ -113,6 +113,20 @@ cd FE && python scripts/check-i18n.py   # 7개 로케일 키 정합성 (PARITY O
 - **Vite가 낡은 모듈을 계속 서빙합니다.** `does not provide an export named 'default'`인데
   `npm run build`는 EXIT=0이면 HMR 캐시입니다. 새로고침이 아니라
   **`rm -rf node_modules/.vite` + dev 서버 재시작**.
+- **음성 액션이 엉뚱한 대상을 잡으면 프롬프트가 아니라 코드를 보세요.**
+  `VoiceActionResolver` 의 액션 경로는 **LLM 을 호출하지 않습니다** — 대상 선택은 결정적
+  키워드 매칭입니다. 응모·취소·신청·신청취소 **네 경로가 같은 규칙을 쓰는지** 확인하세요.
+  한쪽만 고치면 다른 쪽에서 같은 사고가 되살아납니다.
+- **한국어 불용어는 어간으로 걸러야 합니다.** `"응모"` 만 목록에 넣으면 `"응모해"`·`"응모하고"`
+  가 그대로 남아 어느 대상과도 안 맞습니다. 활용형 나열은 끝이 없으니 `startsWith` 로 거르세요.
+- **SSE 스트리밍 스레드에는 로그인 정보가 없습니다.** `SecurityContextHolder` 는 ThreadLocal 이라
+  `streamExecutor.execute { ... }` 안에서 읽으면 항상 비어 있습니다. 요청 스레드(컨트롤러)에서
+  `userId` 를 읽어 파라미터로 넘기세요.
+- **트랜잭션 안에서 다른 서비스의 예외를 잡아도 전체가 롤백됩니다.** 참여 서비스가 던진
+  `ApiException` 을 상위에서 catch 해도 공용 트랜잭션은 rollback-only 로 마킹됩니다.
+  `ChatService.ask` 가 `Propagation.NOT_SUPPORTED` 인 이유입니다.
+- **YAML `description` 에 `키: 값` 형태를 그냥 쓰면 파싱이 깨집니다.**
+  `description: 비로그인이면 \`entered: false\` 입니다` → `npm run api:types` 실패. 따옴표로 감싸세요.
 - **YouTube 임베드 차단 영상은 조용히 실패합니다** (검은 화면 + 스피너).
   ⚠️ `youtube.com/embed/...`를 **주소창에 직접 여는 검증은 무의미합니다** — 최상위 탐색이면
   정상 영상도 `오류 153`이 납니다. 반드시 iframe 안에서 확인하세요.

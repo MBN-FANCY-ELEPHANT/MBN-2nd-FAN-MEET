@@ -7,14 +7,24 @@
   z-index: 40;
 }
 
-/* Figma 2:960 실측 — radius-top 20 (본문 시트의 24 와 다릅니다) */
+/* Figma 2:960 실측 — radius-top 20 (본문 시트의 24 와 다릅니다)
+ *
+ * ⚠️ `max-height` 를 70vh 로 두면 **음성 답변이 길어질 때 아래가 잘려 못 봅니다.**
+ *    AI 답변 + 무대 영상 + 후속 버튼이 한꺼번에 들어가면 70vh 를 쉽게 넘깁니다.
+ *
+ * ⚠️ `display: flex` 는 장식이 아닙니다. 안쪽 답변 영역이 남는 높이만큼만 차지하고
+ *    **자기 안에서 스크롤**하게 만드는 장치입니다 (`VoiceAssistant.module.css` 의
+ *    `.body` / `.stage`). 이걸 빼면 내용이 시트 밖으로 다시 흘러넘칩니다.
+ */
 .sheet {
   position: fixed;
   left: 50%;
   bottom: 0;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
   width: min(100vw, var(--app-width));
-  max-height: 70vh;
+  max-height: 88vh;
   padding: var(--space-3) var(--space-5) var(--space-8);
   background: var(--color-white);
   border-radius: 20px 20px 0 0;
@@ -22,7 +32,8 @@
   z-index: 41;
 }
 
-/* 마스코트가 시트 위로 튀어나와야 해서 overflow 를 자릅니다 (음성 오버레이 전용) */
+/* 음성 오버레이는 마스코트가 시트 위로 튀어나와야 해서 overflow 를 자를 수 없습니다.
+   그쪽은 이 클래스를 안 받고, 대신 안쪽 답변 영역이 스크롤합니다. */
 .scrollable {
   overflow-y: auto;
 }

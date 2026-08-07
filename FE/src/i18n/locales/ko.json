@@ -47,7 +47,7 @@
     "entryWon": "당첨",
     "goodsTop4": "인기 TOP 4",
     "goodsLightstick": "응원봉",
-    "appliedGatherings": "신청한 모집",
+    "appliedGatherings": "참여 중인 모집 채팅방",
     "empty": {
       "concert": "예정된 공연이 없어요",
       "vote": "진행중인 투표가 없어요",
@@ -62,7 +62,8 @@
       "apparel": "의류",
       "photo": "포토·슬로건",
       "living": "리빙"
-    }
+    },
+    "openChatRoom": "대화방 열기"
   },
   "broadcast": {
     "articlesAndLongform": "기사&롱폼",
@@ -114,7 +115,7 @@
     "noSchedule": "예정된 일정이 없습니다."
   },
   "community": {
-    "offlineGatherings": "오프라인 모임"
+    "offlineGatherings": "모집 중인 모임"
   },
   "play": {
     "pilgrimage": "성지순례",
@@ -261,7 +262,47 @@
       "next": "다음 지시"
     },
     "stepStatus": "{{step}}단계 · {{label}}",
-    "followUpReady": "이제 말씀하세요. 원하는 화면으로 옮겨드려요."
+    "followUpReady": "이제 말씀하세요. 원하는 기능을 수행해 드립니다.",
+    "action": {
+      "concertEntry": {
+        "done": "'{{title}}' 응모가 완료되었습니다.",
+        "already": "이미 응모하신 공연이에요. ({{title}})",
+        "closed": "응모 기간이 끝난 공연이에요. ({{title}})",
+        "notFound": "응모할 수 있는 공연을 찾지 못했어요.",
+        "loginRequired": "응모하려면 로그인이 필요해요."
+      },
+      "gatheringJoin": {
+        "done": "'{{title}}' 참여 신청이 완료되었습니다.",
+        "already": "이미 신청하신 모집이에요. ({{title}})",
+        "full": "모집 인원이 마감되었어요. ({{title}})",
+        "closed": "모집이 종료되었어요. ({{title}})",
+        "notFound": "말씀하신 조건에 맞는 모집을 찾지 못했어요.",
+        "loginRequired": "신청하려면 로그인이 필요해요."
+      },
+      "stageVideo": {
+        "found": "{{title}} 무대 영상을 찾았어요. 아래에서 바로 보실 수 있어요.",
+        "notFound": "저장된 무대 영상을 찾지 못했어요."
+      },
+      "goto": {
+        "concertEntry": "응모한 공연 페이지로 이동",
+        "gatheringJoin": "신청한 모집 페이지로 이동",
+        "stageVideo": "영상 화면으로 이동",
+        "concertEntryCancel": "공연 페이지로 이동",
+        "gatheringCancel": "모집 페이지로 이동"
+      },
+      "goHome": "메인 페이지로 이동",
+      "videoLabel": "무대 영상",
+      "concertEntryCancel": {
+        "done": "'{{title}}' 응모를 취소했습니다.",
+        "notFound": "취소할 응모 내역이 없어요.",
+        "loginRequired": "응모를 취소하려면 로그인이 필요해요."
+      },
+      "gatheringCancel": {
+        "done": "'{{title}}' 참여 신청을 취소했습니다.",
+        "notFound": "취소할 모집 신청 내역이 없어요.",
+        "loginRequired": "신청을 취소하려면 로그인이 필요해요."
+      }
+    }
   },
   "live": {
     "badge": "LIVE",
@@ -288,9 +329,6 @@
     "when": "공연 일시",
     "where": "장소",
     "seats": "응모 매수",
-    "seatsLimit": "1인 최대 {{max}}매",
-    "seatPick": "몇 매를 응모하시겠어요?",
-    "seatCount": "{{count}}매",
     "apply": "응모하기",
     "cancel": "응모 취소하기",
     "backToList": "공연 목록으로",
@@ -298,7 +336,12 @@
     "entryDoneTitle": "응모 완료",
     "entryDone": "응모가 접수되었습니다.",
     "entryCanceled": "응모를 취소했습니다.",
-    "paymentNotice": "응모는 추첨 신청이며 결제가 아닙니다. 당첨 안내 후 실제 예매는 공식 예매처에서 진행되며, 이 플랫폼은 금전 거래를 중개하지 않습니다."
+    "paymentNotice": "응모는 추첨 신청이며 결제가 아닙니다. 당첨 안내 후 실제 예매는 공식 예매처에서 진행되며, 이 플랫폼은 금전 거래를 중개하지 않습니다.",
+    "oneSeatOnly": "1인 1매",
+    "loginRequired": "응모하려면 로그인이 필요합니다.",
+    "alreadyEntered": "이미 응모한 공연입니다.",
+    "entryClosedError": "응모 기간이 종료된 공연입니다.",
+    "entryNotFound": "응모 내역이 없습니다."
   },
   "country": {
     "KR": "한국",
@@ -308,5 +351,13 @@
     "ES": "스페인",
     "CN": "중국",
     "RU": "러시아"
+  },
+  "gatheringChat": {
+    "aiBadge": "AI 도우미 비엔이",
+    "me": "나",
+    "placeholder": "{{nickname}}님, 궁금한 점을 물어보세요",
+    "sampleNotice": "참여자 대화는 예시로 보여 드리는 것이며, 실제로 답변하는 것은 MBN AI 도우미 비엔이입니다.",
+    "notApplied": "참여 신청을 한 분만 들어올 수 있는 대화방이에요.",
+    "goApply": "모집 상세 보기"
   }
 }

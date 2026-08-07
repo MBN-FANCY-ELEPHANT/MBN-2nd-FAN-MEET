@@ -24,6 +24,7 @@ import kr.co.mbn.trot.chat.dto.ChatSessionCreateRequest;
 import kr.co.mbn.trot.chat.dto.ChatSessionResponse;
 import kr.co.mbn.trot.chat.service.ChatService;
 import kr.co.mbn.trot.common.error.ApiException;
+import kr.co.mbn.trot.common.security.CurrentUserProvider;
 
 @RestController
 @RequestMapping("/api/v1/chat")
@@ -37,10 +38,12 @@ public class ChatController {
     private static final long SSE_TIMEOUT_MS = 30_000;
 
     private final ChatService chatService;
+    private final CurrentUserProvider currentUser;
     private final ExecutorService streamExecutor = Executors.newCachedThreadPool();
 
-    public ChatController(ChatService chatService) {
+    public ChatController(ChatService chatService, CurrentUserProvider currentUser) {
         this.chatService = chatService;
+        this.currentUser = currentUser;
     }
 
     @PreDestroy
@@ -52,7 +55,8 @@ public class ChatController {
     @ResponseStatus(HttpStatus.CREATED)
     public ChatSessionResponse createSession(@Valid @RequestBody ChatSessionCreateRequest request) {
         return chatService.createSession(
-                request.starId(), request.locale(), request.artistName());
+                request.starId(), request.locale(), request.artistName(),
+                request.gatheringId());
     }
 
     /** 한 번에 완성된 답변을 받습니다. 테스트와 폴백 경로용. */
@@ -62,7 +66,8 @@ public class ChatController {
     public ChatMessageResponse ask(
             @PathVariable String sessionId, @Valid @RequestBody ChatMessageRequest request) {
 
-        return chatService.ask(sessionId, request.content());
+        return chatService.ask(
+                sessionId, request.content(), currentUser.findUserId().orElse(null));
     }
 
     /**
@@ -70,9 +75,14 @@ public class ChatController {
      *
      * <p>이벤트 형식은 docs/api-spec.yaml 과 일치시켜야 합니다:
      * {@code delta} → {@code citations} → {@code done}, 실패 시 {@code error}.
+     * 행동 요청이면 {@code delta} 대신 {@code action} 하나가 나갑니다.
      *
      * <p>답변 생성 자체는 동기이고 <b>전송만 청크로 쪼갭니다.</b> 실제 LLM 스트리밍으로
      * 교체해도 이벤트 형식은 그대로라 FE 는 수정할 필요가 없습니다.
+     *
+     * <p>⚠️ <b>스트리밍 본체는 다른 스레드에서 돕니다.</b> {@code SecurityContextHolder} 는
+     * ThreadLocal 이라 그 안에서 로그인 사용자를 읽으면 항상 비어 있습니다. 요청 스레드인
+     * 여기서 미리 읽어 넘겨야 음성 응모·신청이 401 로 떨어지지 않습니다.
      */
     @PostMapping(
             value = "/sessions/{sessionId}/messages",
@@ -81,16 +91,25 @@ public class ChatController {
             @PathVariable String sessionId, @Valid @RequestBody ChatMessageRequest request) {
 
         SseEmitter emitter = new SseEmitter(SSE_TIMEOUT_MS);
+        Long userId = currentUser.findUserId().orElse(null);
 
         streamExecutor.execute(() -> {
             try {
-                ChatMessageResponse answer = chatService.ask(sessionId, request.content());
+                ChatMessageResponse answer =
+                        chatService.ask(sessionId, request.content(), userId);
 
-                String text = answer.content();
-                for (int i = 0; i < text.length(); i += CHUNK_CHARS) {
-                    String chunk = text.substring(i, Math.min(i + CHUNK_CHARS, text.length()));
-                    emitter.send(SseEmitter.event().name("delta").data(Map.of("text", chunk)));
-                    Thread.sleep(CHUNK_DELAY_MS);
+                // 행동 요청이면 답변 본문이 없습니다 — 확인 문구는 FE 가 7개 언어로 만듭니다.
+                if (answer.action() == null) {
+                    String text = answer.content();
+                    for (int i = 0; i < text.length(); i += CHUNK_CHARS) {
+                        String chunk = text.substring(i, Math.min(i + CHUNK_CHARS, text.length()));
+                        emitter.send(SseEmitter.event().name("delta").data(Map.of("text", chunk)));
+                        Thread.sleep(CHUNK_DELAY_MS);
+                    }
+                } else {
+                    emitter.send(SseEmitter.event()
+                            .name("action")
+                            .data(Map.of("action", answer.action())));
                 }
 
                 if (!answer.citations().isEmpty()) {

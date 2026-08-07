@@ -34,6 +34,11 @@ public enum ErrorCode {
     GATHERING_FULL(HttpStatus.UNPROCESSABLE_ENTITY, "모집 인원이 마감되었습니다."),
     GATHERING_CLOSED(HttpStatus.UNPROCESSABLE_ENTITY, "모집이 종료된 모임입니다."),
 
+    // 공연 응모 — 1인 1공연 1매. 매수 개념이 없어 "정원 초과" 같은 코드가 없습니다.
+    ENTRY_ALREADY_EXISTS(HttpStatus.CONFLICT, "이미 응모한 공연입니다."),
+    ENTRY_NOT_FOUND(HttpStatus.NOT_FOUND, "응모 내역이 없습니다."),
+    ENTRY_CLOSED(HttpStatus.UNPROCESSABLE_ENTITY, "응모 기간이 종료된 공연입니다."),
+
     // AI
     AI_ANALYSIS_NOT_FOUND(HttpStatus.NOT_FOUND, "AI 분석 결과가 아직 없습니다."),
     AI_PROVIDER_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE, "AI 서비스를 일시적으로 사용할 수 없습니다."),

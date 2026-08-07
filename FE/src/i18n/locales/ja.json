@@ -47,7 +47,7 @@
     "entryWon": "当選",
     "goodsTop4": "人気 TOP 4",
     "goodsLightstick": "ペンライト",
-    "appliedGatherings": "申し込んだ募集",
+    "appliedGatherings": "参加中の募集チャットルーム",
     "empty": {
       "concert": "予定された公演がありません",
       "vote": "進行中の投票がありません",
@@ -62,7 +62,8 @@
       "apparel": "アパレル",
       "photo": "フォト・スローガン",
       "living": "リビング"
-    }
+    },
+    "openChatRoom": "チャットを開く"
   },
   "broadcast": {
     "articlesAndLongform": "記事＆ロングフォーム",
@@ -114,7 +115,7 @@
     "noSchedule": "予定はありません。"
   },
   "community": {
-    "offlineGatherings": "オフラインの集まり"
+    "offlineGatherings": "募集中の集まり"
   },
   "play": {
     "pilgrimage": "聖地巡礼",
@@ -261,7 +262,47 @@
       "next": "次の指示"
     },
     "stepStatus": "ステップ{{step}} · {{label}}",
-    "followUpReady": "どうぞお話しください。ご希望の画面へご案内します。"
+    "followUpReady": "どうぞお話しください。ご希望の操作を実行します。",
+    "action": {
+      "concertEntry": {
+        "done": "「{{title}}」の応募が完了しました。",
+        "already": "すでに応募済みの公演です。({{title}})",
+        "closed": "応募期間が終了した公演です。({{title}})",
+        "notFound": "応募できる公演が見つかりませんでした。",
+        "loginRequired": "応募するにはログインが必要です。"
+      },
+      "gatheringJoin": {
+        "done": "「{{title}}」への参加申し込みが完了しました。",
+        "already": "すでに申し込み済みの募集です。({{title}})",
+        "full": "募集人数に達しました。({{title}})",
+        "closed": "募集が終了しました。({{title}})",
+        "notFound": "ご希望に合う募集が見つかりませんでした。",
+        "loginRequired": "申し込むにはログインが必要です。"
+      },
+      "stageVideo": {
+        "found": "{{title}}のステージ映像が見つかりました。下でご覧いただけます。",
+        "notFound": "保存されたステージ映像が見つかりませんでした。"
+      },
+      "goto": {
+        "concertEntry": "応募した公演ページへ",
+        "gatheringJoin": "申し込んだ募集ページへ",
+        "stageVideo": "動画画面へ",
+        "concertEntryCancel": "公演ページへ",
+        "gatheringCancel": "募集ページへ"
+      },
+      "goHome": "メインページへ",
+      "videoLabel": "ステージ映像",
+      "concertEntryCancel": {
+        "done": "「{{title}}」の応募をキャンセルしました。",
+        "notFound": "キャンセルできる応募履歴がありません。",
+        "loginRequired": "応募をキャンセルするにはログインが必要です。"
+      },
+      "gatheringCancel": {
+        "done": "「{{title}}」の参加申し込みをキャンセルしました。",
+        "notFound": "キャンセルできる申し込み履歴がありません。",
+        "loginRequired": "申し込みをキャンセルするにはログインが必要です。"
+      }
+    }
   },
   "live": {
     "badge": "LIVE",
@@ -288,9 +329,6 @@
     "when": "公演日時",
     "where": "会場",
     "seats": "応募枚数",
-    "seatsLimit": "1人あたり最大{{max}}枚",
-    "seatPick": "何枚応募しますか？",
-    "seatCount": "{{count}}枚",
     "apply": "応募する",
     "cancel": "応募を取り消す",
     "backToList": "公演一覧へ",
@@ -298,7 +336,12 @@
     "entryDoneTitle": "応募完了",
     "entryDone": "応募を受け付けました。",
     "entryCanceled": "応募を取り消しました。",
-    "paymentNotice": "応募は抽選の申し込みであり決済ではありません。当選後の購入は公式チケットサイトで行われ、本プラットフォームは金銭取引を仲介しません。"
+    "paymentNotice": "応募は抽選の申し込みであり決済ではありません。当選後の購入は公式チケットサイトで行われ、本プラットフォームは金銭取引を仲介しません。",
+    "oneSeatOnly": "1人1枚",
+    "loginRequired": "応募するにはログインが必要です。",
+    "alreadyEntered": "すでに応募済みの公演です。",
+    "entryClosedError": "応募期間が終了した公演です。",
+    "entryNotFound": "応募履歴がありません。"
   },
   "country": {
     "KR": "韓国",
@@ -308,5 +351,13 @@
     "ES": "スペイン",
     "CN": "中国",
     "RU": "ロシア"
+  },
+  "gatheringChat": {
+    "aiBadge": "MBN AIアシスタント ビエニー",
+    "me": "自分",
+    "placeholder": "{{nickname}}さん、気になることをどうぞ",
+    "sampleNotice": "参加者の会話は例として表示しています。実際に回答するのはMBN AIアシスタントのビエニーです。",
+    "notApplied": "参加申し込みをされた方だけが入れるチャットルームです。",
+    "goApply": "募集の詳細を見る"
   }
 }

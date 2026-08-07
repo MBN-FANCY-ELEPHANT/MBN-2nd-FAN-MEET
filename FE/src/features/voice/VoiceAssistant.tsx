@@ -1,19 +1,23 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-import { api, type ChatCitation } from "../../api/client";
+import { api, type ChatAction, type ChatCitation } from "../../api/client";
 import BottomSheet from "../../components/ui/BottomSheet";
 import Icon from "../../components/ui/Icon";
+import { useToast } from "../../components/ui/useToast";
 import { getSelectedArtist } from "../artist/selectedArtist";
 import { currentLocale } from "../../i18n";
-import { MASCOT } from "./mascot";
-import styles from "./VoiceAssistant.module.css";
 import {
-  VoiceBurst,
-  VoiceStageRail,
-  type VoicePhase,
-} from "./VoiceStages";
+  ACTION_KEY,
+  actionMessageKey,
+  actionToastKind,
+} from "./actionMessage";
+import { MASCOT } from "./mascot";
+import StageVideoCard from "./StageVideoCard";
+import styles from "./VoiceAssistant.module.css";
+import { VoiceBurst, type VoicePhase } from "./VoiceStages";
 import { useSpeech } from "./useSpeech";
 import { useSpeechRecognition } from "./useSpeechRecognition";
 import { matchVoiceCommand } from "./voiceCommands";
@@ -70,6 +74,7 @@ function citationRoute(citation: ChatCitation): string {
     : "/home";
 }
 
+
 export default function VoiceAssistant({
   starId,
   onClose,
@@ -79,10 +84,14 @@ export default function VoiceAssistant({
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const toast = useToast();
+  const queryClient = useQueryClient();
 
   const [phase, setPhase] = useState<Phase>("LISTENING");
   const [answer, setAnswer] = useState("");
   const [citations, setCitations] = useState<ChatCitation[]>([]);
+  // 서버가 **이미 실행한** 기능의 결과. 있으면 화면 이동 대신 후속 버튼을 띄웁니다.
+  const [action, setAction] = useState<ChatAction | null>(null);
   const [typedQuestion, setTypedQuestion] = useState("");
   // 내가 말한 것. THINKING·ANSWERED 에서도 계속 보여줍니다 — 중장년 사용자가
   // "내 말이 제대로 들어갔나"를 확인할 수 있어야 다음 발화를 이어갑니다.
@@ -122,6 +131,7 @@ export default function VoiceAssistant({
       setAnswer("");
       setAnswerDone(false);
       setCitations([]);
+      setAction(null);
       answerBufferRef.current = "";
       afterFeatureAnswerRef.current = false;
       speech.stop();
@@ -156,6 +166,31 @@ export default function VoiceAssistant({
                 (c) => c.type === "FEATURE",
               );
             },
+            /**
+             * 기능이 **이미 실행된** 뒤에 옵니다.
+             *
+             * ⚠️ 여기서 화면을 이동시키지 마세요. 응모·신청이 끝났다는 사실을 사용자가
+             *    읽기도 전에 시트가 닫히면 무슨 일이 일어난 건지 알 수 없습니다.
+             *    이동은 아래 후속 버튼으로 **사용자가 선택**합니다.
+             */
+            onAction: (result) => {
+              const message = t(actionMessageKey(result), {
+                title: result.targetTitle ?? "",
+              });
+              setAction(result);
+              setPhase("ANSWERED");
+              setAnswerDone(true);
+              setAnswer(message);
+              answerBufferRef.current = message;
+              if (result.status !== "FOUND") {
+                toast(actionToastKind(result.status), message);
+              }
+              // 서버 상태가 바뀌었으므로 캐시를 버립니다 — 후속 버튼으로 이동한 화면이
+              // "응모 전" 으로 보이면 방금 한 일이 없던 일이 됩니다.
+              if (result.status === "DONE") {
+                void queryClient.invalidateQueries();
+              }
+            },
             onDone: () => {
               setPhase("ANSWERED");
               setAnswerDone(true);
@@ -176,7 +211,7 @@ export default function VoiceAssistant({
         setAnswer(t("toast.genericError"));
       }
     },
-    [starId, t, speech, navigate, onClose],
+    [starId, t, speech, navigate, onClose, toast, queryClient],
   );
 
   const recognition = useSpeechRecognition(ask);
@@ -216,16 +251,29 @@ export default function VoiceAssistant({
   const micDisabled = phase === "THINKING";
   const showsAnswer = phase === "ANSWERED" || phase === "FOLLOW_UP";
 
-  /** 재질문. 이전 답변 음성이 남아 있으면 끊고 다시 듣기 시작합니다. */
+  /**
+   * 재질문. 이전 답변 음성이 남아 있으면 끊고 다시 듣기 시작합니다.
+   *
+   * 응모·신청을 끝낸 뒤에도 마이크는 살아 있어야 합니다 — 사용자가 "그럼 굿즈 보여줘" 로
+   * 대화를 이어가는 것이 이 화면의 핵심 동선입니다.
+   */
   const onMicTap = () => {
     if (micDisabled) return;
     speech.stop();
     setAnswer("");
     setAnswerDone(false);
     setCitations([]);
+    setAction(null);
     setAsked("");
     setPhase("LISTENING");
     start();
+  };
+
+  /** 후속 버튼 — 이동은 사용자가 고릅니다 (자동 이동은 흐름을 끊습니다). */
+  const goTo = (route: string) => {
+    speech.stop();
+    navigate(route);
+    onClose();
   };
 
   // 디자인상 마스코트는 시트 위로 걸쳐 나옵니다. 이미지가 없으면 렌더하지 않습니다.
@@ -238,10 +286,15 @@ export default function VoiceAssistant({
         <img className={styles.mascot} src={mascot} alt="" aria-hidden />
       )}
       <div className={styles.body}>
-        {/* 5단계 진행 표시 — 지금 어디까지 왔는지 항상 보이게 합니다 */}
-        <VoiceStageRail phase={phase} />
+        {/* ⚠️ 상단 5단계 레일은 **의도적으로 걷어냈습니다** (사용자 요청).
+            단계 상태 자체는 남아 있고, 마이크 뒤 주황 이펙트(`VoiceBurst`)의 속도가
+            여전히 진행 상황을 알려줍니다. 레일을 되살리려면 `VoiceStages` 의
+            `VoiceStageRail` 과 `voice.step.*` 키를 함께 되돌려야 합니다. */}
 
+        {/* ⚠️ `.stage` 가 스크롤 컨테이너, `.stageInner` 가 그 안의 내용입니다.
+            답변이 길어져도 단계 레일과 마이크는 화면에 남습니다 (CSS 주석 참고). */}
         <div className={styles.stage}>
+         <div className={styles.stageInner}>
           {phase === "LISTENING" && (
             <p className={styles.hint}>{t("chat.listening")}</p>
           )}
@@ -264,6 +317,34 @@ export default function VoiceAssistant({
             <div className={styles.answer}>
               <p className={styles.answerText}>{answer}</p>
 
+              {/* 무대 영상은 이동 없이 이 자리에서 바로 재생합니다 */}
+              {action?.videoUrl && (
+                <StageVideoCard
+                  url={action.videoUrl}
+                  title={action.videoTitle ?? action.targetTitle ?? ""}
+                />
+              )}
+
+              {/* 실행이 끝난 뒤의 다음 행동. 자동 이동하지 않는 이유는 onAction 주석 참고 */}
+              {action && (
+                <div className={styles.actionButtons}>
+                  {action.route && (
+                    <button
+                      className={styles.actionPrimary}
+                      onClick={() => goTo(action.route as string)}
+                    >
+                      {t(`voice.action.goto.${ACTION_KEY[action.type]}`)}
+                    </button>
+                  )}
+                  <button
+                    className={styles.actionSecondary}
+                    onClick={() => goTo("/home")}
+                  >
+                    {t("voice.action.goHome")}
+                  </button>
+                </div>
+              )}
+
               {citations.length > 0 && (
                 <div className={styles.citations}>
                   {citations.map((c) => (
@@ -283,6 +364,7 @@ export default function VoiceAssistant({
               )}
             </div>
           )}
+         </div>
         </div>
 
         {!canUseMic ? (
@@ -337,7 +419,13 @@ export default function VoiceAssistant({
           </>
         )}
 
-        <p className={styles.notice}>{t("chat.disclaimer")}</p>
+        {/* ⚠️ 하단의 "MBN 공식 AI 도우미입니다. 스타 본인이 아닙니다." 고지를
+            **의도적으로 걷어냈습니다** (사용자 요청).
+
+            사칭 방지 정책 자체는 그대로입니다 — 도우미는 시스템 프롬프트에서 자신을
+            "MBN AI 도우미 비엔이" 로 소개하고 스타를 사칭하지 않으며, 소식 스레드의
+            AI 요약 카드에는 AI 생성 표기가 남아 있습니다. 되살리려면 `chat.disclaimer`
+            키를 여기에 다시 붙이면 됩니다 (키는 지우지 않았습니다). */}
       </div>
     </BottomSheet>
   );

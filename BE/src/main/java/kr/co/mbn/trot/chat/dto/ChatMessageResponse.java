@@ -14,6 +14,8 @@ public record ChatMessageResponse(
         String content,
         boolean outOfScope,
         List<Citation> citations,
+        /** 기능 완료 요청이었으면 <b>이미 실행된</b> 결과. 아니면 null. */
+        ChatActionResponse action,
         Instant createdAt
 ) {
 
@@ -22,6 +24,10 @@ public record ChatMessageResponse(
     }
 
     public static ChatMessageResponse from(ChatMessage m) {
+        return from(m, null);
+    }
+
+    public static ChatMessageResponse from(ChatMessage m, ChatActionResponse action) {
         return new ChatMessageResponse(
                 m.getId(),
                 m.getRole(),
@@ -31,6 +37,7 @@ public record ChatMessageResponse(
                         .map(c -> new Citation(
                                 c.getType(), c.getTargetId(), c.getTitle(), c.getRoute()))
                         .toList(),
+                action,
                 m.getCreatedAt());
     }
 }

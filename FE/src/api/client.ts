@@ -104,6 +104,9 @@ export type GatheringPage = Json<
 export type Gathering = Json<
   paths["/api/v1/gatherings/{id}"]["get"]["responses"]["200"]
 >;
+export type MyGatherings = Json<
+  paths["/api/v1/gatherings/mine"]["get"]["responses"]["200"]
+>;
 export type ContentPage = Json<
   paths["/api/v1/contents"]["get"]["responses"]["200"]
 >;
@@ -143,6 +146,37 @@ export type ChatCitation = {
   title: string;
   route?: string | null;
 };
+/**
+ * 음성 발화가 **기능 완료 요청**이었을 때 서버가 실행한 결과.
+ *
+ * ⚠️ **이미 실행된 뒤에 옵니다.** 다시 호출하지 말고 결과만 보여주세요.
+ * ⚠️ 확인 문구는 서버가 주지 않습니다 — `voice.action.*` 키로 FE 가 7개 언어에서 만듭니다.
+ */
+export type ChatAction = {
+  type:
+    | "CONCERT_ENTRY"
+    | "CONCERT_ENTRY_CANCEL"
+    | "GATHERING_JOIN"
+    | "GATHERING_CANCEL"
+    | "STAGE_VIDEO";
+  status:
+    | "DONE"
+    | "ALREADY"
+    | "FULL"
+    | "CLOSED"
+    | "NOT_FOUND"
+    | "LOGIN_REQUIRED"
+    | "FOUND";
+  targetId?: number | null;
+  targetTitle?: string | null;
+  route?: string | null;
+  /** STAGE_VIDEO 전용. YouTube **임베드** URL 이며 DB 시드에서 옵니다 (LLM 생성 아님). */
+  videoUrl?: string | null;
+  videoTitle?: string | null;
+};
+export type ConcertEntry = Json<
+  paths["/api/v1/schedules/{id}/entry"]["get"]["responses"]["200"]
+>;
 export type AuthResponse = Json<
   paths["/api/v1/auth/login"]["post"]["responses"]["200"]
 >;
@@ -181,6 +215,10 @@ export const api = {
   }) => request<GatheringPage>(`/api/v1/gatherings${qs(params)}`),
 
   getGathering: (id: number) => request<Gathering>(`/api/v1/gatherings/${id}`),
+
+  /** 내가 지금 신청 중인 모집. 비로그인이면 빈 배열입니다. */
+  getMyGatherings: (starId: number) =>
+    request<MyGatherings>(`/api/v1/gatherings/mine${qs({ starId })}`),
 
   applyGathering: (id: number, note?: string) =>
     request(`/api/v1/gatherings/${id}/applications`, {
@@ -291,13 +329,24 @@ export const api = {
     }),
 
   // ── AI 도우미 "비엔이" ──
-  /** `artistName` 은 랜딩에서 고른 응원 아티스트 — AI 가 그 사람 기준으로 답합니다. */
-  createChatSession: (starId: number, locale: string, artistName?: string) =>
+  /**
+   * `artistName` 은 랜딩에서 고른 응원 아티스트 — AI 가 그 사람 기준으로 답합니다.
+   *
+   * `gatheringId` 는 **모집 단체 대화방**에서만 넘깁니다. 넘기면 그 모임의 집결지·행사일·
+   * 참가비·공지가 모든 질문의 근거로 항상 들어갑니다 — 안 넘기면 대화방 안에서
+   * "집결지 어디예요?" 에도 "정보를 제공할 수 없습니다" 가 나갑니다.
+   */
+  createChatSession: (
+    starId: number,
+    locale: string,
+    artistName?: string,
+    gatheringId?: number,
+  ) =>
     request<{ sessionId: string; suggestedQuestions: string[] }>(
       "/api/v1/chat/sessions",
       {
         method: "POST",
-        body: JSON.stringify({ starId, locale, artistName }),
+        body: JSON.stringify({ starId, locale, artistName, gatheringId }),
       },
     ),
 
@@ -313,6 +362,11 @@ export const api = {
     handlers: {
       onDelta: (text: string) => void;
       onCitations: (citations: ChatCitation[]) => void;
+      /**
+       * 서버가 **이미 실행한** 기능의 결과. 이 이벤트가 오면 `delta` 는 오지 않습니다 —
+       * 확인 문구를 FE 가 만들기 때문입니다 (docs/api-spec.yaml ChatAction).
+       */
+      onAction: (action: ChatAction) => void;
       onDone: (messageId: number) => void;
       onError: (code: string, message: string) => void;
     },
@@ -359,6 +413,19 @@ export const api = {
           if (eventName === "delta") handlers.onDelta(payload.text);
           else if (eventName === "citations")
             handlers.onCitations(payload.citations);
+          else if (eventName === "action") {
+            // SSE 는 `request()` 를 안 타므로 시드 스타 이름 치환이 여기서 한 번 더 필요합니다
+            // ("임영웅의 팬미팅에 응모했습니다" 가 이찬원 팬에게 그대로 보입니다).
+            //
+            // ⚠️ STAGE_VIDEO 는 **제외**합니다. `targetTitle` 이 실제 아티스트 이름이라
+            //    치환하면 "임영웅 무대 보여줘" 에 이찬원이라고 답하게 됩니다.
+            const result = payload.action as ChatAction;
+            handlers.onAction(
+              result.type === "STAGE_VIDEO"
+                ? result
+                : personalizeArtistNames(result),
+            );
+          }
           else if (eventName === "done") handlers.onDone(payload.messageId);
           else if (eventName === "error")
             handlers.onError(payload.code, payload.message);
@@ -381,6 +448,25 @@ export const api = {
   }) => request<SchedulePage>(`/api/v1/schedules${qs(params)}`),
 
   getSchedule: (id: number) => request<Schedule>(`/api/v1/schedules/${id}`),
+
+  // ── 공연 응모 ──
+  // ⚠️ **1인 1공연 1매**입니다. 매수 파라미터가 없습니다 (디자인에서 매수 선택이 빠졌습니다).
+  //    응모는 추첨 신청일 뿐 결제가 아니며 화면에 그 고지가 남아 있어야 합니다.
+  getConcertEntry: (scheduleId: number) =>
+    request<ConcertEntry>(`/api/v1/schedules/${scheduleId}/entry`),
+
+  enterConcert: (scheduleId: number) =>
+    request<ConcertEntry>(`/api/v1/schedules/${scheduleId}/entry`, {
+      method: "POST",
+    }),
+
+  cancelConcertEntry: (scheduleId: number) =>
+    request<void>(`/api/v1/schedules/${scheduleId}/entry`, {
+      method: "DELETE",
+    }),
+
+  getMyEntries: (starId: number) =>
+    request<ConcertEntry[]>(`/api/v1/entries${qs({ starId })}`),
 
   search: (params: { starId: number; q: string; limitPerCategory?: number }) =>
     request<SearchResponse>(`/api/v1/search${qs(params)}`),

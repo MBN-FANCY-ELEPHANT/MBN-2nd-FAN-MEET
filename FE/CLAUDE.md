@@ -15,11 +15,10 @@ src/
   features/
     artist/    선택 아티스트 (localStorage) + 시드 이름 치환
     auth/      닉네임 룰렛(로그인 대체) · 간이 로그인
-    voice/     VoiceAssistant(5단계) · VoiceStages(이펙트) · STT/TTS 훅
-    concert/   공연 응모 상태 (localStorage)
+    voice/     VoiceAssistant(5단계 + 기능완료 액션) · VoiceStages(이펙트) · STT/TTS 훅
     notification/ 알림 키워드 (localStorage)
   pages/       라우트별 화면 — 목록은 docs/worklog-fe.md §0
-  data/        BE 계약이 없는 구간의 정적 더미 (feed / goods / live / programs)
+  data/        BE 계약이 없는 구간의 정적 더미 (feed / goods / live / programs / gatheringChat)
   i18n/        index.ts + locales/{ko,en,fr,ja,es,zh,ru}.json
   styles/      tokens.css (디자인 토큰) + global.css
   lib/         format.ts (조회수·상대시각·재생시간)

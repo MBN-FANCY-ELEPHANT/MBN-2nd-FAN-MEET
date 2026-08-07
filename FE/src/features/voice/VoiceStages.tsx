@@ -1,17 +1,16 @@
-import { useTranslation } from "react-i18next";
-
 import styles from "./VoiceStages.module.css";
 
 /**
- * 음성 도우미의 **5단계 진행 표시**와 주황 이펙트.
+ * 음성 도우미의 단계 상태와 주황 이펙트.
  *
- * <b>왜 단계를 눈에 보이게 하나</b>
- * 주 사용자층이 중장년입니다. 말을 걸고 나면 "지금 뭘 하고 있는지"가 보이지 않으면
- * 답이 오기 전에 다시 마이크를 누르거나 시트를 닫아버립니다.
- * 그래서 듣기 → 받아쓰기 → 분석 → 답변 → 다음 지시 를 항상 띄워 둡니다.
+ * ⚠️ **상단 5단계 레일(`VoiceStageRail`)은 걷어냈습니다** (사용자 요청).
+ *    단계 자체는 남아 있습니다 — 마이크 비활성화(중복 요청 차단)와 아래 이펙트가
+ *    이 값을 씁니다. `voice.step.*` · `voice.stepStatus` 키도 **지우지 않았으니**
+ *    레일을 되살리려면 이 파일에 컴포넌트만 되돌리면 됩니다.
  *
- * ⚠️ 이펙트는 **장식이 아니라 상태 신호**입니다. 단계마다 속도와 개수가 달라서
- *    화면을 안 읽어도 "지금 도는 중"인지 "끝났는지"를 알 수 있어야 합니다.
+ * ⚠️ 이펙트는 **장식이 아니라 상태 신호**입니다. 레일이 사라진 지금은 <b>유일한</b>
+ *    진행 신호이기도 합니다 — 단계마다 속도와 확산 거리가 달라서 화면을 안 읽어도
+ *    "지금 도는 중"인지 "끝났는지"를 알 수 있습니다. 값을 통일하지 마세요.
  *    `prefers-reduced-motion` 에서는 애니메이션 없이 은은한 글로우만 남깁니다.
  */
 
@@ -21,61 +20,6 @@ export type VoicePhase =
   | "THINKING"
   | "ANSWERED"
   | "FOLLOW_UP";
-
-const STEPS: { phase: VoicePhase; labelKey: string }[] = [
-  { phase: "LISTENING", labelKey: "voice.step.listen" },
-  { phase: "TRANSCRIBING", labelKey: "voice.step.write" },
-  { phase: "THINKING", labelKey: "voice.step.analyze" },
-  { phase: "ANSWERED", labelKey: "voice.step.answer" },
-  { phase: "FOLLOW_UP", labelKey: "voice.step.next" },
-];
-
-function stepIndex(phase: VoicePhase): number {
-  return STEPS.findIndex((s) => s.phase === phase);
-}
-
-/** 상단 진행 레일 — 5개 점과 현재 단계 이름. */
-export function VoiceStageRail({ phase }: { phase: VoicePhase }) {
-  const { t } = useTranslation();
-  const current = stepIndex(phase);
-
-  return (
-    <div
-      className={styles.rail}
-      role="progressbar"
-      aria-valuemin={1}
-      aria-valuemax={STEPS.length}
-      aria-valuenow={current + 1}
-      aria-valuetext={t("voice.stepStatus", {
-        step: current + 1,
-        label: t(STEPS[current].labelKey),
-      })}
-    >
-      <ol className={styles.dots}>
-        {STEPS.map((step, i) => (
-          <li
-            key={step.phase}
-            className={[
-              styles.dot,
-              i < current ? styles.dotDone : "",
-              i === current ? styles.dotCurrent : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-          >
-            <span className={styles.dotMark} aria-hidden />
-          </li>
-        ))}
-      </ol>
-      <p className={styles.stepLabel}>
-        {t("voice.stepStatus", {
-          step: current + 1,
-          label: t(STEPS[current].labelKey),
-        })}
-      </p>
-    </div>
-  );
-}
 
 /**
  * 마이크 뒤에 깔리는 **주황 물감 번짐 / 폭죽** 이펙트.

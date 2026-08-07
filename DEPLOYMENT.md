@@ -150,6 +150,8 @@ DB 컨테이너가 생성된 뒤 `DB_PASSWORD` parameter만 바꾸면 기존 Pos
 
 GitHub repository의 **Settings → Environments → production**을 만들고 required reviewer를
 지정합니다. Terraform apply와 Backend deploy는 이 환경 승인 뒤에만 실행됩니다.
+AWS 역할의 OIDC subject도 `environment:production`으로 제한되어 이 Environment를 통과한 job만
+배포 역할을 맡을 수 있습니다.
 
 ### GitHub Secrets
 

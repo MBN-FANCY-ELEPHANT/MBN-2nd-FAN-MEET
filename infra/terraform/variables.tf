@@ -21,6 +21,12 @@ variable "github_repository" {
   type        = string
 }
 
+variable "github_environment" {
+  description = "GitHub Environment whose deployment jobs may assume the AWS deploy role."
+  type        = string
+  default     = "production"
+}
+
 variable "instance_type" {
   description = "EC2 size. t3.micro is sufficient for the MVP when traffic is light."
   type        = string

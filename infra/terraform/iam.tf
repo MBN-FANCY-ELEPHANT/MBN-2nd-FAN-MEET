@@ -78,7 +78,8 @@ data "aws_iam_policy_document" "github_main_assume_role" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repository}:ref:refs/heads/main"]
+      # Environment를 사용하는 job의 OIDC subject는 브랜치 ref가 아니라 environment 이름을 포함합니다.
+      values = ["repo:${var.github_repository}:environment:${var.github_environment}"]
     }
   }
 }

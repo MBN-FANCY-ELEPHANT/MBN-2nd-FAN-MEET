@@ -7,6 +7,7 @@
   border: 2px solid var(--color-ai-border);
   border-radius: var(--radius-lg);
   background: var(--color-white);
+  margin-top: 10px;
 }
 
 .head {

@@ -3,17 +3,19 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
-import { api } from "../api/client";
+import { api, type Gathering } from "../api/client";
 import { STAR_ID } from "../app/constants";
+import AiSummaryCard, {
+  type AiSummaryItem,
+} from "../components/ai/AiSummaryCard";
 import HeaderBack from "../components/layout/HeaderBack";
-import Icon from "../components/ui/Icon";
 import { ErrorState, LoadingState } from "../components/ui/States";
 import { sampleChat } from "../data/gatheringChat";
 import { getSelectedArtist } from "../features/artist/selectedArtist";
 import { getFanIdentity } from "../features/auth/fanIdentity";
 import { actionMessageKey } from "../features/voice/actionMessage";
 import { currentLocale } from "../i18n";
-import { formatDate } from "../lib/format";
+import { formatDate, formatTime } from "../lib/format";
 import styles from "./GatheringChatPage.module.css";
 
 /**
@@ -30,6 +32,60 @@ import styles from "./GatheringChatPage.module.css";
  * ⚠️ **신청하지 않았으면 들어올 수 없습니다.** 섹션에서는 신청한 모집만 링크하지만
  *    주소를 직접 열 수 있으므로 여기서도 막습니다.
  */
+/**
+ * 상단 AI 패널에 들어갈 **주제 요약**.
+ *
+ * ⚠️ **값을 지어내지 않습니다.** 전부 그 모임의 실제 DB 값(집결지·행사일·참가비·인원·공지)
+ *    에서 옵니다. 대화방의 참여자 말풍선은 정적 예시지만(`data/gatheringChat.ts`),
+ *    여기 요약은 진짜 모임 정보라 "AI 가 톡방을 분석했다" 는 화면 문구가 거짓이 되지 않습니다.
+ *
+ * 모임 종류에 따라 **다른 주제**를 뽑습니다 — 디자인 의도가 그렇습니다.
+ *   - `BUS`      이동 · 집결 · 참가 (출발/도착 일정과 장소가 핵심)
+ *   - `DONATION` 기부 · 규모 · 공개 (어디에 얼마나가 핵심)
+ */
+function summaryItems(
+  t: (key: string, opts?: Record<string, unknown>) => string,
+  data: Gathering,
+): AiSummaryItem[] {
+  const people = t("gathering.progress", {
+    current: data.currentCount,
+    capacity: data.capacity,
+  });
+  const fee =
+    data.fee > 0
+      ? `${data.fee.toLocaleString()}${t("fanspace.currency")}`
+      : t("gathering.free");
+
+  if (data.type === "DONATION") {
+    return [
+      { title: t("gatheringChat.topic.cause"), body: data.summary ?? "" },
+      {
+        title: t("gatheringChat.topic.scale"),
+        body: t("gatheringChat.value.scale", { fee, people }),
+      },
+      {
+        title: t("gatheringChat.topic.disclosure"),
+        body: data.notice ?? t("gatheringChat.value.disclosureDefault"),
+      },
+    ];
+  }
+
+  return [
+    { title: t("gatheringChat.topic.route"), body: data.summary ?? "" },
+    {
+      title: t("gatheringChat.topic.meet"),
+      body: t("gatheringChat.value.meet", {
+        place: data.meetingPoint ?? "-",
+        when: `${formatDate(data.eventAt)} ${formatTime(data.eventAt)}`,
+      }),
+    },
+    {
+      title: t("gatheringChat.topic.join"),
+      body: t("gatheringChat.value.join", { people, fee }),
+    },
+  ];
+}
+
 type Bubble =
   | { kind: "SAMPLE"; id: string; nickname: string; at: string; body: string }
   | { kind: "ME"; id: string; body: string }
@@ -136,26 +192,17 @@ export default function GatheringChatPage() {
     <div className={styles.page}>
       <HeaderBack title={data.title} />
 
-      {/* 모임 요약 — 대화 중에 집결지·일시를 다시 찾아 나가지 않도록 위에 고정합니다 */}
-      <section className={styles.summary}>
-        <p className={styles.summaryRow}>
-          <Icon name="calendar" size={18} />
-          <span>{formatDate(data.eventAt)}</span>
-        </p>
-        <p className={styles.summaryRow}>
-          <Icon name="mapMarker" size={18} />
-          <span>{data.meetingPoint}</span>
-        </p>
-        <p className={styles.summaryRow}>
-          <Icon name="chatBubble" size={18} />
-          <span>
-            {t("gathering.progress", {
-              current: data.currentCount,
-              capacity: data.capacity,
-            })}
-          </span>
-        </p>
-      </section>
+      {/* 톡방 요약 — 디자인의 상단 AI 패널 (Figma 27:6525 "AI Pannal").
+          대화를 처음부터 읽지 않아도 무슨 얘기가 오갔는지 한눈에 잡히게 합니다. */}
+      {applied && (
+        <div className={styles.summaryWrap}>
+          <AiSummaryCard
+            title={t("gatheringChat.aiSummaryTitle")}
+            summary={t("gatheringChat.aiSummaryLead")}
+            items={summaryItems(t, data)}
+          />
+        </div>
+      )}
 
       {!applied ? (
         <div className={styles.locked}>
@@ -169,9 +216,6 @@ export default function GatheringChatPage() {
         </div>
       ) : (
         <>
-          {/* ⚠️ 정책상 필수 고지 — 예시 대화이고 답하는 것은 AI 라는 사실 */}
-          <p className={styles.notice}>{t("gatheringChat.sampleNotice")}</p>
-
           <div className={styles.thread}>
             {sampleChat(data.type).map((m) => (
               <div key={`s-${m.id}`} className={styles.otherRow}>

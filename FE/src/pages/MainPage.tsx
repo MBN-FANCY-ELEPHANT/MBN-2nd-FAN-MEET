@@ -4,12 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 import { api } from "../api/client";
 import { STAR_ID } from "../app/constants";
+import FeedThread from "../components/feed/FeedThread";
 import AppHeader from "../components/layout/AppHeader";
 import BottomNav from "../components/layout/BottomNav";
 import LiveBanner from "../components/live/LiveBanner";
 import Icon from "../components/ui/Icon";
-import { FEED_POSTS } from "../data/feed";
-import type { FeedPost } from "../data/feed";
 import {
   getSelectedArtist,
   shortArtistName,
@@ -17,7 +16,6 @@ import {
 } from "../features/artist/selectedArtist";
 import { MASCOT } from "../features/voice/mascot";
 import { currentLocale } from "../i18n";
-import { formatCount } from "../lib/format";
 import styles from "./MainPage.module.css";
 
 /**
@@ -75,66 +73,12 @@ export default function MainPage({ onOpenVoice }: { onOpenVoice: () => void }) {
 
       <section className={styles.sheet}>
         <h2 className={styles.sheetTitle}>{t("feed.title")}</h2>
-        <div className={styles.list}>
-          {FEED_POSTS.map((post) => (
-            <PostCard key={post.id} post={post} artistName={artist} />
-          ))}
-        </div>
+        {/* 아티스트 글 · 팬매니저 공지 · 무대 롱폼이 최신순으로 섞입니다.
+            소식 탭(`/feed`)과 **같은 컴포넌트**입니다 — 한쪽만 고치면 갈라집니다. */}
+        <FeedThread />
       </section>
 
       <BottomNav onOpenVoice={onOpenVoice} />
     </div>
-  );
-}
-
-function PostCard({
-  post,
-  artistName,
-}: {
-  post: FeedPost;
-  artistName: string;
-}) {
-  const { t } = useTranslation();
-  const isManager = post.type === "MANAGER";
-  const author = isManager ? t("feed.manager") : artistName;
-
-  return (
-    <article className={styles.post}>
-      <div className={styles.postHead}>
-        <div className={styles.author}>
-          <img className={styles.avatar} src={post.avatarUrl} alt="" />
-          <div className={styles.authorText}>
-            <span className={styles.authorName}>{author}</span>
-            <span className={styles.authorTime}>
-              {t("feed.hoursAgo", { count: post.agoHours })}
-            </span>
-          </div>
-        </div>
-        {isManager && <Icon name="notificationBell" size={24} />}
-      </div>
-
-      {post.imageUrl && (
-        <img className={styles.photo} src={post.imageUrl} alt="" />
-      )}
-
-      {isManager ? (
-        <p className={styles.noticeBubble}>{post.body}</p>
-      ) : (
-        <p className={styles.body}>{post.body}</p>
-      )}
-
-      <div className={styles.actions}>
-        <button className={styles.action} aria-label={t("content.like")}>
-          <Icon name="heartFilled" size={24} />
-          <span>{formatCount(post.likeCount)}</span>
-        </button>
-        {post.commentCount !== undefined && (
-          <button className={styles.action} aria-label={t("comment.title")}>
-            <Icon name="chatBubble" size={24} />
-            <span>{formatCount(post.commentCount)}</span>
-          </button>
-        )}
-      </div>
-    </article>
   );
 }

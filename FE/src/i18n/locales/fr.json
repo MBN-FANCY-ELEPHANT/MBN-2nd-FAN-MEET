@@ -28,7 +28,8 @@
     "digestTitle": "La semaine en un coup d'œil",
     "digestSources": "Sources utilisées",
     "digestNotice": "Rédigé par l'assistant IA de MBN à partir des seuls contenus MBN.",
-    "longform": "Vidéo de scène complète"
+    "longform": "Vidéo de scène complète",
+    "managerNotice": "Les annonces du fan manager sont rédigées par Bienie, l'assistant IA de MBN — pas par l'artiste."
   },
   "fanspace": {
     "title": "Activités",
@@ -381,9 +382,24 @@
   "gatheringChat": {
     "aiBadge": "Bienie, l'assistant IA de MBN",
     "me": "Moi",
-    "placeholder": "{{nickname}}, posez votre question",
-    "sampleNotice": "Les messages des participants sont des exemples. Les réponses viennent de Bienie, l'assistant IA de MBN.",
+    "placeholder": "Laissez un message.",
     "notApplied": "Ce salon est réservé aux personnes inscrites.",
-    "goApply": "Voir le rassemblement"
+    "goApply": "Voir le rassemblement",
+    "aiSummaryTitle": "Analyse IA",
+    "aiSummaryLead": "Voici ce que l'IA a relevé dans ce salon.",
+    "topic": {
+      "route": "Trajet",
+      "meet": "Point de rendez-vous",
+      "join": "Participation",
+      "cause": "Bénéficiaire",
+      "scale": "Montant",
+      "disclosure": "Transparence"
+    },
+    "value": {
+      "meet": "{{place}} · {{when}}",
+      "join": "{{people}} · frais {{fee}}",
+      "scale": "À partir de {{fee}} par personne · {{people}} inscrits",
+      "disclosureDefault": "Le détail des dons est publié à la fin de la collecte."
+    }
   }
 }

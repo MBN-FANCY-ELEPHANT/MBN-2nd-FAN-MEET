@@ -8,34 +8,15 @@
   background: var(--color-background);
 }
 
-/* ── 모임 요약 (상단 고정 정보) ── */
-.summary {
-  display: grid;
-  gap: var(--space-2);
-  margin: 0 var(--page-padding-x);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-white);
-  box-shadow: var(--shadow-card);
-}
+/* ── 상단 AI 요약 패널 (Figma 27:6525 "AI Pannal", 화면 기준 y 68 · 343 폭) ──
+   패널 자체의 생김새는 `components/ai/AiPanel.module.css` 가 갖고 있습니다.
+   여기서는 바깥 여백만 잡습니다.
 
-.summaryRow {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-meta-size);
-  color: var(--color-text-primary);
-}
-
-/* ⚠️ 정책 고지 — 예시 대화이고 답하는 것은 AI 라는 표기. 빼지 마세요. */
-.notice {
-  margin: var(--space-4) var(--page-padding-x) 0;
-  padding: var(--space-3);
-  border-radius: var(--radius-sm);
-  background: var(--color-ai-surface);
-  font-size: var(--text-small-size);
-  line-height: 1.5;
-  color: var(--color-ai-text);
+   ⚠️ 예전에 있던 "참여자 대화는 예시입니다" 고지와 집결지·일시 3줄 카드는
+   **의도적으로 걷어냈습니다** (사용자 요청 + 디자인에 없음). 모임 정보는 이 패널의
+   요약 항목이 대신 전달합니다. */
+.summaryWrap {
+  padding: 0 var(--page-padding-x);
 }
 
 /* ── 대화 ── */

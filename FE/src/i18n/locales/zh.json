@@ -28,7 +28,8 @@
     "digestTitle": "本周消息一览",
     "digestSources": "摘要来源",
     "digestNotice": "由 MBN 官方 AI 助手仅依据 MBN 内容整理。",
-    "longform": "舞台完整视频"
+    "longform": "舞台完整视频",
+    "managerNotice": "粉丝经理公告由 MBN AI 助手比妮撰写，并非艺人本人发布。"
   },
   "fanspace": {
     "title": "活动记录",
@@ -381,9 +382,24 @@
   "gatheringChat": {
     "aiBadge": "MBN AI 助手 比妮",
     "me": "我",
-    "placeholder": "{{nickname}}，有什么想问的吗",
-    "sampleNotice": "参与者的对话为示例展示，实际回复的是 MBN AI 助手比妮。",
+    "placeholder": "留下你的留言。",
     "notApplied": "这是仅限已报名参加者进入的聊天室。",
-    "goApply": "查看招募详情"
+    "goApply": "查看招募详情",
+    "aiSummaryTitle": "AI 分析",
+    "aiSummaryLead": "这是 AI 对聊天室内容的分析。",
+    "topic": {
+      "route": "行程",
+      "meet": "集合",
+      "join": "参加",
+      "cause": "捐赠对象",
+      "scale": "募捐规模",
+      "disclosure": "公开"
+    },
+    "value": {
+      "meet": "{{place}} · {{when}}",
+      "join": "{{people}} · 参加费 {{fee}}",
+      "scale": "每人 {{fee}} 起 · {{people}} 参与",
+      "disclosureDefault": "募捐明细将在结束后公开。"
+    }
   }
 }

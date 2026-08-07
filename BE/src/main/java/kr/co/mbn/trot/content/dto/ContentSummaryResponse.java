@@ -28,12 +28,23 @@ public record ContentSummaryResponse(
         int viewCount,
         int likeCount,
         int commentCount,
+        boolean liked,
         boolean live,
         Integer viewerCount,
         Integer durationSec
 ) {
 
+    /** 좋아요 여부를 모르는 자리(비로그인·집계 응답)에서 씁니다. */
     public static ContentSummaryResponse from(Content c) {
+        return from(c, false);
+    }
+
+    /**
+     * @param liked 내가 좋아요를 눌렀는지.
+     *     ⚠️ 목록에서 이 값을 빼면 소식 스레드의 하트가 눌러도 채워지지 않습니다 —
+     *     {@code likeCount} 는 화면에서 만 단위로 반올림돼 1 증가가 보이지 않습니다.
+     */
+    public static ContentSummaryResponse from(Content c, boolean liked) {
         return new ContentSummaryResponse(
                 c.getId(),
                 c.getType(),
@@ -46,6 +57,7 @@ public record ContentSummaryResponse(
                 c.getViewCount(),
                 c.getLikeCount(),
                 c.getCommentCount(),
+                liked,
                 c.isLive(),
                 c.getViewerCount(),
                 c.getDurationSec());

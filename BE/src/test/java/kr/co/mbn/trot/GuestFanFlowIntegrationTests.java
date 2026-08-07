@@ -1,8 +1,10 @@
 package kr.co.mbn.trot;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -118,6 +120,17 @@ class GuestFanFlowIntegrationTests {
                 .andExpect(jsonPath("$.content[0].body").value("새 글 정말 기다렸어요!"))
                 .andExpect(jsonPath("$.content[0].liked").value(true))
                 .andExpect(jsonPath("$.content[0].likeCount").value(1));
+    }
+
+    @Test
+    @DisplayName("Vite 대체 포트의 모임 신청 preflight를 허용한다")
+    void localViteFallbackPortCanPreflightGatheringApplication() throws Exception {
+        // 5173이 사용 중일 때 Vite가 선택하는 다음 포트에서도 신청 POST가 CORS를 통과해야 합니다.
+        mockMvc.perform(options("/api/v1/gatherings/1/applications")
+                        .header("Origin", "http://localhost:5174")
+                        .header("Access-Control-Request-Method", "POST"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5174"));
     }
 
     @Test

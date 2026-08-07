@@ -4,19 +4,18 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 import { api, type Gathering } from "../api/client";
-import { STAR_ID } from "../app/constants";
 import AiSummaryCard, {
   type AiSummaryItem,
 } from "../components/ai/AiSummaryCard";
 import HeaderBack from "../components/layout/HeaderBack";
 import { ErrorState, LoadingState } from "../components/ui/States";
 import { sampleChat } from "../data/gatheringChat";
-import { getSelectedArtist } from "../features/artist/selectedArtist";
 import { getFanIdentity } from "../features/auth/fanIdentity";
 import { actionMessageKey } from "../features/voice/actionMessage";
 import { currentLocale } from "../i18n";
 import { formatDate, formatTime } from "../lib/format";
 import styles from "./GatheringChatPage.module.css";
+import { getSelectedArtist, getSelectedStarId } from "../features/artist/selectedArtist";
 
 /**
  * 참여 중인 모집의 **단체 대화방**.
@@ -153,7 +152,7 @@ export default function GatheringChatPage() {
         // ⚠️ `gatheringId` 를 넘겨야 이 방의 집결지·행사일·참가비가 근거로 들어갑니다.
         //    빠뜨리면 "집결지 어디예요?" 에 "정보를 제공할 수 없습니다" 가 나갑니다.
         const session = await api.createChatSession(
-          STAR_ID,
+          getSelectedStarId(),
           currentLocale().toUpperCase(),
           getSelectedArtist() ?? undefined,
           gatheringId,

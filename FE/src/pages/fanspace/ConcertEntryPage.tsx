@@ -3,14 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { ApiError, api } from "../../api/client";
-import { STAR_ID } from "../../app/constants";
-import exampleHero from "../../assets/example/example_hero.png";
+import { concertPosterImage } from "../../data/programs";
 import HeaderBack from "../../components/layout/HeaderBack";
 import { ErrorState, LoadingState } from "../../components/ui/States";
 import { useToast } from "../../components/ui/useToast";
 import { isUnauthorized } from "../../features/auth/useAuth";
 import { formatDate, formatTime } from "../../lib/format";
 import styles from "./ConcertEntry.module.css";
+import { getSelectedArtist, getSelectedStarId } from "../../features/artist/selectedArtist";
 
 /**
  * 공연 응모.
@@ -51,7 +51,7 @@ export default function ConcertEntryPage() {
   /** 응모·취소 후 이 화면과 공연 탭의 「응모 내역」이 함께 갱신돼야 합니다. */
   function refresh() {
     void queryClient.invalidateQueries({ queryKey: ["concertEntry"] });
-    void queryClient.invalidateQueries({ queryKey: ["myEntries", STAR_ID] });
+    void queryClient.invalidateQueries({ queryKey: ["myEntries", getSelectedStarId()] });
   }
 
   const apply = useMutation({
@@ -83,7 +83,11 @@ export default function ConcertEntryPage() {
     <div className={styles.page}>
       <HeaderBack />
 
-      <img className={styles.poster} src={exampleHero} alt="" />
+      <img
+        className={styles.poster}
+        src={concertPosterImage(getSelectedArtist())}
+        alt=""
+      />
 
       <div className={styles.sheet}>
         <span className={`${styles.badge} ${open ? "" : styles.badgeClosed}`}>

@@ -1,4 +1,3 @@
-import { personalizeArtistNames } from "../features/artist/selectedArtist";
 import { LOCALE_BCP47, currentLocale } from "../i18n";
 import type { paths } from "./schema";
 
@@ -67,9 +66,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     );
   }
 
-  // 시드 스타 이름을 사용자가 고른 아티스트로 치환합니다 (데모용 임시 조치 —
-  // 이유와 걷어낼 시점은 `personalizeArtistNames` 주석 참고).
-  return personalizeArtistNames(body) as T;
+  return body as T;
 }
 
 /** 쿼리 파라미터에서 undefined/null 을 제거하고 문자열로 직렬화 */
@@ -427,11 +424,7 @@ export const api = {
             // ⚠️ STAGE_VIDEO 는 **제외**합니다. `targetTitle` 이 실제 아티스트 이름이라
             //    치환하면 "임영웅 무대 보여줘" 에 이찬원이라고 답하게 됩니다.
             const result = payload.action as ChatAction;
-            handlers.onAction(
-              result.type === "STAGE_VIDEO"
-                ? result
-                : personalizeArtistNames(result),
-            );
+            handlers.onAction(result);
           }
           else if (eventName === "done") handlers.onDone(payload.messageId);
           else if (eventName === "error")

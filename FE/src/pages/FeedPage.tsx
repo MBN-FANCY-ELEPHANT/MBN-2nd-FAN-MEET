@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import FeedThread from "../components/feed/FeedThread";
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import HeaderBack from "../components/layout/HeaderBack";
 import { ErrorState } from "../components/ui/States";
 import { currentLocale } from "../i18n";
@@ -52,8 +52,8 @@ function NewsDigestCard({ locale }: { locale: string }) {
   const { t } = useTranslation();
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["newsDigest", STAR_ID, locale],
-    queryFn: () => api.getNewsDigest(STAR_ID),
+    queryKey: ["newsDigest", getSelectedStarId(), locale],
+    queryFn: () => api.getNewsDigest(getSelectedStarId()),
     staleTime: 10 * 60 * 1000,
     retry: false,
   });

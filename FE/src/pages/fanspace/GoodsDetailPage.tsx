@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
-import exampleHero from "../../assets/example/example_hero.png";
+import { goodsImage } from "../../data/goods";
 import HeaderBack from "../../components/layout/HeaderBack";
 import { EmptyState } from "../../components/ui/States";
 import { findGoods } from "../../data/goods";
@@ -38,7 +38,7 @@ export default function GoodsDetailPage() {
     <div className={styles.page}>
       <HeaderBack />
 
-      <img className={styles.photo} src={exampleHero} alt="" />
+      <img className={styles.photo} src={goodsImage(goods.category)} alt="" />
 
       <div className={styles.body}>
         <p className={styles.category}>

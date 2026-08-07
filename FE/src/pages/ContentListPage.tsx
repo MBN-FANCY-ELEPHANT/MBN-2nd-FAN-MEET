@@ -5,7 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 
 import { api } from "../api/client";
 import type { ContentSummary } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import HeaderBack from "../components/layout/HeaderBack";
 import TabBar from "../components/ui/TabBar";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/States";
@@ -35,10 +35,10 @@ export default function ContentListPage() {
   );
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["contents", STAR_ID, tab],
+    queryKey: ["contents", getSelectedStarId(), tab],
     queryFn: () =>
       api.getContents({
-        starId: STAR_ID,
+        starId: getSelectedStarId(),
         size: 50,
         type: tab === "article" ? "ARTICLE" : "VIDEO",
       }),

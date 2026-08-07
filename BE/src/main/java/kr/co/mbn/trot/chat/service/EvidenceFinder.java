@@ -90,9 +90,16 @@ public class EvidenceFinder {
             "성지", "성지순례", "맛집", "카페", "다녀간", "다녀온",
             "pilgrimage", "restaurant", "cafe");
 
-    /** 플랫폼 주제임을 강하게 시사하는 단어. 의도가 안 잡혀도 이게 있으면 GENERAL 로 받습니다. */
+    /**
+     * 플랫폼 주제임을 강하게 시사하는 단어. 의도가 안 잡혀도 이게 있으면 GENERAL 로 받습니다.
+     *
+     * <p>⚠️ 앞의 세 개는 <b>시드 아티스트 이름</b>입니다 (data.sql 의 star). 이름만 말한
+     * 질문("박서진 요즘 뭐해?")이 스코프 밖으로 거절되지 않게 하려면 여기 있어야 합니다.
+     * <b>아티스트를 늘리면 이 목록도 함께 늘리세요.</b>
+     */
     private static final Set<String> DOMAIN_WORDS = Set.of(
-            "임영웅", "트롯", "트로트", "mbn", "가수", "스타", "팬덤", "팬",
+            "성리", "이찬원", "박서진",
+            "트롯", "트로트", "mbn", "가수", "스타", "팬덤", "팬",
             "trot", "star", "fandom", "fan", "bienie", "비엔이");
 
     private final ScheduleRepository scheduleRepository;

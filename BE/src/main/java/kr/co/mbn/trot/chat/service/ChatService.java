@@ -40,13 +40,15 @@ import kr.co.mbn.trot.user.domain.Locale;
 @Transactional(readOnly = true)
 public class ChatService {
 
+    // ⚠️ 특정 아티스트 이름을 넣지 않습니다. 시드 스타가 3명이라 한 명을 예시로 박으면
+    //    나머지 두 명을 고른 사용자에게 남의 이름이 추천 질문으로 뜹니다.
     private static final List<String> SUGGESTED_KO = List.of(
-            "이번 주 임영웅 출연 방송 알려줘",
+            "이번 주 출연 방송 알려줘",
             "참여할 수 있는 팬 모임 있어?",
             "최근 무대 영상 추천해줘");
 
     private static final List<String> SUGGESTED_EN = List.of(
-            "What broadcasts is Lim Young-woong on this week?",
+            "What broadcasts are on this week?",
             "Are there any fan gatherings I can join?",
             "Recommend a recent stage video");
 
@@ -73,36 +75,6 @@ public class ChatService {
         this.aiProvider = aiProvider;
         this.currentUser = currentUser;
         this.starRepository = starRepository;
-    }
-
-    /**
-     * 근거 텍스트의 시드 스타 이름을 <b>사용자가 고른 아티스트 이름으로 치환</b>합니다.
-     *
-     * <p>⚠️ <b>데모 shim 입니다.</b> MVP 는 스타 1명(임영웅) 데이터만 있는데 랜딩에서는
-     * 13명 중 하나를 고를 수 있습니다. 치환하지 않으면 박서진을 골라도 근거에 적힌
-     * "임영웅의 팬미팅" 을 그대로 읽어 <b>다른 사람 이름으로 답합니다</b> (실제로 겪음).
-     * 프롬프트로만 지시하면 모델이 근거의 문자열을 그대로 따라가서 안 지켜집니다.
-     *
-     * <p>다중 스타가 확정되면 이 메서드를 지우고 {@code starId} 로 진짜 데이터를 조회하세요.
-     */
-    private List<Evidence> rewriteArtist(List<Evidence> evidence, Long starId, String artistName) {
-        if (artistName == null || artistName.isBlank()) {
-            return evidence;
-        }
-        String seedName = starRepository.findById(starId)
-                .map(star -> star.getName())
-                .orElse(null);
-        if (seedName == null || seedName.equals(artistName)) {
-            return evidence;
-        }
-        return evidence.stream()
-                .map(e -> new Evidence(
-                        e.type(),
-                        e.id(),
-                        e.title() == null ? null : e.title().replace(seedName, artistName),
-                        e.detail() == null ? null : e.detail().replace(seedName, artistName),
-                        e.route()))
-                .toList();
     }
 
     @Transactional
@@ -172,12 +144,11 @@ public class ChatService {
         }
         found.addAll(evidenceFinder.find(intent, session.getStarId(), question));
 
-        List<Evidence> evidence = rewriteArtist(
-                found, session.getStarId(), session.getArtistName());
-
+        // 시드 스타가 3명이 되면서 이름 치환 shim(rewriteArtist)을 걷어냈습니다.
+        // 근거는 session.starId 로 조회한 그 아티스트의 진짜 데이터입니다.
         ChatAnswer answer = aiProvider.answer(
                 new ChatQuestion(
-                        question, session.getLocale(), intent, inScope, evidence,
+                        question, session.getLocale(), intent, inScope, found,
                         session.getArtistName()));
 
         List<ChatCitation> citations = answer.citations().stream()

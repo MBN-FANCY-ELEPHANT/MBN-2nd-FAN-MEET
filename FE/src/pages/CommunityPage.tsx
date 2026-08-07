@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 
 import { api } from "../api/client";
-import { STAR_ID } from "../app/constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 import GatheringCard from "../components/gathering/GatheringCard";
 import Section from "../components/ui/Section";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/States";
@@ -20,8 +20,8 @@ export default function CommunityPage() {
   const { t } = useTranslation();
 
   const { data, isPending, isError, refetch } = useQuery({
-    queryKey: ["gatherings", STAR_ID],
-    queryFn: () => api.getGatherings({ starId: STAR_ID, size: 20 }),
+    queryKey: ["gatherings", getSelectedStarId()],
+    queryFn: () => api.getGatherings({ starId: getSelectedStarId(), size: 20 }),
   });
 
   return (

@@ -26,7 +26,7 @@ import SearchPage from "../pages/SearchPage";
 import TipDetailPage from "../pages/TipDetailPage";
 import TipListPage from "../pages/TipListPage";
 import VideoDetailPage from "../pages/VideoDetailPage";
-import { STAR_ID } from "./constants";
+import { getSelectedStarId } from "../features/artist/selectedArtist";
 
 const SPLASH_SEEN_KEY = "trot.splashSeen";
 
@@ -126,7 +126,7 @@ export default function App() {
       </Routes>
 
       {voiceOpen && (
-        <VoiceAssistant starId={STAR_ID} onClose={() => setVoiceOpen(false)} />
+        <VoiceAssistant starId={getSelectedStarId()} onClose={() => setVoiceOpen(false)} />
       )}
       {loginOpen && <LoginSheet onClose={() => setLoginOpen(false)} />}
     </>

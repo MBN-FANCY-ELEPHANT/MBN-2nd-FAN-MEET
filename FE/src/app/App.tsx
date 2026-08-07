@@ -7,15 +7,17 @@ import AppShell from "../components/layout/AppShell";
 import LoginSheet from "../features/auth/LoginSheet";
 import VoiceAssistant from "../features/voice/VoiceAssistant";
 import ArticleDetailPage from "../pages/ArticleDetailPage";
+import BroadcastPage from "../pages/BroadcastPage";
 import CommentPage from "../pages/CommentPage";
-import CommunityPage from "../pages/CommunityPage";
 import ContentListPage from "../pages/ContentListPage";
+import FanSpacePage from "../pages/FanSpacePage";
+import FeedPage from "../pages/FeedPage";
 import GatheringDetailPage from "../pages/GatheringDetailPage";
-import HomePage from "../pages/HomePage";
 import LandingPage from "../pages/LandingPage";
 import PlaceListPage from "../pages/PlaceListPage";
-import PlayPage from "../pages/PlayPage";
 import ScheduleListPage from "../pages/ScheduleListPage";
+import ShortformPage from "../pages/ShortformPage";
+import FanSpaceCategoryPage from "../pages/fanspace/FanSpaceCategoryPage";
 import SearchPage from "../pages/SearchPage";
 import TipDetailPage from "../pages/TipDetailPage";
 import TipListPage from "../pages/TipListPage";
@@ -35,29 +37,37 @@ export default function App() {
   const [loginOpen, setLoginOpen] = useState(false);
 
   const starName = star?.name ?? "";
-  const greeting = star?.greeting ?? "";
 
   return (
     <>
       <Routes>
         {/* 진입점은 랜딩페이지입니다 — 방송 프로그램에서 아티스트를 고른 뒤 팬덤 공간으로
-            들어갑니다. 그래서 기존 3탭 셸이 `/` 에서 `/home` 으로 내려왔습니다. */}
+            들어갑니다. */}
         <Route path="/" element={<LandingPage />} />
 
+        {/* 3탭 셸. ⚠️ 디자인 2차본에서 IA 가 바뀌었습니다 —
+            `HOME / COMMUNITY / PLAY` (상단 탭) → `팬공간 / 소식 / 방송` (하단 탭바).
+            기본 탭은 **소식**입니다 (Figma 19:912 에서 활성 상태). */}
         <Route
           element={
             <AppShell
               starName={starName}
-              greeting={greeting}
               onOpenVoice={() => setVoiceOpen(true)}
               onOpenLogin={() => setLoginOpen(true)}
             />
           }
         >
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/community" element={<CommunityPage />} />
-          <Route path="/play" element={<PlayPage />} />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/fanspace" element={<FanSpacePage />} />
+          <Route path="/broadcast" element={<BroadcastPage />} />
         </Route>
+
+        {/* 팬공간 활동 기록 — 공연/투표/굿즈/모집이 **한 화면의 밑줄 탭**입니다
+            (Figma 22:4264 · 22:4214 · 23:4956 · 23:4710). 라우트 파라미터로 탭을 고릅니다. */}
+        <Route path="/fanspace/:category" element={<FanSpaceCategoryPage />} />
+
+        {/* 숏폼 세로 플레이어 (Figma 19:3365) */}
+        <Route path="/shorts/:id" element={<ShortformPage />} />
 
         {/* 상세 화면들은 셸 밖에 둡니다 — 탭바·검색바 없이 Header(Back) 만 씁니다 */}
         <Route

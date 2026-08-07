@@ -1,6 +1,7 @@
 {
   "app": {
     "logo": "MBN AI",
+    "artistLogo": "{{name}} au quotidien",
     "searchPlaceholder": "Saisissez un mot-clé.",
     "seeAll": "Tout voir",
     "loading": "Chargement...",
@@ -10,10 +11,55 @@
   "nav": {
     "home": "HOME",
     "community": "COMMUNITY",
-    "play": "PLAY"
+    "play": "PLAY",
+    "fanspace": "Espace fans",
+    "feed": "Actus",
+    "broadcast": "Émissions"
   },
   "star": {
-    "fandomSpace": "Espace fandom avec {{name}}"
+    "fandomSpace": "Espace fandom avec {{name}}",
+    "dailyGreeting": "Passez une belle journée\navec {{name}} !"
+  },
+  "feed": {
+    "title": "Activités",
+    "manager": "Fan Manager",
+    "hoursAgo": "il y a {{count}} h"
+  },
+  "fanspace": {
+    "title": "Activités",
+    "category": {
+      "concert": "Concert",
+      "vote": "Vote",
+      "goods": "Goodies",
+      "gathering": "Rencontres"
+    },
+    "draftNotice": "Écran en cours de conception. La mise en page peut changer.",
+    "voteAction": "Voter",
+    "currency": " KRW",
+    "entryOpen": "Ouvert",
+    "entryClosed": "Terminé",
+    "entryCount": "{{count}} inscrits",
+    "entryWon": "Gagné",
+    "goodsTop4": "Top 4",
+    "goodsLightstick": "Lightsticks",
+    "appliedGatherings": "Mes inscriptions",
+    "empty": {
+      "concert": "Aucun concert à venir",
+      "vote": "Aucun vote en cours",
+      "gathering": "Aucune rencontre ouverte"
+    }
+  },
+  "broadcast": {
+    "articlesAndLongform": "Articles & vidéos",
+    "shortform": "Shorts",
+    "onAirAt": "Aujourd'hui {{time}}",
+    "tab": {
+      "article": "Articles",
+      "longform": "Vidéos"
+    }
+  },
+  "notification": {
+    "title": "Notifications"
   },
   "banner": {
     "home": {
@@ -129,7 +175,9 @@
   "search": {
     "title": "Recherche",
     "hint": "Essayez un nom d'artiste, un événement ou une rencontre.",
-    "noResult": "Aucun résultat pour « {{query}} »."
+    "noResult": "Aucun résultat pour « {{query}} ».",
+    "trendingTitle": "Recherches populaires",
+    "trendingAsOf": "Au 6 août, 12:00"
   },
   "tip": {
     "updatedAt": "Au {{date}}",

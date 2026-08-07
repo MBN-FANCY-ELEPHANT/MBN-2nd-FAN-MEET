@@ -14,3 +14,25 @@
   font-size: var(--text-meta-size);
   color: var(--color-text-primary);
 }
+
+/* 마스코트 빈 상태 (Figma 22:4214) — 목록이 비었을 때 화면이 고장 나 보이지 않게 */
+.emptyMascot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-10) var(--space-5);
+  text-align: center;
+}
+
+.emptyMascot img {
+  width: 120px;
+  height: 140px;
+  object-fit: contain;
+}
+
+.emptyMascot p {
+  font-size: var(--text-card-title-size);
+  font-weight: 500;
+  color: var(--color-text-muted);
+}

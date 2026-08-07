@@ -12,6 +12,8 @@
   --page-padding-x: 16px; /* 콘텐츠 폭 343px */
   --header-height: 45px;
   --tabbar-height: 27px;
+  /* 하단 탭바 (디자인 2차본에서 상단 탭 → 하단 탭바로 이동, Figma 19:752) */
+  --tabbar-height-bottom: 72px;
 
   /* ── Figma 변수 (디자이너가 등록한 6개 — 이것이 정본) ── */
   --color-primary: #f58220;
@@ -32,6 +34,8 @@
   --color-skeleton: #e2e8f0;
   /* 아티스트 아바타·출연자 수 배지 배경 — primary 틴트 (랜딩페이지, 디자인 미확정) */
   --color-avatar-surface: #fff1e5;
+  /* 팬매니저 공지 말풍선 (Figma 19:955 실측) */
+  --color-notice-surface: #fff9f5;
 
   /* ── 랜딩(아티스트 선택) 전용 다크 테마 ──
      ⚠️ 이 화면만 의도적으로 앱 본편과 반대 명도로 갑니다. 진입 → 팬덤 공간 전환을

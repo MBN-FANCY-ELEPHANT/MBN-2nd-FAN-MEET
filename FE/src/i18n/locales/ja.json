@@ -1,6 +1,7 @@
 {
   "app": {
     "logo": "MBN AI",
+    "artistLogo": "毎日{{name}}",
     "searchPlaceholder": "検索ワードを入力してください。",
     "seeAll": "すべて見る",
     "loading": "読み込み中...",
@@ -10,10 +11,55 @@
   "nav": {
     "home": "HOME",
     "community": "COMMUNITY",
-    "play": "PLAY"
+    "play": "PLAY",
+    "fanspace": "ファン空間",
+    "feed": "お知らせ",
+    "broadcast": "放送"
   },
   "star": {
-    "fandomSpace": "{{name}} さんとのファンダム空間"
+    "fandomSpace": "{{name}} さんとのファンダム空間",
+    "dailyGreeting": "今日も{{name}}さんと\n楽しい一日を！"
+  },
+  "feed": {
+    "title": "活動記録",
+    "manager": "ファンマネージャー",
+    "hoursAgo": "{{count}}時間前"
+  },
+  "fanspace": {
+    "title": "活動記録",
+    "category": {
+      "concert": "公演",
+      "vote": "投票",
+      "goods": "グッズ",
+      "gathering": "募集"
+    },
+    "draftNotice": "デザイン制作中の画面です。レイアウトは変わる可能性があります。",
+    "voteAction": "投票する",
+    "currency": "ウォン",
+    "entryOpen": "応募中",
+    "entryClosed": "応募終了",
+    "entryCount": "{{count}}名 応募中",
+    "entryWon": "当選",
+    "goodsTop4": "人気 TOP 4",
+    "goodsLightstick": "ペンライト",
+    "appliedGatherings": "申し込んだ募集",
+    "empty": {
+      "concert": "予定された公演がありません",
+      "vote": "進行中の投票がありません",
+      "gathering": "募集中の集まりがありません"
+    }
+  },
+  "broadcast": {
+    "articlesAndLongform": "記事＆ロングフォーム",
+    "shortform": "ショート",
+    "onAirAt": "本日 {{time}}",
+    "tab": {
+      "article": "記事",
+      "longform": "ロングフォーム"
+    }
+  },
+  "notification": {
+    "title": "通知"
   },
   "banner": {
     "home": {
@@ -129,7 +175,9 @@
   "search": {
     "title": "検索",
     "hint": "スター名・予定・集まりで探せます。",
-    "noResult": "「{{query}}」の結果がありません。"
+    "noResult": "「{{query}}」の結果がありません。",
+    "trendingTitle": "現在の人気検索ワード",
+    "trendingAsOf": "8月6日 12:00 時点"
   },
   "tip": {
     "updatedAt": "{{date}} 時点",

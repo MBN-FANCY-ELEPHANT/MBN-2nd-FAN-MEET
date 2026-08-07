@@ -54,7 +54,8 @@ export default function LandingPage() {
   function enterFandom() {
     if (!picked) return;
     setSelectedArtist(picked);
-    navigate("/home");
+    // 기본 탭은 소식입니다 (Figma 19:912 에서 활성 상태)
+    navigate("/feed");
   }
 
   return (

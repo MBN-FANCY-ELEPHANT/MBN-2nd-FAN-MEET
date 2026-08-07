@@ -29,6 +29,21 @@
   color: var(--color-text-primary);
 }
 
+/* 브랜드 모드 — 제목 자리에 `매일{아티스트}` 를 primary 로 (Figma 22:4265).
+   이 화면들은 헤더가 페이지 배경 위에 그대로 얹히고 아래 구분선도 없습니다. */
+.headerBrand {
+  background: transparent;
+  border-bottom: none;
+}
+
+.titleBrand {
+  flex: 1;
+  font-size: var(--text-logo-size);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
 .langButton {
   display: inline-flex;
   align-items: center;

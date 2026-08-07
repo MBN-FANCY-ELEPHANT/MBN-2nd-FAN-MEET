@@ -33,11 +33,11 @@ type Phase = "LISTENING" | "TRANSCRIBING" | "THINKING" | "ANSWERED";
 
 /** citation 타입 → 앱 내 라우트. 답변 근거를 탭하면 해당 화면으로 이동합니다. */
 const CITATION_ROUTE: Record<string, (id: number) => string> = {
-  SCHEDULE: () => "/home",
+  SCHEDULE: () => "/feed",
   CONTENT: (id) => `/contents/${id}`,
   GATHERING: (id) => `/community/gatherings/${id}`,
-  PLACE: () => "/play",
-  TIP: () => "/play",
+  PLACE: () => "/fanspace",
+  TIP: () => "/fanspace",
 };
 
 export default function VoiceAssistant({

@@ -1,0 +1,178 @@
+/* 검색창 — Figma 22:3900 */
+
+.page {
+  min-height: 100%;
+  background: var(--gradient-page-detail);
+  padding-bottom: var(--space-10);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 10px var(--page-padding-x);
+}
+
+.logo {
+  font-size: var(--text-logo-size);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.langButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  height: 25px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-sm);
+  background: var(--color-background);
+  font-size: var(--text-caption-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.iconButton {
+  display: grid;
+  place-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* ── 검색바 (Active) ── */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 56px;
+  margin: var(--space-2) var(--page-padding-x) 0;
+  padding: 10px var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+}
+
+.searchBar:focus-within {
+  border-color: var(--color-primary);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  font-family: inherit;
+  font-size: var(--text-search-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.clear {
+  border: none;
+  background: none;
+  padding: 0 var(--space-1);
+  font-size: var(--text-card-title-size);
+  line-height: 1;
+  color: var(--color-text-faint);
+}
+
+/* ── 인기 검색어 ── */
+.trendTitle {
+  margin: var(--space-5) var(--page-padding-x) var(--space-3);
+  font-size: var(--text-label-size);
+  font-weight: 700;
+}
+
+.trendCard {
+  margin: 0 var(--page-padding-x);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-white);
+}
+
+.trendMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: var(--text-caption-size);
+  color: var(--color-text-faint);
+}
+
+/* 2열 순위 (Figma 22:3900).
+   ⚠️ **세로 방향**으로 채웁니다 — 1~5위가 왼쪽, 6~10위가 오른쪽입니다.
+   기본 grid 는 가로로 채워서 1·2 / 3·4 가 되므로 `grid-auto-flow: column` 이 필요합니다. */
+.trendList {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(5, auto);
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4) var(--space-5);
+}
+
+.trendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border: none;
+  background: none;
+  padding: 0;
+  text-align: left;
+  color: inherit;
+}
+
+.trendRank {
+  flex-shrink: 0;
+  width: 12px;
+  font-size: var(--text-small-size);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.trendWord {
+  min-width: 0;
+  font-size: var(--text-small-size);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── 검색 결과 ── */
+.results {
+  padding: var(--space-5) var(--page-padding-x) 0;
+}
+
+.resultGroup {
+  margin-bottom: var(--space-6);
+}
+
+.resultGroupTitle {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-card-title-size);
+  font-weight: 700;
+}
+
+.resultRow {
+  display: block;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-divider);
+  font-size: var(--text-small-size);
+  color: inherit;
+}

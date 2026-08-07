@@ -1,6 +1,7 @@
 {
   "app": {
     "logo": "MBN AI",
+    "artistLogo": "{{name}} каждый день",
     "searchPlaceholder": "Введите поисковый запрос.",
     "seeAll": "Показать всё",
     "loading": "Загрузка...",
@@ -10,10 +11,55 @@
   "nav": {
     "home": "HOME",
     "community": "COMMUNITY",
-    "play": "PLAY"
+    "play": "PLAY",
+    "fanspace": "Фан-зона",
+    "feed": "Новости",
+    "broadcast": "Эфир"
   },
   "star": {
-    "fandomSpace": "Фандом-пространство с {{name}}"
+    "fandomSpace": "Фандом-пространство с {{name}}",
+    "dailyGreeting": "Хорошего дня\nвместе с {{name}}!"
+  },
+  "feed": {
+    "title": "Активность",
+    "manager": "Фан-менеджер",
+    "hoursAgo": "{{count}} ч назад"
+  },
+  "fanspace": {
+    "title": "Активность",
+    "category": {
+      "concert": "Концерт",
+      "vote": "Голосование",
+      "goods": "Мерч",
+      "gathering": "Встречи"
+    },
+    "draftNotice": "Экран в разработке. Макет может измениться.",
+    "voteAction": "Голосовать",
+    "currency": " KRW",
+    "entryOpen": "Открыта",
+    "entryClosed": "Закрыта",
+    "entryCount": "{{count}} заявок",
+    "entryWon": "Выигрыш",
+    "goodsTop4": "Топ 4",
+    "goodsLightstick": "Лайтстики",
+    "appliedGatherings": "Мои заявки",
+    "empty": {
+      "concert": "Нет предстоящих концертов",
+      "vote": "Нет активных голосований",
+      "gathering": "Нет открытых встреч"
+    }
+  },
+  "broadcast": {
+    "articlesAndLongform": "Статьи и видео",
+    "shortform": "Шортсы",
+    "onAirAt": "Сегодня {{time}}",
+    "tab": {
+      "article": "Статьи",
+      "longform": "Видео"
+    }
+  },
+  "notification": {
+    "title": "Уведомления"
   },
   "banner": {
     "home": {
@@ -129,7 +175,9 @@
   "search": {
     "title": "Поиск",
     "hint": "Попробуйте имя артиста, событие или встречу.",
-    "noResult": "Нет результатов по «{{query}}»."
+    "noResult": "Нет результатов по «{{query}}».",
+    "trendingTitle": "Популярные запросы",
+    "trendingAsOf": "На 6 августа, 12:00"
   },
   "tip": {
     "updatedAt": "На {{date}}",

@@ -2,42 +2,54 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 
-import { getSelectedArtist } from "../../features/artist/selectedArtist";
+import exampleHero from "../../assets/example/example_hero.png";
+import {
+  getSelectedArtist,
+  shortArtistName,
+  withKoreanNameParticle,
+} from "../../features/artist/selectedArtist";
 import { useAuth } from "../../features/auth/useAuth";
 import { MASCOT } from "../../features/voice/mascot";
 import { LOCALE_LABEL, currentLocale } from "../../i18n";
 import Icon from "../ui/Icon";
+import type { IconName } from "../ui/Icon";
 import styles from "./AppShell.module.css";
 import LanguageSheet from "./LanguageSheet";
 
 /**
- * HOME / COMMUNITY / PLAY 세 화면이 공유하는 셸.
+ * 팬공간 / 소식 / 방송 세 화면이 공유하는 셸 (Figma 19:912 · 19:2957 · 19:3203).
  *
- * 디자인 3화면의 상단부(헤더 → 탭바 → 검색바 → 스타 인사 → 배너)가 완전히 동일하므로
- * 셸을 1개만 두고 배너 문구와 본문만 탭별로 교체합니다 (docs/design-spec.md §1).
+ * ⚠️ **디자인 2차본에서 IA 가 통째로 바뀌었습니다.**
+ *  - 상단 탭 `HOME / COMMUNITY / PLAY` → **하단 탭바** `팬공간 / 소식 / 방송`
+ *  - 로고 `MBN AI` → **`매일{아티스트}`** (랜딩에서 고른 아티스트로 브랜딩)
+ *  - 헤더에 **알림 벨** 추가
+ *  - 히어로가 탭에 따라 갈립니다 — 소식·팬공간은 방송 프로모 카드, 방송은 AI 배너
  *
- * ⚠️ 검색바는 일반 텍스트 검색 전용입니다. 초안에 있던 AI 모드는 디자인에서 삭제됐습니다.
- *    AI 진입점은 **마이크 FAB 단독**이며, 배너 CTA 도 같은 오버레이를 엽니다.
+ * ⚠️ 알림 벨과 프로모 카드는 아직 **정적**입니다. BE 계약이 없습니다(개편 3단계).
  */
 
 const TABS = [
-  { to: "/home", key: "home" },
-  { to: "/community", key: "community" },
-  { to: "/play", key: "play" },
-] as const;
+  { to: "/fanspace", key: "fanspace", icon: "heartOutline" },
+  { to: "/feed", key: "feed", icon: "megaphone" },
+  { to: "/broadcast", key: "broadcast", icon: "youtube" },
+] as const satisfies ReadonlyArray<{
+  to: string;
+  key: string;
+  icon: IconName;
+}>;
 
-function activeTabKey(pathname: string): "home" | "community" | "play" {
-  if (pathname.startsWith("/community")) return "community";
-  if (pathname.startsWith("/play")) return "play";
-  return "home";
+type TabKey = (typeof TABS)[number]["key"];
+
+function activeTabKey(pathname: string): TabKey {
+  if (pathname.startsWith("/fanspace")) return "fanspace";
+  if (pathname.startsWith("/broadcast")) return "broadcast";
+  return "feed";
 }
 
 type Props = {
-  /** 스타 표시명 (예: 임영웅) */
+  /** 스타 표시명 (예: 임영웅). 랜딩에서 고른 아티스트가 있으면 그쪽이 우선입니다 */
   starName: string;
-  /** 스타 인사 문구 (예: 오늘 하루도 즐거운 하루되세요!) */
-  greeting: string;
-  /** 음성 AI 오버레이 열기 — 마이크 FAB 과 배너 CTA 가 공유합니다 */
+  /** 음성 AI 오버레이 열기 — 방송 탭 배너가 씁니다 */
   onOpenVoice: () => void;
   /** 데모 로그인 시트 열기 */
   onOpenLogin: () => void;
@@ -45,7 +57,6 @@ type Props = {
 
 export default function AppShell({
   starName,
-  greeting,
   onOpenVoice,
   onOpenLogin,
 }: Props) {
@@ -56,15 +67,18 @@ export default function AppShell({
   const { user, isAuthenticated, logout } = useAuth();
   const tab = activeTabKey(pathname);
   const locale = currentLocale();
-  // 랜딩에서 고른 아티스트. 렌더 중 한 번만 읽으면 되는 값이라 상태로 들지 않습니다.
-  const selectedArtist = getSelectedArtist();
+
+  // 랜딩에서 고른 아티스트가 이 공간의 주인입니다. 없으면 시드 스타로 폴백합니다.
+  const artist = getSelectedArtist() ?? starName;
+  const shortName = artist ? shortArtistName(artist) : "";
 
   return (
     <div className={styles.shell}>
       <header className={styles.header}>
-        <span className={styles.logo}>{t("app.logo")}</span>
+        <span className={styles.logo}>
+          {shortName ? t("app.artistLogo", { name: shortName }) : t("app.logo")}
+        </span>
         <div className={styles.headerActions}>
-          {/* 로그인 상태를 아바타로 보여줍니다 — 댓글의 국가 배지와 이어지는 맥락입니다 */}
           {isAuthenticated && user ? (
             <button
               className={styles.avatarButton}
@@ -86,83 +100,92 @@ export default function AppShell({
             <Icon name="earth" size={16} />
             <span>{LOCALE_LABEL[locale]}</span>
           </button>
+          {/* 알림 목록 화면은 아직 없습니다 — 벨은 디자인 반영용 자리표시자입니다 */}
+          <button
+            className={styles.iconButton}
+            aria-label={t("notification.title")}
+          >
+            <Icon name="notificationBell" size={24} />
+          </button>
         </div>
       </header>
 
-      <nav className={styles.tabbar}>
-        {TABS.map(({ to, key }) => (
-          <NavLink
-            key={key}
-            to={to}
-            className={() =>
-              `${styles.tab} ${tab === key ? styles.tabActive : ""}`
-            }
-          >
-            {t(`nav.${key}`)}
-          </NavLink>
-        ))}
-      </nav>
+      <button className={styles.search} onClick={() => navigate("/search")}>
+        <Icon name="magnifier" size={24} />
+        <span className={styles.searchPlaceholder}>
+          {t("app.searchPlaceholder")}
+        </span>
+      </button>
 
-      <div className={styles.topBody}>
-        {/* 셸의 검색바는 입력을 받지 않고 검색 화면으로 넘깁니다 —
-            결과를 이 화면에 끼워 넣으면 탭 구조가 무너집니다 */}
-        <button className={styles.search} onClick={() => navigate("/search")}>
-          <Icon name="magnifier" size={24} />
-          <span className={styles.searchPlaceholder}>
-            {t("app.searchPlaceholder")}
+      <h1 className={styles.greeting}>
+        {t("star.dailyGreeting", {
+          // 한국어만 받침에 따라 `이` 를 붙입니다 — 다른 언어는 이름 그대로 씁니다
+          name: locale === "ko" ? withKoreanNameParticle(shortName) : shortName,
+        })}
+      </h1>
+
+      {tab === "broadcast" ? (
+        <button className={styles.hero} onClick={onOpenVoice}>
+          <span className={styles.heroAi}>
+            <span className={styles.heroAiSub}>{t("banner.play.sub")}</span>
+            <span className={styles.heroAiCta}>{t("banner.play.cta")}</span>
           </span>
-        </button>
-
-        <h1 className={styles.greetingTitle}>
-          {t("star.fandomSpace", { name: starName })}
-        </h1>
-        <p className={styles.greetingSub}>{greeting}</p>
-
-        {/* ⚠️ 임시 연결 표시 — 랜딩에서 고른 아티스트가 이 화면으로 이어진다는 것만
-            보여줍니다. 팬덤 공간 데이터는 아직 STAR_ID=1 고정입니다. */}
-        {selectedArtist && (
-          <div className={styles.artistNotice}>
-            <span className={styles.artistNoticeText}>
-              <strong>{selectedArtist}</strong>
-              {t("landing.linkedSuffix")}
-            </span>
-            <button
-              className={styles.artistNoticeButton}
-              onClick={() => navigate("/")}
-            >
-              {t("landing.change")}
-            </button>
-          </div>
-        )}
-
-        <button className={styles.banner} onClick={onOpenVoice}>
-          {/* 마스코트는 COMMUNITY 탭에만 있습니다 (Figma 6:772) */}
-          {tab === "community" && MASCOT.banner && (
+          {MASCOT.banner && (
             <img
-              className={styles.bannerMascot}
+              className={styles.heroMascot}
               src={MASCOT.banner}
               alt=""
               aria-hidden
             />
           )}
-          <span className={styles.bannerText}>
-            <span className={styles.bannerSub}>{t(`banner.${tab}.sub`)}</span>
-            <span className={styles.bannerCta}>{t(`banner.${tab}.cta`)}</span>
+        </button>
+      ) : (
+        <button className={styles.hero} onClick={() => navigate("/broadcast")}>
+          {/* ⚠️ 편성 데이터가 없어 예시 이미지·문구입니다 (Figma 19:916) */}
+          <img
+            className={styles.heroImage}
+            src={exampleHero}
+            alt=""
+            aria-hidden
+          />
+          <span className={styles.heroScrim} aria-hidden />
+          <span className={styles.heroPromo}>
+            <span className={styles.heroPromoTime}>
+              {t("broadcast.onAirAt", { time: "오후 7:00" })}
+            </span>
+            <span className={styles.heroPromoTitle}>한일가왕전</span>
           </span>
         </button>
-      </div>
+      )}
 
-      <main className={styles.main}>
+      <main className={styles.sheet}>
         <Outlet />
       </main>
 
-      <button
-        className={styles.micFab}
-        onClick={onOpenVoice}
-        aria-label={t("chat.title")}
-      >
-        <Icon name="mic" size={32} className={styles.micIcon} />
-      </button>
+      {/* 음성 AI 진입점. 디자인 2차본에서 마이크 FAB 이 **마스코트로 대체**됐을 뿐,
+          누르면 기존과 똑같이 음성 오버레이가 열립니다 (docs/ai-stack.md §2). */}
+      {MASCOT.banner && (
+        <button
+          className={styles.mascotFab}
+          onClick={onOpenVoice}
+          aria-label={t("chat.title")}
+        >
+          <img src={MASCOT.banner} alt="" aria-hidden />
+        </button>
+      )}
+
+      <nav className={styles.nav}>
+        {TABS.map(({ to, key, icon }) => (
+          <NavLink
+            key={key}
+            to={to}
+            className={`${styles.navItem} ${tab === key ? styles.navItemActive : ""}`}
+          >
+            <Icon name={icon} size={24} className={styles.navIcon} />
+            {t(`nav.${key}`)}
+          </NavLink>
+        ))}
+      </nav>
 
       {languageOpen ? (
         <LanguageSheet onClose={() => setLanguageOpen(false)} />

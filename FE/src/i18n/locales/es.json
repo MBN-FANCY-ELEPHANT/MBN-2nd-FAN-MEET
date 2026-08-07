@@ -1,6 +1,7 @@
 {
   "app": {
     "logo": "MBN AI",
+    "artistLogo": "{{name}} cada día",
     "searchPlaceholder": "Escribe una palabra clave.",
     "seeAll": "Ver todo",
     "loading": "Cargando...",
@@ -10,10 +11,55 @@
   "nav": {
     "home": "HOME",
     "community": "COMMUNITY",
-    "play": "PLAY"
+    "play": "PLAY",
+    "fanspace": "Espacio fan",
+    "feed": "Novedades",
+    "broadcast": "Programas"
   },
   "star": {
-    "fandomSpace": "Espacio de fans con {{name}}"
+    "fandomSpace": "Espacio de fans con {{name}}",
+    "dailyGreeting": "¡Que tengas un gran día\ncon {{name}}!"
+  },
+  "feed": {
+    "title": "Actividad",
+    "manager": "Fan Manager",
+    "hoursAgo": "hace {{count}} h"
+  },
+  "fanspace": {
+    "title": "Actividad",
+    "category": {
+      "concert": "Concierto",
+      "vote": "Votación",
+      "goods": "Merch",
+      "gathering": "Encuentros"
+    },
+    "draftNotice": "Pantalla en diseño. El diseño puede cambiar.",
+    "voteAction": "Votar",
+    "currency": " KRW",
+    "entryOpen": "Abierto",
+    "entryClosed": "Cerrado",
+    "entryCount": "{{count}} inscritos",
+    "entryWon": "Ganado",
+    "goodsTop4": "Top 4",
+    "goodsLightstick": "Lightsticks",
+    "appliedGatherings": "Mis inscripciones",
+    "empty": {
+      "concert": "No hay conciertos próximos",
+      "vote": "No hay votaciones activas",
+      "gathering": "No hay encuentros abiertos"
+    }
+  },
+  "broadcast": {
+    "articlesAndLongform": "Artículos y vídeos",
+    "shortform": "Shorts",
+    "onAirAt": "Hoy {{time}}",
+    "tab": {
+      "article": "Artículos",
+      "longform": "Vídeos"
+    }
+  },
+  "notification": {
+    "title": "Notificaciones"
   },
   "banner": {
     "home": {
@@ -129,7 +175,9 @@
   "search": {
     "title": "Buscar",
     "hint": "Prueba con un nombre, un evento o un encuentro.",
-    "noResult": "Sin resultados para «{{query}}»."
+    "noResult": "Sin resultados para «{{query}}».",
+    "trendingTitle": "Búsquedas populares",
+    "trendingAsOf": "Al 6 de agosto, 12:00"
   },
   "tip": {
     "updatedAt": "A fecha de {{date}}",

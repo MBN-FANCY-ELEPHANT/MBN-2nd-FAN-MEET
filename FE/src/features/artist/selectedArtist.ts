@@ -34,3 +34,31 @@ export function setSelectedArtist(name: string | null): void {
     // 저장 실패해도 화면 흐름은 그대로 이어집니다.
   }
 }
+
+/**
+ * 로고·인사말에 쓰는 짧은 호칭. 디자인이 `박서진` → **`매일서진`**, `오늘도 서진이와`
+ * 처럼 **성을 뗀 이름**을 씁니다 (Figma 19:913 / 19:915).
+ *
+ * 한국어 3글자 이름만 성을 떼고, 그 외(2글자·외국어·그룹명)는 그대로 둡니다 —
+ * `린`, `마리아 리스`, `후쿠다 미라이` 를 임의로 자르면 오히려 이상해집니다.
+ */
+export function shortArtistName(name: string): string {
+  const chars = Array.from(name);
+  const isKoreanThreeLetter =
+    chars.length === 3 && chars.every((c) => /[가-힣]/.test(c));
+  return isKoreanThreeLetter ? chars.slice(1).join("") : name;
+}
+
+/**
+ * 한국어 인사말용 — 받침이 있으면 `이` 를 붙입니다 (`서진` → `서진이`, `수호` → `수호`).
+ *
+ * 디자인 문구가 "오늘도 **서진이**와 즐거운 하루 보내세요!" 인데, 받침을 따지지 않으면
+ * `나츠코이와` 처럼 어색해집니다. 한국어 로케일에서만 씁니다.
+ */
+export function withKoreanNameParticle(name: string): string {
+  const last = Array.from(name).at(-1);
+  if (!last || !/[가-힣]/.test(last)) return name;
+  // 한글 음절 = 0xAC00 + (초성*21 + 중성)*28 + 종성. 종성이 0 이면 받침 없음.
+  const hasFinalConsonant = (last.charCodeAt(0) - 0xac00) % 28 !== 0;
+  return hasFinalConsonant ? `${name}이` : name;
+}

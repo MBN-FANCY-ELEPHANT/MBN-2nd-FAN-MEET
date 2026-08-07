@@ -1,6 +1,7 @@
 {
   "app": {
     "logo": "MBN AI",
+    "artistLogo": "매일{{name}}",
     "searchPlaceholder": "검색어를 입력해주세요.",
     "seeAll": "전체보기",
     "loading": "불러오는 중...",
@@ -10,10 +11,55 @@
   "nav": {
     "home": "HOME",
     "community": "COMMUNITY",
-    "play": "PLAY"
+    "play": "PLAY",
+    "fanspace": "팬공간",
+    "feed": "소식",
+    "broadcast": "방송"
   },
   "star": {
-    "fandomSpace": "{{name}} 님과의 팬덤 공간"
+    "fandomSpace": "{{name}} 님과의 팬덤 공간",
+    "dailyGreeting": "오늘도 {{name}}와\n즐거운 하루 보내세요!"
+  },
+  "feed": {
+    "title": "활동 기록",
+    "manager": "팬매니저",
+    "hoursAgo": "{{count}}시간 전"
+  },
+  "fanspace": {
+    "title": "활동 기록",
+    "category": {
+      "concert": "공연",
+      "vote": "투표",
+      "goods": "굿즈",
+      "gathering": "모집"
+    },
+    "draftNotice": "디자인 제작 중인 화면입니다. 레이아웃은 바뀔 수 있어요.",
+    "voteAction": "투표하기",
+    "currency": "원",
+    "entryOpen": "응모 중",
+    "entryClosed": "응모 종료",
+    "entryCount": "{{count}}명 응모중",
+    "entryWon": "당첨",
+    "goodsTop4": "인기 TOP 4",
+    "goodsLightstick": "응원봉",
+    "appliedGatherings": "신청한 모집",
+    "empty": {
+      "concert": "예정된 공연이 없어요",
+      "vote": "진행중인 투표가 없어요",
+      "gathering": "모집중인 모임이 없어요"
+    }
+  },
+  "broadcast": {
+    "articlesAndLongform": "기사&롱폼",
+    "shortform": "숏폼",
+    "onAirAt": "오늘 {{time}}",
+    "tab": {
+      "article": "기사",
+      "longform": "롱폼"
+    }
+  },
+  "notification": {
+    "title": "알림"
   },
   "banner": {
     "home": {
@@ -129,7 +175,9 @@
   "search": {
     "title": "검색",
     "hint": "스타 이름, 일정, 모임 이름으로 찾아보세요.",
-    "noResult": "'{{query}}' 에 대한 결과가 없습니다."
+    "noResult": "'{{query}}' 에 대한 결과가 없습니다.",
+    "trendingTitle": "현재 인기있는 검색어",
+    "trendingAsOf": "08월 06일 12:00 기준"
   },
   "tip": {
     "updatedAt": "{{date}} 기준",

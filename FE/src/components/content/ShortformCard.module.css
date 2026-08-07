@@ -1,0 +1,68 @@
+/* 숏폼 카드 — Figma `Carousal (LIVE)` I19:3214;13:125 실측 (164×254) */
+
+.card {
+  position: relative;
+  flex-shrink: 0;
+  width: 164px;
+  height: 254px;
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  color: inherit;
+}
+
+/* 썸네일이 190px 로 카드의 3/4 를 차지합니다 — 세로 영상이라 기사 카드보다 깁니다 */
+.thumb {
+  position: relative;
+  width: 164px;
+  height: 190px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  overflow: hidden;
+  background: var(--color-skeleton);
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 시청자 배지 — 우상단 (I19:3214;13:143) */
+.viewers {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  border-radius: var(--radius-xs);
+  background: rgba(0, 0, 0, 0.8);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-white);
+  white-space: nowrap;
+}
+
+.viewersIcon {
+  filter: brightness(0) invert(1);
+}
+
+.title {
+  position: absolute;
+  left: 12px;
+  top: 200px;
+  width: 140px;
+  font-size: var(--text-card-title-size);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  /* 카드 높이가 고정이라 2줄에서 자릅니다 */
+  /* ⚠️ `-webkit-line-clamp` 는 이 프로젝트에서 동작하지 않습니다 — Vite 의 CSS
+     변환이 `display: -webkit-box` 를 `flow-root` 로 바꿉니다 (실측 확인).
+     그래서 줄 수 × line-height 만큼 높이로 자릅니다. */
+  overflow: hidden;
+  max-height: calc(2 * 1.4em);
+}

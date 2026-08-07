@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { MASCOT } from "../../features/voice/mascot";
 import styles from "./States.module.css";
 
 /**
@@ -30,4 +31,19 @@ export function ErrorState({ onRetry }: { onRetry?: () => void }) {
 
 export function EmptyState({ message }: { message: string }) {
   return <p className={styles.message}>{message}</p>;
+}
+
+/**
+ * 마스코트를 세운 빈 상태 (Figma 22:4214 — "진행중인 투표가 없어요").
+ *
+ * 목록이 비었을 때 한 줄 텍스트만 두면 화면이 고장 난 것처럼 보입니다.
+ * 비엔이가 서 있으면 "지금은 없다"가 의도된 상태로 읽힙니다.
+ */
+export function EmptyMascotState({ message }: { message: string }) {
+  return (
+    <div className={styles.emptyMascot}>
+      {MASCOT.banner && <img src={MASCOT.banner} alt="" aria-hidden />}
+      <p>{message}</p>
+    </div>
+  );
 }

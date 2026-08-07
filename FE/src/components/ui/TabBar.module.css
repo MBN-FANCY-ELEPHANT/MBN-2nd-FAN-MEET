@@ -1,0 +1,53 @@
+/* 밑줄 탭바 — Figma 22:4266 실측 (h 27, 탭 폭 93, 밑줄 3px radius 2)
+   기사&롱폼 전체보기(2탭)와 팬공간(4탭)이 공유합니다. */
+
+.bar {
+  position: relative;
+  display: flex;
+  height: 27px;
+  margin-bottom: var(--space-4);
+}
+
+/* 탭 아래 전체 폭 구분선 (22:4267) */
+.bar::after {
+  content: "";
+  position: absolute;
+  left: calc(-1 * var(--page-padding-x));
+  right: calc(-1 * var(--page-padding-x));
+  bottom: 0;
+  height: 1px;
+  background: var(--color-divider);
+}
+
+.tab {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: var(--text-tab-size);
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.tabActive {
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.underline {
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+.tabActive .underline {
+  background: var(--color-primary);
+}

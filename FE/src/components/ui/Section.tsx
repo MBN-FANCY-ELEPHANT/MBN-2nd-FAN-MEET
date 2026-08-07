@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
+import Icon from "./Icon";
 import styles from "./Section.module.css";
 
 /**
@@ -25,7 +26,9 @@ export default function Section({
         <h2 className={styles.title}>{title}</h2>
         {seeAllTo && (
           <Link to={seeAllTo} className={styles.seeAll}>
-            {t("app.seeAll")} <span aria-hidden>›</span>
+            {/* 이모지 `›` 대신 Figma 에서 내보낸 실제 아이콘 (I19:3213;5:367) */}
+            {t("app.seeAll")}
+            <Icon name="arrowRight" size={24} />
           </Link>
         )}
       </div>

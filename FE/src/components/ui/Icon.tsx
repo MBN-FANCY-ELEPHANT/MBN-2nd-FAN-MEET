@@ -1,13 +1,22 @@
 import aiSquare from "../../assets/icons/ai-square.svg";
 import arrowLeft from "../../assets/icons/arrow-left.svg";
+import arrowRight from "../../assets/icons/arrow-right.svg";
 import calendar from "../../assets/icons/calendar.svg";
+import eye from "../../assets/icons/eye.svg";
+import chatBubble from "../../assets/icons/chat-bubble.svg";
 import earth from "../../assets/icons/earth.svg";
 import heart from "../../assets/icons/heart.svg";
+import heartFilled from "../../assets/icons/heart-filled.svg";
+import heartOutline from "../../assets/icons/heart-outline.svg";
 import magnifier from "../../assets/icons/magnifier.svg";
 import mapMarker from "../../assets/icons/map-marker.svg";
+import megaphone from "../../assets/icons/megaphone.svg";
 import mic from "../../assets/icons/mic.svg";
+import notificationBell from "../../assets/icons/notification-bell.svg";
+import share from "../../assets/icons/share.svg";
 import translate from "../../assets/icons/translate.svg";
 import wallet from "../../assets/icons/wallet.svg";
+import youtube from "../../assets/icons/youtube.svg";
 
 /**
  * Figma 에서 내보낸 실제 아이콘 (Neaticons / mingcute).
@@ -21,14 +30,23 @@ import wallet from "../../assets/icons/wallet.svg";
 const SOURCES = {
   aiSquare,
   arrowLeft,
+  arrowRight,
   calendar,
+  chatBubble,
   earth,
+  eye,
   heart,
+  heartFilled,
+  heartOutline,
   magnifier,
   mapMarker,
+  megaphone,
   mic,
+  notificationBell,
+  share,
   translate,
   wallet,
+  youtube,
 } as const;
 
 export type IconName = keyof typeof SOURCES;

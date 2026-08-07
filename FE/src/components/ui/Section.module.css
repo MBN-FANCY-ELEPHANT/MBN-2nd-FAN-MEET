@@ -25,3 +25,9 @@
   line-height: 1.4;
   color: var(--color-text-secondary);
 }
+
+/* Figma 원본이 `arrow-left-2` 라서 디자인에서도 180° 돌려 씁니다 (I19:3213;5:367).
+   뒤집지 않으면 `전체보기 ‹` 처럼 화살표가 반대로 갑니다. */
+.seeAll img {
+  transform: scaleX(-1);
+}

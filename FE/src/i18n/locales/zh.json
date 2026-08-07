@@ -1,6 +1,7 @@
 {
   "app": {
     "logo": "MBN AI",
+    "artistLogo": "每日{{name}}",
     "searchPlaceholder": "请输入搜索词。",
     "seeAll": "查看全部",
     "loading": "加载中...",
@@ -10,10 +11,55 @@
   "nav": {
     "home": "HOME",
     "community": "COMMUNITY",
-    "play": "PLAY"
+    "play": "PLAY",
+    "fanspace": "粉丝空间",
+    "feed": "动态",
+    "broadcast": "节目"
   },
   "star": {
-    "fandomSpace": "与 {{name}} 的粉丝空间"
+    "fandomSpace": "与 {{name}} 的粉丝空间",
+    "dailyGreeting": "今天也和{{name}}\n度过愉快的一天！"
+  },
+  "feed": {
+    "title": "活动记录",
+    "manager": "粉丝经理",
+    "hoursAgo": "{{count}}小时前"
+  },
+  "fanspace": {
+    "title": "活动记录",
+    "category": {
+      "concert": "演出",
+      "vote": "投票",
+      "goods": "周边",
+      "gathering": "招募"
+    },
+    "draftNotice": "该页面正在设计中，布局可能会调整。",
+    "voteAction": "投票",
+    "currency": "韩元",
+    "entryOpen": "报名中",
+    "entryClosed": "报名结束",
+    "entryCount": "{{count}}人报名中",
+    "entryWon": "中签",
+    "goodsTop4": "人气 TOP 4",
+    "goodsLightstick": "应援棒",
+    "appliedGatherings": "已报名的招募",
+    "empty": {
+      "concert": "暂无即将开始的演出",
+      "vote": "暂无进行中的投票",
+      "gathering": "暂无招募中的聚会"
+    }
+  },
+  "broadcast": {
+    "articlesAndLongform": "报道＆长视频",
+    "shortform": "短视频",
+    "onAirAt": "今天 {{time}}",
+    "tab": {
+      "article": "报道",
+      "longform": "长视频"
+    }
+  },
+  "notification": {
+    "title": "通知"
   },
   "banner": {
     "home": {
@@ -129,7 +175,9 @@
   "search": {
     "title": "搜索",
     "hint": "可以搜索艺人、日程或聚会。",
-    "noResult": "没有找到“{{query}}”的结果。"
+    "noResult": "没有找到“{{query}}”的结果。",
+    "trendingTitle": "当前热门搜索",
+    "trendingAsOf": "截至 8月6日 12:00"
   },
   "tip": {
     "updatedAt": "{{date}} 更新",

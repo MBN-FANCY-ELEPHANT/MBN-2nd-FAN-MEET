@@ -19,6 +19,7 @@ import org.springframework.web.client.RestClient;
 public class SolapiEntryNotificationSender {
 
     private static final Logger log = LoggerFactory.getLogger(SolapiEntryNotificationSender.class);
+    static final String LMS_SUBJECT = "[MBN 응모 완료]";
     private final RestClient client;
     private final NotificationProperties properties;
     private final EntryNotificationContent content;
@@ -45,7 +46,7 @@ public class SolapiEntryNotificationSender {
                 .body(new SolapiRequest(
                         List.of(new SolapiMessage(
                                 digitsOnly(sms.getTo()), digitsOnly(sms.getFrom()),
-                                content.smsBody(event), true)),
+                                content.smsBody(event), LMS_SUBJECT, true)),
                         true, false, true))
                 .retrieve()
                 .body(SolapiResponse.class);
@@ -84,7 +85,8 @@ public class SolapiEntryNotificationSender {
 
     private record SolapiRequest(
             List<SolapiMessage> messages, boolean strict, boolean allowDuplicates, boolean showMessageList) {}
-    private record SolapiMessage(String to, String from, String text, boolean autoTypeDetect) {}
+    private record SolapiMessage(
+            String to, String from, String text, String subject, boolean autoTypeDetect) {}
     private record SolapiResponse(List<SolapiFailure> failedMessageList) {}
     private record SolapiFailure(String statusCode, String statusMessage) {}
 }

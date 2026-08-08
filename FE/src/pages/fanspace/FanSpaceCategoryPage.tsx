@@ -12,7 +12,7 @@ import {
   ErrorState,
   LoadingState,
 } from "../../components/ui/States";
-import { GOODS, goodsByCategory, goodsImage } from "../../data/goods";
+import { goodsByCategory, goodsForArtist, goodsImage } from "../../data/goods";
 import type { Goods } from "../../data/goods";
 import { formatDeadline } from "../../lib/format";
 import styles from "./FanSpaceCategory.module.css";
@@ -185,7 +185,9 @@ function VoteView() {
  */
 function GoodsView() {
   const { t } = useTranslation();
-  const popular = GOODS.filter((g) => g.popular).slice(0, 4);
+  const popular = goodsForArtist()
+    .filter((g) => g.popular)
+    .slice(0, 4);
 
   return (
     <>
@@ -216,7 +218,7 @@ function GoodsCard({ goods }: { goods: Goods }) {
   const { t } = useTranslation();
   return (
     <Link to={`/fanspace/goods/${goods.id}`} className={styles.goodsCard}>
-      <img className={styles.goodsThumb} src={goodsImage(goods.category)} alt="" />
+      <img className={styles.goodsThumb} src={goodsImage(goods)} alt="" />
       <div className={styles.goodsBody}>
         <p className={styles.goodsName}>{goods.name}</p>
         <p className={styles.goodsPrice}>

@@ -46,7 +46,7 @@ export default function CheckoutSheet({
   return (
     <BottomSheet title={t("checkout.title")} onClose={onClose}>
       <div className={styles.summary}>
-        <img className={styles.thumb} src={goodsImage(goods.category)} alt="" />
+        <img className={styles.thumb} src={goodsImage(goods)} alt="" />
         <div className={styles.summaryBody}>
           <p className={styles.summaryName}>{goods.name}</p>
           <p className={styles.summaryPrice}>

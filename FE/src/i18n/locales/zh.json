@@ -332,7 +332,15 @@
   },
   "vote": {
     "bannerSub": "进行中",
-    "bannerCta": "去投票"
+    "bannerCta": "去投票",
+    "stateOpen": "投票进行中",
+    "stateDone": "投票完成",
+    "lead": "为你的艺人投票吧。",
+    "leadDone": "感谢投票。以下是当前统计结果。",
+    "noCancel": "投票后无法取消。",
+    "tally": "目前已有 {{count}} 位粉丝参与。",
+    "submitted": "投票完成",
+    "doneToast": "投票已完成。"
   },
   "identity": {
     "welcome": "欢迎！",

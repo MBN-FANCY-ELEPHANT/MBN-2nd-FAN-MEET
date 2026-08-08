@@ -7,14 +7,15 @@ Figma `fileKey: 71R3xxvzqYiDB6vjpfZUKR` 에서 `get_design_context`로 추출한
 
 ---
 
-## 1. 레이아웃 — 375px 모바일
+## 1. 레이아웃 — 모바일 캔버스
 
 | 토큰 | 값 | 비고 |
 |---|---|---|
-| `--app-width` | `375px` | 디자인 캔버스 폭 (기존 430px에서 변경) |
-| `--page-padding-x` | `16px` | 좌우 여백 → 콘텐츠 폭 `343px` |
+| `--app-width` | `430px` | ⚠️ Figma 캔버스는 375px. **2026-08-08 에 430px 로 넓혔습니다** — 큰 화면에서 캔버스가 좁아 바탕만 넓게 보였습니다 |
+| `--page-padding-x` | `16px` | 좌우 여백 → 콘텐츠 폭 `398px` (Figma 기준으로는 343px) |
 | `--header-height` | `45px` | px16 py10 |
 | `--tabbar-height` | `27px` | top `58px` |
+| `--color-app-backdrop` | `#171310` | 캔버스 **바깥**(넓은 화면 좌우)에만 보이는 바탕. 흰색에 가까우면 "깨진 빈 여백" 으로 읽혀 어둡게 잡았습니다. 랜딩(`#0d1117`)과도 이어집니다 |
 
 세로 좌표(디자인 절대값):
 

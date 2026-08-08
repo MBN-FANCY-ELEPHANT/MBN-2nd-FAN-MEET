@@ -332,7 +332,15 @@
   },
   "vote": {
     "bannerSub": "En cours",
-    "bannerCta": "Aller voter"
+    "bannerCta": "Aller voter",
+    "stateOpen": "Vote en cours",
+    "stateDone": "Vote enregistré",
+    "lead": "Votez pour votre artiste.",
+    "leadDone": "Merci d'avoir voté. Voici les résultats actuels.",
+    "noCancel": "Un vote ne peut pas être annulé.",
+    "tally": "{{count}} fans ont déjà voté.",
+    "submitted": "Vote enregistré",
+    "doneToast": "Votre vote a été enregistré."
   },
   "identity": {
     "welcome": "Bienvenue !",

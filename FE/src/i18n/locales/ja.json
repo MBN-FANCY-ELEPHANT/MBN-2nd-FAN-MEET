@@ -332,7 +332,15 @@
   },
   "vote": {
     "bannerSub": "開催中",
-    "bannerCta": "投票する"
+    "bannerCta": "投票する",
+    "stateOpen": "投票受付中",
+    "stateDone": "投票完了",
+    "lead": "あなたのアーティストに投票しましょう。",
+    "leadDone": "投票ありがとうございます。現在の集計状況です。",
+    "noCancel": "投票後のキャンセルはできません。",
+    "tally": "これまでに{{count}}人が参加しました。",
+    "submitted": "投票完了",
+    "doneToast": "投票が完了しました。"
   },
   "identity": {
     "welcome": "ようこそ！",

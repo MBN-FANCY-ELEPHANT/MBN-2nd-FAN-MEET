@@ -21,6 +21,7 @@ import SplashPage from "../pages/SplashPage";
 import FanSpaceCategoryPage from "../pages/fanspace/FanSpaceCategoryPage";
 import ConcertEntryPage from "../pages/fanspace/ConcertEntryPage";
 import GoodsDetailPage from "../pages/fanspace/GoodsDetailPage";
+import VoteDetailPage from "../pages/fanspace/VoteDetailPage";
 import NotificationKeywordPage from "../pages/NotificationKeywordPage";
 import SearchPage from "../pages/SearchPage";
 import TipDetailPage from "../pages/TipDetailPage";
@@ -86,6 +87,9 @@ export default function App() {
             (Figma 22:4264 · 22:4214 · 23:4956 · 23:4710). 라우트 파라미터로 탭을 고릅니다. */}
         {/* 굿즈 상세는 카테고리 라우트보다 먼저 둬야 합니다 — :category 가 "goods" 를
             먹어버리지 않도록 더 구체적인 경로를 위에 놓습니다. */}
+        {/* ⚠️ `/fanspace/:category` 보다 **먼저** 와야 합니다 — 뒤에 두면
+            category="vote" 로 잡혀 빈 화면이 뜹니다. */}
+        <Route path="/fanspace/vote" element={<VoteDetailPage />} />
         <Route path="/fanspace/goods/:id" element={<GoodsDetailPage />} />
         <Route path="/fanspace/concert/:id" element={<ConcertEntryPage />} />
         <Route path="/fanspace/:category" element={<FanSpaceCategoryPage />} />

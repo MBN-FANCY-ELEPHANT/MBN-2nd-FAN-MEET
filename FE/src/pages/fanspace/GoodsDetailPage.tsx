@@ -38,7 +38,7 @@ export default function GoodsDetailPage() {
     <div className={styles.page}>
       <HeaderBack />
 
-      <img className={styles.photo} src={goodsImage(goods.category)} alt="" />
+      <img className={styles.photo} src={goodsImage(goods)} alt="" />
 
       <div className={styles.body}>
         <p className={styles.category}>

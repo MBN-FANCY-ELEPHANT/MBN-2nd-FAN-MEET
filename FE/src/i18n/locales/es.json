@@ -332,7 +332,15 @@
   },
   "vote": {
     "bannerSub": "En curso",
-    "bannerCta": "Ir a votar"
+    "bannerCta": "Ir a votar",
+    "stateOpen": "Votación abierta",
+    "stateDone": "Voto enviado",
+    "lead": "Vota por tu artista.",
+    "leadDone": "Gracias por votar. Estos son los resultados actuales.",
+    "noCancel": "El voto no se puede cancelar.",
+    "tally": "{{count}} fans han votado hasta ahora.",
+    "submitted": "Voto enviado",
+    "doneToast": "Tu voto se ha registrado."
   },
   "identity": {
     "welcome": "¡Bienvenido!",

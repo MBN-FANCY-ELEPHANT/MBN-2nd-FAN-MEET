@@ -28,6 +28,16 @@ export type Artist = {
    * (`schedule` 에 이미지 컬럼이 없어 BE 응답에서 가져올 수 없습니다).
    */
   concertImage: string;
+  /**
+   * `public/artists/<slug>/` 에 **실제로 넣어둔** 대표 사진들.
+   *
+   * 공연 카드처럼 BE 에 이미지가 없는 목록이 이 배열을 **돌려 씁니다** — 한 장만 쓰면
+   * 목록 전체가 같은 그림으로 도배됩니다. 포스터로 가장 그럴듯한 것부터 넣으세요.
+   *
+   * ⚠️ 파일을 추가·삭제·개명하면 **이 배열도 같이 고쳐야** 합니다.
+   *    `public/` 은 번들러가 훑지 않아 자동으로 알아낼 방법이 없습니다.
+   */
+  photos: string[];
   /** 출연 프로그램. 검색 결과에 보조 정보로 보여줍니다. 확인된 것만 채웁니다. */
   programs: string[];
 };
@@ -41,13 +51,28 @@ export type Artist = {
  * **글자 하나까지 같아야** 음성 "OOO 무대 보여줘" 가 매칭됩니다.
  */
 export const ARTISTS: Artist[] = [
-  { name: "성리", starId: 1, slug: "sungri", concertImage: "concert.png", programs: [] },
-  { name: "이찬원", starId: 2, slug: "chanwon", concertImage: "concert.png", programs: [] },
+  {
+    name: "성리",
+    starId: 1,
+    slug: "sungri",
+    concertImage: "concert.png",
+    photos: ["concert.png", "post-1.png", "profile.png"],
+    programs: [],
+  },
+  {
+    name: "이찬원",
+    starId: 2,
+    slug: "chanwon",
+    concertImage: "concert.png",
+    photos: ["concert.png", "post-1.png", "profile.png"],
+    programs: [],
+  },
   {
     name: "박서진",
     starId: 3,
     slug: "seojin",
     concertImage: "concert.jpg",
+    photos: ["concert.jpg", "post-1.jpg", "profile.png"],
     programs: ["한일톱텐쇼", "한일가왕전", "현역가왕2"],
   },
 ];
@@ -71,6 +96,27 @@ export function artistImage(name: string | null | undefined, file: string): stri
 export function concertPosterImage(name: string | null | undefined): string {
   const artist = ARTISTS.find((a) => a.name === name);
   return artist ? `/artists/${artist.slug}/${artist.concertImage}` : FALLBACK_IMAGE;
+}
+
+/**
+ * 아티스트 사진을 **번갈아** 고릅니다. `seed` 가 같으면 항상 같은 사진이 나옵니다.
+ *
+ * 공연은 BE 에 이미지 컬럼이 없어 한 장을 돌려 쓰는데, 그대로 두면 목록이 통째로
+ * 같은 그림이 됩니다. `seed` 로 **일정 id** 를 넘기면 목록 카드와 상세 화면이
+ * 같은 사진을 쓰게 되어 눌러 들어갔을 때 그림이 바뀌지 않습니다.
+ *
+ * 사진이 3장뿐이라 일정이 4건 이상이면 다시 돌아옵니다 — 같은 그림이 **연달아**
+ * 나오지만 않으면 충분하다고 봤습니다.
+ */
+export function artistPhoto(
+  name: string | null | undefined,
+  seed: number,
+): string {
+  const artist = ARTISTS.find((a) => a.name === name);
+  if (!artist || artist.photos.length === 0) return FALLBACK_IMAGE;
+  // 음수 id 가 들어와도 배열 밖으로 나가지 않게 절댓값을 씁니다.
+  const index = Math.abs(Math.trunc(seed)) % artist.photos.length;
+  return `/artists/${artist.slug}/${artist.photos[index]}`;
 }
 
 /**

@@ -6,11 +6,14 @@
   padding-bottom: var(--space-10);
 }
 
+/*
+ * 공연 상세 히어로 — 목록 카드와 **같은 사진**이라 잘림 처리도 같아야 합니다.
+ * 높이를 고정하면 목록에서는 다 보이던 사진이 상세에서 잘려 다른 그림처럼 보입니다.
+ */
 .poster {
   display: block;
   width: 100%;
-  height: 240px;
-  object-fit: cover;
+  height: auto;
   background: var(--color-surface-muted);
 }
 

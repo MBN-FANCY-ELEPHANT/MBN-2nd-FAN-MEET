@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 
 import { api } from "../../api/client";
-import { concertPosterImage } from "../../data/programs";
+import { artistPhoto } from "../../data/programs";
 import GatheringCard from "../../components/gathering/GatheringCard";
 import HeaderBack from "../../components/layout/HeaderBack";
 import Icon from "../../components/ui/Icon";
@@ -37,12 +37,16 @@ function isCategory(value: string | undefined): value is Category {
 }
 
 /**
- * 공연 포스터. **`schedule` 에는 이미지 컬럼이 없어서** 응답에서 가져올 수 없고,
- * 선택한 아티스트의 폴더에서 한 장을 씁니다 (`public/artists/<slug>/concert.jpg`).
- * 일정별로 다른 포스터가 필요해지면 그때 BE 에 컬럼을 추가하세요.
+ * 공연 포스터. **`schedule` 에는 이미지 컬럼이 없어서** 응답에서 가져올 수 없습니다.
+ *
+ * 아티스트 폴더의 사진들(`concert` · `post-1` · `profile`)을 **일정 id 로 번갈아** 씁니다 —
+ * 한 장만 쓰면 목록 전체가 같은 그림이 됩니다. id 기준이라 목록 카드와 상세 화면이
+ * 같은 사진을 쓰고, 새로고침해도 바뀌지 않습니다.
+ *
+ * 일정별로 진짜 포스터가 필요해지면 그때 BE `schedule` 에 이미지 컬럼을 추가하세요.
  */
-function concertPoster(): string {
-  return concertPosterImage(getSelectedArtist());
+function concertPoster(scheduleId: number): string {
+  return artistPhoto(getSelectedArtist(), scheduleId);
 }
 
 export default function FanSpaceCategoryPage() {
@@ -108,7 +112,11 @@ function ConcertView() {
                 to={`/fanspace/concert/${schedule.id}`}
                 className={styles.miniCard}
               >
-                <img className={styles.miniThumb} src={concertPoster()} alt="" />
+                <img
+                  className={styles.miniThumb}
+                  src={concertPoster(schedule.id)}
+                  alt=""
+                />
                 <div className={styles.miniBody}>
                   <p className={styles.miniTitle}>{schedule.title}</p>
                   <div className={styles.miniMeta}>
@@ -136,7 +144,11 @@ function ConcertView() {
               to={`/fanspace/concert/${schedule.id}`}
               className={styles.concertCard}
             >
-              <img className={styles.concertPoster} src={concertPoster()} alt="" />
+              <img
+                className={styles.concertPoster}
+                src={concertPoster(schedule.id)}
+                alt=""
+              />
               <div className={styles.concertBody}>
                 <div className={styles.concertTop}>
                   <span
@@ -199,7 +211,7 @@ function GoodsView() {
       </div>
 
       {goodsByCategory().map(({ category, items }) => (
-        <div key={category}>
+        <div key={category} className={styles.goodsGroup}>
           <h2 className={styles.sectionTitle}>
             {t(`fanspace.goodsCategory.${category}`)}
           </h2>

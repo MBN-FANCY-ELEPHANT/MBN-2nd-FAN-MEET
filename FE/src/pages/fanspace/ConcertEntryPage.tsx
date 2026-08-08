@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { ApiError, api } from "../../api/client";
-import { concertPosterImage } from "../../data/programs";
+import { artistPhoto } from "../../data/programs";
 import HeaderBack from "../../components/layout/HeaderBack";
 import { ErrorState, LoadingState } from "../../components/ui/States";
 import { useToast } from "../../components/ui/useToast";
@@ -85,7 +85,7 @@ export default function ConcertEntryPage() {
 
       <img
         className={styles.poster}
-        src={concertPosterImage(getSelectedArtist())}
+        src={artistPhoto(getSelectedArtist(), data.id)}
         alt=""
       />
 

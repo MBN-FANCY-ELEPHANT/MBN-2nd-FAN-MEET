@@ -1,0 +1,196 @@
+/* 투표 상세 (Figma 27:6676 미선택 / 27:6705 선택) */
+
+.page {
+  min-height: 100dvh;
+  padding-bottom: 120px; /* 하단 고정 CTA 자리 */
+  background: var(--color-white);
+}
+
+/* Figma: 375×211 풀블리드. 배너와 같은 그림이라 잘리는 위치도 같아야 합니다. */
+.hero {
+  display: block;
+  width: 100%;
+  height: 211px;
+  object-fit: cover;
+  background: var(--color-text-primary);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--page-padding-x) 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-xs);
+  background: var(--color-primary);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-white);
+}
+
+/* 투표를 마치면 "진행 중" 이 아니므로 색을 죽입니다. */
+.badgeDone {
+  background: var(--color-text-secondary);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.deadline {
+  flex-shrink: 0;
+  font-size: var(--text-small-size);
+  line-height: 1.4;
+  color: #9ca3af;
+}
+
+.lead {
+  margin: 0;
+  font-size: var(--text-body-size);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+  margin: 0;
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  list-style: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* 투표를 마치면 못 바꿉니다. 흐리게 만들지는 않습니다 — 결과를 읽어야 하는 화면입니다. */
+.option:disabled {
+  cursor: default;
+}
+
+.radio {
+  flex-shrink: 0;
+}
+
+.optionName {
+  font-size: var(--text-card-title-size);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.optionActive .optionName {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.share {
+  margin-left: auto;
+  font-size: var(--text-small-size);
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.optionActive .share {
+  color: var(--color-primary);
+}
+
+/* 투표 후에만 열리는 득표율 막대 */
+.bar {
+  display: block;
+  height: 6px;
+  margin: var(--space-2) 0 0 36px; /* 라디오(24) + gap(12) 만큼 들여씁니다 */
+  border-radius: var(--radius-pill);
+  background: var(--color-divider);
+  overflow: hidden;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-text-secondary);
+}
+
+.optionActive + .bar .barFill {
+  background: var(--color-primary);
+}
+
+.notice {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-body-size);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+/*
+ * 하단 고정 CTA — 굿즈 상세(`GoodsDetail.module.css` .actionBar)와 같은 방식입니다.
+ *
+ * ⚠️ `max-width` 에 430px 을 직접 쓰면 안 됩니다. `#root` 는 화면이 좁으면 그보다
+ *    작아지는데(375px 등) `margin: 0 auto` 는 **뷰포트** 기준으로 가운데를 잡아서
+ *    버튼이 앱 캔버스 밖으로 삐져나옵니다 (실제로 좌우 28px 씩 벗어났습니다).
+ *    `left: 50% + translateX(-50%)` 에 `--app-width` 를 씌워야 캔버스에 붙습니다.
+ */
+.cta {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--app-width);
+  padding: var(--space-3) var(--page-padding-x)
+    calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
+  background: var(--color-white);
+  box-shadow: var(--shadow-sheet);
+}
+
+.submit {
+  display: block;
+  width: 100%;
+  height: 56px;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  font-size: var(--text-h1-size);
+  font-weight: 700;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+/* Figma 미선택 상태의 버튼 색은 --color-text-secondary 입니다 (연회색이 아닙니다). */
+.submit:disabled {
+  background: var(--color-text-secondary);
+  cursor: default;
+}

@@ -332,7 +332,15 @@
   },
   "vote": {
     "bannerSub": "지금 진행 중",
-    "bannerCta": "투표하러 가기"
+    "bannerCta": "투표하러 가기",
+    "stateOpen": "투표 진행 중",
+    "stateDone": "투표 완료",
+    "lead": "당신의 아티스트에게 투표하세요.",
+    "leadDone": "투표해 주셔서 감사합니다. 현재 집계 현황입니다.",
+    "noCancel": "투표 후 취소는 불가합니다.",
+    "tally": "지금까지 {{count}}명이 참여했어요.",
+    "submitted": "투표 완료",
+    "doneToast": "투표가 완료되었습니다."
   },
   "identity": {
     "welcome": "환영합니다!",

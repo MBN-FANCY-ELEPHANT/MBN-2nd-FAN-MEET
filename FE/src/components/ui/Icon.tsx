@@ -13,6 +13,8 @@ import mapMarker from "../../assets/icons/map-marker.svg";
 import megaphone from "../../assets/icons/megaphone.svg";
 import mic from "../../assets/icons/mic.svg";
 import notificationBell from "../../assets/icons/notification-bell.svg";
+import radioOff from "../../assets/icons/radio-off.svg";
+import radioOn from "../../assets/icons/radio-on.svg";
 import share from "../../assets/icons/share.svg";
 import translate from "../../assets/icons/translate.svg";
 import wallet from "../../assets/icons/wallet.svg";
@@ -43,6 +45,8 @@ const SOURCES = {
   megaphone,
   mic,
   notificationBell,
+  radioOff,
+  radioOn,
   share,
   translate,
   wallet,
